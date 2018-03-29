@@ -3,10 +3,89 @@
 
 <head>
 
+<link rel="stylesheet" href="../css/pocetna.css">
+
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<title>pocetna</title>
 </head>
 
 
 <body>
+
+<nav class="navbar">
+  <div class="container-fluid">
+    <ul class="nav navbar-nav navbar-right">
+      <li><a href="#inputModal" data-toggle="modal" data-target="#inputModal">Prijava</a></li>
+      <li><a href="#">Registracija</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="container-fluid text-center">
+	<div class="proba">
+		<a href="#" class="btn btn-info btn-lg dugme" role="button">Pozorista</a>
+	</div>
+	<div class="proba">
+		<a href="#" class="btn btn-info btn-lg dugme" role="button">Bioskopi</a>
+	</div>
+</div>
+	
+
+		
+
+
+		<div class="modal fade" id="inputModal" tabindex="-1" role="dialog">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="exampleModalLabel">Log in</h5>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <form id="inputForm" role="form">
+		      <div class="modal-body">
+					<input type="hidden" name="id" id="id" />
+				<p>
+					<label for="email">Email:</label> <input type="text" name="email"
+						id="email" required>
+				</p>
+				<p>
+					<label for="pasword">Password:</label> <input type="text" name=""pasword""
+						id=""pasword"" required>
+				</p>		
+		      </div>
+		      <div class="row">
+       			 <div class="col-xs-6 col-sm-6 col-md-6">
+         			 <a href="#" class="btn btn-lg btn-primary btn-block">Facebook</a>
+       			 </div>
+       			 <div class="col-xs-6 col-sm-6 col-md-6">
+         			 <a href="#" class="btn btn-lg btn-info btn-block">Google</a>
+       			 </div>
+      </div>
+       <div class="login-or">
+        <hr class="hr-or">
+        <span class="span-or">or</span>
+      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+		        <button type="button" class="btn btn-primary" id="add">Log in</button>
+		      </div>
+		      </form>
+		    </div>
+		  </div>
+		</div>
+		
+		
 
 </body>
 </html>
