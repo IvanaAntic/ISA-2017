@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="scripts/jquery-3.2.1.min.js"></script>
+<script src="scripts/tether.min.js"></script>
+<script src="scripts/bootstrap.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="css/proba.css">
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<meta charset="UTF-8">
+<title></title>
+
+</head>
+<body>
+	<a href="#"  href="#inputModal" data-toggle="modal" data-target="#inputModal">Log in</a>
+	<a href="#">Registracija</a>
+	
+
+		
+
+
+		<div class="modal fade" id="inputModal" tabindex="-1" role="dialog">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="exampleModalLabel">Log in</h5>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <form id="inputForm" role="form">
+		      <div class="modal-body">
+					<input type="hidden" name="id" id="id" />
+				<p>
+					<label for="email">Email:</label> <input type="text" name="email"
+						id="email" required>
+				</p>
+				<p>
+					<label for="pasword">Password:</label> <input type="text" name=""pasword""
+						id=""pasword"" required>
+				</p>		
+		      </div>
+		      <div class="row">
+       			 <div class="col-xs-6 col-sm-6 col-md-6">
+         			 <a href="#" class="btn btn-lg btn-primary btn-block">Facebook</a>
+       			 </div>
+       			 <div class="col-xs-6 col-sm-6 col-md-6">
+         			 <a href="#" class="btn btn-lg btn-info btn-block">Google</a>
+       			 </div>
+      </div>
+       <div class="login-or">
+        <hr class="hr-or">
+        <span class="span-or">or</span>
+      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+		        <button type="button" class="btn btn-primary" id="add">Log in</button>
+		      </div>
+		      </form>
+		    </div>
+		  </div>
+		</div>
+		
+		
+
+</body>
+</html>
