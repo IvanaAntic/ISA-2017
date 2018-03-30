@@ -25,7 +25,7 @@
   <div class="container-fluid">
     <ul class="nav navbar-nav navbar-right">
       <li><a href="#inputModal" data-toggle="modal" data-target="#inputModal">Prijava</a></li>
-      <li><a href="#">Registracija</a></li>
+      <li><a href="#inputR" data-toggle="modal" data-target="#inputR">Registracija</a></li>
     </ul>
   </div>
 </nav>
@@ -56,12 +56,10 @@
 		      <div class="modal-body">
 					<input type="hidden" name="id" id="id" />
 				<p>
-					<label for="email">Email:</label> <input type="text" name="email"
-						id="email" required>
+					<label for="email">Email:</label> <input type="email" class="form-control" name="email" id="email" placeholder="Enter email" >
 				</p>
 				<p>
-					<label for="pasword">Password:</label> <input type="text" name=""pasword""
-						id=""pasword"" required>
+					<label for="pasword">Password:</label> <input type="text" class="form-control" name="pasword" id="pasword" placeholder="Password">
 				</p>		
 		      </div>
 		      <div class="row">
@@ -76,6 +74,9 @@
         <hr class="hr-or">
         <span class="span-or">or</span>
       </div>
+       <div >
+      	<button type="button" class="btn btn-primary btn-lg btn-block">Registration</button>
+      </div>
 		      <div class="modal-footer">
 		        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 		        <button type="button" class="btn btn-primary" id="add">Log in</button>
@@ -86,6 +87,52 @@
 		</div>
 		
 		
+		<div class="modal fade" id="inputR" tabindex="-1" role="dialog">
+		 <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="exampleModalLabelReg">Registration</h5>
+		       </div>
+		       <div class="modal-body">
+		       	<input type="hidden" id="idr" name="ide">
+		       	<p>
+		       		<label for="inputEmail1">Email address</label>
+    				<input type="email" class="form-control" id="inputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+		       	</p>
+		       	<p>
+		       		<label for="passregistration">Password</label>
+		       		<input type="password" class="form-control" id="passwordR" aria-describedby="passHelp" placeholder="Password">
+		       	</p>
+		       	<p>
+		       		<label for="confirmpass">Confirm password</label>
+		       		<input type="password" class="form-control" id="confirmpassword" aria-describedby="passHelp" placeholder="Confirm password">
+		       	</p>
+		       	<p>
+		       		<label for="ime">Name</label>
+		       		<input type="text" class="form-control" id="nameR" aria-describedby="nameHelp" placeholder="Name">
+		       	</p>
+		       	<p>
+		       		<label for="surname">Surname</label>
+		       		<input type="text" class="form-control" id="surnameR" aria-describedby="nameHelp" placeholder="Surname">
+		       	</p>
+		       	<p>
+		       		<label for="grad">Town</label>
+		       		<input type="text" class="form-control" id="town" aria-describedby="townHelp" placeholder="Town">
+		       	</p>
+		  		<p>
+		       		<label for="grad">Phone number</label>
+		       		<input type="text" class="form-control" id="number" aria-describedby="numberHelp" placeholder="Phone number">
+		       	</p>
+		       </div>
+		       <div class="modal-footer">
+		        	<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+		        	<button type="button" class="btn btn-primary" id="add">Submit</button>
+				</div>
+		     </div>
+		</div>
+		
+	
+	</div>
 
 </body>
 </html>
