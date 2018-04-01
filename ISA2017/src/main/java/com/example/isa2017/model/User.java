@@ -1,12 +1,31 @@
 package com.example.isa2017.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+
+
+@Entity
 public class User {
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	private String email;
 	private String name;
 	private String surname;
 	private String password;
+	
+	@Column(name = "role", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Role role;
+	
+	private boolean isEnabled;
 	private String city;
 	private String phone;
 	
@@ -14,13 +33,16 @@ public class User {
 		
 	}
 
-	public User(Long id, String email, String name, String surname, String password, String city, String phone) {
+	public User(Long id, String email, String name, String surname, String password, Role role, boolean isEnabled,
+			String city, String phone) {
 		super();
 		this.id = id;
 		this.email = email;
 		this.name = name;
 		this.surname = surname;
 		this.password = password;
+		this.role = role;
+		this.isEnabled = isEnabled;
 		this.city = city;
 		this.phone = phone;
 	}
@@ -65,6 +87,22 @@ public class User {
 		this.password = password;
 	}
 
+	public Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
+	}
+
+	public boolean isEnabled() {
+		return isEnabled;
+	}
+
+	public void setEnabled(boolean isEnabled) {
+		this.isEnabled = isEnabled;
+	}
+
 	public String getCity() {
 		return city;
 	}
@@ -80,6 +118,9 @@ public class User {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
+
+	
+
 	
 	
 	
