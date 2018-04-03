@@ -14,20 +14,20 @@ public class AdminItem {
 	private String description;
 	private double price;
 	private boolean isReserved;
-	private User buyer;
+	//private User buyer;
 	
 	public AdminItem() {
 		super();
 	}
 
-	public AdminItem(Long id, String name, String description, double price, boolean isReserved, User buyer) {
+	public AdminItem(Long id, String name, String description, double price, boolean isReserved) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.description = description;
 		this.price = price;
 		this.isReserved = isReserved;
-		this.buyer = buyer;
+		//this.buyer = buyer;
 	}
 
 	public Long getId() {
@@ -70,13 +70,13 @@ public class AdminItem {
 		this.isReserved = isReserved;
 	}
 
-	public User getBuyer() {
+/*	public User getBuyer() {
 		return buyer;
 	}
 
 	public void setBuyer(User buyer) {
 		this.buyer = buyer;
-	}
+	}*/
 	
 	
 	

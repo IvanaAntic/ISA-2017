@@ -14,7 +14,7 @@ import javax.persistence.Id;
 public class User {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String email;
 	private String name;
@@ -25,7 +25,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 	
-	private boolean isEnabled;
+	private boolean isEnabled=false;
 	private String city;
 	private String phone;
 	
