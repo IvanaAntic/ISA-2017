@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<link rel="stylesheet" href="">
+
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<title>pocetna</title>
+</head>
+
+
+<body>
+
+<nav class="navbar">
+  <div class="container-fluid">
+    <ul class="nav navbar-nav navbar-right">
+      <li><a href="#inputModal" data-toggle="modal" data-target="#inputModal">Prijava</a></li>
+      <li><a href="#inputR" data-toggle="modal" data-target="#inputR">Registracija</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="container-fluid text-center">
+	<div class="proba">
+		<a href="#" class="btn btn-info btn-lg dugme" role="button">Pozorista</a>
+	</div>
+	<div class="proba">
+		<a href="#" class="btn btn-info btn-lg dugme" role="button">Bioskopi</a>
+	</div>
+</div>
+	
+
+		
+
+
+		<div class="modal fade" id="inputModal" tabindex="-1" role="dialog">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="exampleModalLabel">Log in</h5>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <form id="inputForm" role="form">
+		      <div class="modal-body">
+					<input type="hidden" name="id" id="id" />
+				<p>
+					<label for="email">Email:</label> <input type="email" class="form-control" name="email" id="email" placeholder="Enter email" >
+				</p>
+				<p>
+					<label for="pasword">Password:</label> <input type="text" class="form-control" name="pasword" id="pasword" placeholder="Password">
+				</p>		
+		      </div>
+		      <div class="row">
+       			 <div class="col-xs-6 col-sm-6 col-md-6">
+         			 <a href="#" class="btn btn-lg btn-primary btn-block">Facebook</a>
+       			 </div>
+       			 <div class="col-xs-6 col-sm-6 col-md-6">
+         			 <a href="#" class="btn btn-lg btn-info btn-block">Google</a>
+       			 </div>
+      </div>
+       <div class="login-or">
+        <hr class="hr-or">
+        <span class="span-or">or</span>
+      </div>
+       <div >
+      	<button type="button" class="btn btn-primary btn-lg btn-block">Registration</button>
+      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+		        <button type="button" class="btn btn-primary" id="add">Log in</button>
+		      </div>
+		      </form>
+		    </div>
+		  </div>
+		</div>
+		
+		
+		<div class="modal fade" id="inputR" tabindex="-1" role="dialog">
+		 <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="exampleModalLabelReg">Registration</h5>
+		       </div>
+		       <div class="modal-body">
+		       	<input type="hidden" id="idr" name="ide">
+		       	<p>
+		       		<label for="inputEmail1">Email address</label>
+    				<input type="email" class="form-control" id="inputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+		       	</p>
+		       	<p>
+		       		<label for="passregistration">Password</label>
+		       		<input type="password" class="form-control" id="passwordR" aria-describedby="passHelp" placeholder="Password">
+		       	</p>
+		       	<p>
+		       		<label for="confirmpass">Confirm password</label>
+		       		<input type="password" class="form-control" id="confirmpassword" aria-describedby="passHelp" placeholder="Confirm password">
+		       	</p>
+		       	<p>
+		       		<label for="ime">Name</label>
+		       		<input type="text" class="form-control" id="nameR" aria-describedby="nameHelp" placeholder="Name">
+		       	</p>
+		       	<p>
+		       		<label for="surname">Surname</label>
+		       		<input type="text" class="form-control" id="surnameR" aria-describedby="nameHelp" placeholder="Surname">
+		       	</p>
+		       	<p>
+		       		<label for="grad">Town</label>
+		       		<input type="text" class="form-control" id="town" aria-describedby="townHelp" placeholder="Town">
+		       	</p>
+		  		<p>
+		       		<label for="grad">Phone number</label>
+		       		<input type="text" class="form-control" id="number" aria-describedby="numberHelp" placeholder="Phone number">
+		       	</p>
+		       </div>
+		       <div class="modal-footer">
+		        	<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+		        	<button type="button" class="btn btn-primary" id="add">Submit</button>
+				</div>
+		     </div>
+		</div>
+		
+	
+	</div>
+
+</body>
+</html>
