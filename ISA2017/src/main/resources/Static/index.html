@@ -30,10 +30,10 @@
 					phone: $("#inputForm [name='phoneNumberRegistration']").val(),
 			          });
 			 
-			 var pass=$("#inputForm [name='passwordRegistration']").val(),
-			 var confPass=$("#inputForm [name='confirmPasswordRegistration']").val(),
-			 if(pass==confPass)
-			{
+			 var pass=$("#inputForm [name='passwordRegistration']").val();
+			 var confPass=$("#inputForm [name='confirmPasswordRegistration']").val();
+			 /* if(pass==confPass) */
+
 			 $.ajax({
 					url: "/user/register",
 					type: "POST",
@@ -43,10 +43,10 @@
 						
 					  }
 					});
-			 }
+			 
 			 $('#inputR').modal('toggle');
-		})
-	};)
+		});
+	});
 </script>
 </head>
 
