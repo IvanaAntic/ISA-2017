@@ -16,6 +16,38 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 <title>pocetna</title>
+<script>
+	$(document).ready(function(){
+		$("#register").click(function(){
+			
+			 
+			 formData = JSON.stringify({
+					email: $("#inputForm [name='emailRegistration']").val(),
+					name: $("#inputForm [name='nameRegistration']").val(),
+					surname: $("#inputForm [name='surnameRegistration']").val(),
+					password: $("#inputForm [name='passwordRegistration']").val(),
+					city: $("#inputForm [name='cityRegistration']").val(),
+					phone: $("#inputForm [name='phoneNumberRegistration']").val(),
+			          });
+			 
+			 var pass=$("#inputForm [name='passwordRegistration']").val(),
+			 var confPass=$("#inputForm [name='confirmPasswordRegistration']").val(),
+			 if(pass==confPass)
+			{
+			 $.ajax({
+					url: "/user/register",
+					type: "POST",
+					data: formData,
+					
+					success: function(data) {
+						
+					  }
+					});
+			 }
+			 $('#inputR').modal('toggle');
+		})
+	};)
+</script>
 </head>
 
 
@@ -59,7 +91,7 @@
 					<label for="email">Email:</label> <input type="email" class="form-control" name="email" id="email" placeholder="Enter email" >
 				</p>
 				<p>
-					<label for="pasword">Password:</label> <input type="text" class="form-control" name="pasword" id="pasword" placeholder="Password">
+					<label for="password">Password:</label> <input type="text" class="form-control" name="password" id="pasword" placeholder="Password">
 				</p>		
 		      </div>
 		      <div class="row">
@@ -93,41 +125,43 @@
 		      <div class="modal-header">
 		        <h5 class="modal-title" id="exampleModalLabelReg">Registration</h5>
 		       </div>
+		       <form id="inputForm" role="form">
 		       <div class="modal-body">
 		       	<input type="hidden" id="idr" name="ide">
 		       	<p>
 		       		<label for="inputEmail1">Email address</label>
-    				<input type="email" class="form-control" id="inputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+    				<input type="email" name="emailRegistration" class="form-control" id="emailRegistration" aria-describedby="emailHelp" placeholder="Enter email">
 		       	</p>
 		       	<p>
 		       		<label for="passregistration">Password</label>
-		       		<input type="password" class="form-control" id="passwordR" aria-describedby="passHelp" placeholder="Password">
+		       		<input type="password"  name="passwordRegistration" class="form-control" id="passwordR" aria-describedby="passHelp" placeholder="Password">
 		       	</p>
 		       	<p>
 		       		<label for="confirmpass">Confirm password</label>
-		       		<input type="password" class="form-control" id="confirmpassword" aria-describedby="passHelp" placeholder="Confirm password">
+		       		<input type="password" name="confirmPasswordRegistration"class="form-control" id="confirmPasswordRegistration" aria-describedby="passHelp" placeholder="Confirm password">
 		       	</p>
 		       	<p>
 		       		<label for="ime">Name</label>
-		       		<input type="text" class="form-control" id="nameR" aria-describedby="nameHelp" placeholder="Name">
+		       		<input type="text" name="nameRegistration" class="form-control" id="nameRegistration" aria-describedby="nameHelp" placeholder="Name">
 		       	</p>
 		       	<p>
 		       		<label for="surname">Surname</label>
-		       		<input type="text" class="form-control" id="surnameR" aria-describedby="nameHelp" placeholder="Surname">
+		       		<input type="text" name="surnameRegistration" class="form-control" id="surnameRegistration" aria-describedby="nameHelp" placeholder="Surname">
 		       	</p>
 		       	<p>
 		       		<label for="grad">Town</label>
-		       		<input type="text" class="form-control" id="town" aria-describedby="townHelp" placeholder="Town">
+		       		<input type="text" name="townRegistration" class="form-control" id="townRegistration" aria-describedby="townHelp" placeholder="Town">
 		       	</p>
 		  		<p>
 		       		<label for="grad">Phone number</label>
-		       		<input type="text" class="form-control" id="number" aria-describedby="numberHelp" placeholder="Phone number">
+		       		<input type="text" name="phoneNumberRegistration" class="form-control" id="phoneNumberRegistration" aria-describedby="numberHelp" placeholder="Phone number">
 		       	</p>
 		       </div>
 		       <div class="modal-footer">
 		        	<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-		        	<button type="button" class="btn btn-primary" id="add">Submit</button>
+		        	<button type="button" class="btn btn-primary" id="register">Submit</button>
 				</div>
+				</form>
 		     </div>
 		</div>
 		
