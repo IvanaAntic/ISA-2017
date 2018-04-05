@@ -32,17 +32,22 @@
 			 
 			 var pass=$("#inputForm [name='passwordRegistration']").val();
 			 var confPass=$("#inputForm [name='confirmPasswordRegistration']").val();
-			 /* if(pass==confPass) */
-
-			 $.ajax({
-					url: "/user/register",
-					type: "POST",
-					data: formData,
-					
-					success: function(data) {
-						
-					  }
-					});
+			 if(pass==confPass)
+			 { 
+	
+					 $.ajax({
+						url: "/user/register",
+						type: "POST",
+						data: formData,
+						contentType: "application/json",
+						datatype: 'json',
+						success: function(data) {
+							
+						  }
+						});
+			}else{
+				alert("Passwords must match");
+			}
 			 
 			 $('#inputR').modal('toggle');
 		});
