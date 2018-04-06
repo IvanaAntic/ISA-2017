@@ -10,20 +10,20 @@ public class UserDTO {
 	private String surname;
 	private String password;
 	private String city;
-	private String phone;
+	private String phoneNumber;
 	private Role role;
 	
 	public UserDTO(){}
 	
-	public UserDTO(String email, String name, String surname, String password, String city, String phone, Role role) {
+	public UserDTO(String email, String name, String surname, String password, String city, String phoneNumber) {
 		super();
 		this.email = email;
 		this.name = name;
 		this.surname = surname;
 		this.password = password;
 		this.city = city;
-		this.phone = phone;
-		this.role = role;
+		this.phoneNumber = phoneNumber;
+	
 	}
 
 	public Long getId() {
@@ -74,12 +74,12 @@ public class UserDTO {
 		this.city = city;
 	}
 
-	public String getPhone() {
-		return phone;
+	public String getPhoneNumber() {
+		return phoneNumber;
 	}
 
-	public void setPhone(String phone) {
-		this.phone = phone;
+	public void setPhoneNumber(String phone) {
+		this.phoneNumber = phone;
 	}
 
 	public Role getRole() {
