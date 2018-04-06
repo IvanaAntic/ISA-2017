@@ -41,7 +41,7 @@ public class User {
 	public User(){}
 	
 	
-	public User(String email, String password, String name, String surname, String phoneNumber, String city) {
+	public User(String email, String password, String name, String surname, String phoneNumber, String city,Role role) {
 		super();
 		this.email = email;
 		this.password = password;
@@ -49,6 +49,7 @@ public class User {
 		this.surname = surname;
 		this.phoneNumber = phoneNumber;
 		this.city = city;
+		this.role=role;
 		
 	}
 	public Long getId() {

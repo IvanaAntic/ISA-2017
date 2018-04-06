@@ -15,7 +15,7 @@ public class UserDTO {
 	
 	public UserDTO(){}
 	
-	public UserDTO(String email, String name, String surname, String password, String city, String phoneNumber) {
+	public UserDTO(String email, String name, String surname, String password, String city, String phoneNumber,Role role) {
 		super();
 		this.email = email;
 		this.name = name;
@@ -78,8 +78,8 @@ public class UserDTO {
 		return phoneNumber;
 	}
 
-	public void setPhoneNumber(String phone) {
-		this.phoneNumber = phone;
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
 	}
 
 	public Role getRole() {

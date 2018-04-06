@@ -25,6 +25,7 @@ public class UserController {
 		
 		
 		User user1 = userService.save(user);
+		
 		//kad je sacuvanp posalji verificaion email, napisati u serviceUserIml metodu
 		return new ResponseEntity<> (user1,HttpStatus.OK);
 	}
