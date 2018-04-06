@@ -35,7 +35,8 @@ public class User {
 	@Column(name="city")
 	private String city;
 	
-	
+	@Column(name="role")
+	private Role role;
 	
 	public User(){}
 	
@@ -48,6 +49,7 @@ public class User {
 		this.surname = surname;
 		this.phoneNumber = phoneNumber;
 		this.city = city;
+		
 	}
 	public Long getId() {
 		return id;
@@ -93,6 +95,16 @@ public class User {
 	}
 
 
+	public Role getRole() {
+		return role;
+	}
+
+
+	public void setRole(Role role) {
+		this.role = role;
+	}
+
+	
 	
 
 	
