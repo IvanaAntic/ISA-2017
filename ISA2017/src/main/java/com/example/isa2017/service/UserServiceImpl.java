@@ -27,5 +27,24 @@ public class UserServiceImpl implements UserService{
 		
 		return userRepository.save(user1);
 	}
+	@Override
+	public User signIn(UserDTO user) {
+		// TODO Auto-generated method stub
+		
+		User user1=new User();
+		//da li taj email vec NE postoji mozes da ga signIN-ujes
+		
+		if((userRepository.findByEmail(user.getEmail()))!=null){
+			//jos ovde dodati potvrdu da li je verifikovan email
+			
+			user1.setEmail(user.getEmail());
+			user1.setPassword(user.getPassword());
+		}
+		
+		
+		return user1;
+	}
+	
+	
 
 }

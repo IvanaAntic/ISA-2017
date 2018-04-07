@@ -11,5 +11,5 @@ public interface UserService {
 	
 
 	User save(UserDTO user);
-	
+	User signIn(UserDTO user);
 }
