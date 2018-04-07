@@ -29,7 +29,7 @@
 					surname: $("#inputForm [name='surnameRegistration']").val(),
 					password: $("#inputForm [name='passwordRegistration']").val(),
 					city: $("#inputForm [name='cityRegistration']").val(),
-					phone: $("#inputForm [name='phoneNumberRegistration']").val(),
+					phoneNumber: $("#inputForm [name='phoneNumberRegistration']").val(),
 			          });
 			 
 			 var pass=$("#inputForm [name='passwordRegistration']").val();
@@ -53,7 +53,37 @@
 			 
 			 $('#inputR').modal('toggle');
 		});
-	});
+		
+		
+		$("#login").click(function(){
+			
+			 formData = JSON.stringify({
+				email: $("#inputFormLogin [name='email']").val(),
+				password: $("#inputFormLogin [name='password']").val(),
+				
+			 });
+			$.ajax({
+				
+			
+				url: "/user/login",
+				type: "POST",
+				data: formData,
+				contentType: "application/json",
+				datatype: 'json',
+				success: function(data) {
+					
+				  }
+				});
+			 $('#inputModal').modal('toggle');
+			});
+			
+		
+		});
+		
+		
+		
+		
+	
 </script>
 </head>
 
@@ -91,14 +121,14 @@
 		          <span aria-hidden="true">&times;</span>
 		        </button>
 		      </div>
-		      <form id="inputForm" role="form">
+		      <form id="inputFormLogin" role="form">
 		      <div class="modal-body">
 					<input type="hidden" name="id" id="id" />
 				<p>
 					<label for="email">Email:</label> <input type="email" class="form-control" name="email" id="email" placeholder="Enter email" >
 				</p>
 				<p>
-					<label for="password">Password:</label> <input type="text" class="form-control" name="password" id="pasword" placeholder="Password">
+					<label for="password">Password:</label> <input type="password" class="form-control" name="password" id="password" placeholder="Password">
 				</p>		
 		      </div>
 		      <div class="row">
@@ -118,7 +148,7 @@
       </div>
 		      <div class="modal-footer">
 		        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-		        <button type="button" class="btn btn-primary" id="add">Log in</button>
+		        <button type="button" class="btn btn-primary" id="login">Log in</button>
 		      </div>
 		      </form>
 		    </div>
@@ -134,7 +164,7 @@
 		       </div>
 		       <form id="inputForm" role="form">
 		       <div class="modal-body">
-		       	<input type="hidden" id="idr" name="ide">
+		       	<input type="hidden" id="idr" name="idr">
 		       	<p>
 		       		<label for="inputEmail1">Email address</label>
     				<input type="email" name="emailRegistration" class="form-control" id="emailRegistration" aria-describedby="emailHelp" placeholder="Enter email">
@@ -157,7 +187,7 @@
 		       	</p>
 		       	<p>
 		       		<label for="grad">Town</label>
-		       		<input type="text" name="townRegistration" class="form-control" id="townRegistration" aria-describedby="townHelp" placeholder="Town">
+		       		<input type="text" name="cityRegistration" class="form-control" id="cityRegistration" aria-describedby="townHelp" placeholder="Town">
 		       	</p>
 		  		<p>
 		       		<label for="grad">Phone number</label>
