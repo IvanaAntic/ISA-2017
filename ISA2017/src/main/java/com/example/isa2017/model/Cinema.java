@@ -23,7 +23,7 @@ public class Cinema {
 	@Column(name="address", columnDefinition="VARCHAR(40)")
 	private String address;
 	
-	@Column(name="description", columnDefinition="VARCHAR(200)")
+	@Column(name="description", columnDefinition="VARCHAR(260)")
 	private String description;
 	
 	@Column(name="averageRating")

@@ -19,8 +19,8 @@ public class TheatreController {
 	@Autowired
 	private TheatreService theatreService;
 	
-	@RequestMapping(value="getCinemas", method = RequestMethod.GET)
-	public ResponseEntity<List<Theatre>> getCinemas() {
+	@RequestMapping(value="getTheatres", method = RequestMethod.GET)
+	public ResponseEntity<List<Theatre>> getTheatres() {
 		 List<Theatre> theatres = theatreService.findAll();
 		 return new ResponseEntity<>(theatres, HttpStatus.OK);
 	}
