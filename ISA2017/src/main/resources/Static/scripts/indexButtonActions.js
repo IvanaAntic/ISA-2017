@@ -2,27 +2,47 @@ $(document).ready(function(){
 	
 	$("#cinemaButton").click(function(){
 		
-		$(".mainContentHolder").hide(2000);
+		$(".buttonsHolder").fadeOut(1000, function(){
+			$.ajax({
+				url : "http://localhost:8080/cinemas/getCinemas"
+			}).then(
+					function(data) {
+						
+						$(".cinemaHolder").empty()
+						
+						for(i = 0; i < data.length; i++){
+							
+							prikaz = "<div class='cinemaDiv'>" +
+									"<h3 class='cinemaName'>" + data[i].name + "</h3>" +
+									"<p><label>Adresa: </label>" + data[i].address + "</p>" +
+									"<p><label>Opis: </label>" + data[i].description + "</p>" +
+									"<p><label>Prosecna ocena: </label>" + data[i].avgRating + "</p>" +
+									"</div>"
+								
+							
+							$(".cinemaHolder").append(prikaz)
+						}
+						
+
+						$("#goBack").fadeIn(1000, function(){
+							$(".cinemaHolder").fadeIn(1000)
+						})
+						
+						
+					});
+		});
 		
-		$.ajax({
-			url : "http://localhost:8080/cinemas/getCinemas"
-		}).then(
-				function(data) {
-					
-					prikaz = "<p>" + data[1].name + "</p>"
-					
-					$(".mainContentHolder").empty()
-					.append(prikaz)
-					.append("<br><button class='goBack'>Nazad</button>")
-					.show(2000)
-					
-				});
+		
 		
 	});
 	
-	$(".goBack").click(function(){
+	$("#goBack").click(function(){
 		
+		$(".cinemaHolder").fadeOut(1000, function(){
+			$(".buttonsHolder").fadeIn(1000)
+		})
 		
+		$("#goBack").fadeOut()
 		
 	});
 	

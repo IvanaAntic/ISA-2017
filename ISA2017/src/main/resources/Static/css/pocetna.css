@@ -1,3 +1,17 @@
+.cinemaDiv{
+	text-align: left;
+	border: 1px solid rgb(200, 200, 200);
+	border-right: 0;
+	margin-bottom: 20px;
+	padding-left: 20px;
+}
+
+.cinemaName{
+	text-align: left;
+	text-decoration: underline;
+	margin-top: 10px;
+}
+
 .proba{
 	width: 100%;
 	display: inline;

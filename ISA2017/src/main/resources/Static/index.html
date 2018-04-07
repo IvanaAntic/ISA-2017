@@ -3,9 +3,6 @@
 
 <head>
 
-<link rel="stylesheet" href="css/pocetna.css">
-
-
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
@@ -16,6 +13,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 <script type="text/javascript" src="scripts/indexButtonActions.js"></script>
+<link rel="stylesheet" href="css/pocetna.css">
 
 <title>pocetna</title>
 <script>
@@ -92,14 +90,16 @@
 
 <nav class="navbar">
   <div class="container-fluid">
+  	<a href="#" style="display: none; color: rgba(0, 0, 255, 0.4);" class="navbar-brand" data-target="#navbar7" id="goBack">&lt; Nazad</a>
     <ul class="nav navbar-nav navbar-right">
-      <li><a href="#inputModal" data-toggle="modal" data-target="#inputModal">Prijava</a></li>
-      <li><a href="#inputR" data-toggle="modal" data-target="#inputR">Registracija</a></li>
+    	<li><a href="#inputModal" data-toggle="modal" data-target="#inputModal">Prijava</a></li>
+    	<li><a href="#inputR" data-toggle="modal" data-target="#inputR">Registracija</a></li>
     </ul>
   </div>
 </nav>
 
-<div class="container-fluid text-center mainContentHolder">
+<div class="container-fluid text-center buttonsHolder">
+	
 	<div class="proba">
 		<div class="btn btn-info btn-lg dugme" role="button">Pozorista</div>
 	</div>
@@ -108,6 +108,7 @@
 	</div>
 </div>
 	
+<div class="cinemaHolder"></div>
 
 		
 
