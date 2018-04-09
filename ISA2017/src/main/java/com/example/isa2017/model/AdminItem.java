@@ -1,8 +1,6 @@
-package com.example.isa2017.FanZone.model;
+package com.example.isa2017.model;
 
 import javax.persistence.*;
-
-import com.example.isa2017.model.User;
 
 @Entity
 public class AdminItem {
@@ -14,7 +12,10 @@ public class AdminItem {
 	private String description;
 	private double price;
 	private boolean isReserved;
-	//private User buyer;
+	@ManyToOne
+	private User buyer;
+	@ManyToOne
+	private User postedBy;
 	
 	public AdminItem() {
 		super();
@@ -27,7 +28,7 @@ public class AdminItem {
 		this.description = description;
 		this.price = price;
 		this.isReserved = isReserved;
-		//this.buyer = buyer;
+		this.buyer = buyer;
 	}
 
 	public Long getId() {
@@ -69,14 +70,14 @@ public class AdminItem {
 	public void setReserved(boolean isReserved) {
 		this.isReserved = isReserved;
 	}
-
-/*	public User getBuyer() {
+	@OneToMany
+	public User getBuyer() {
 		return buyer;
 	}
 
 	public void setBuyer(User buyer) {
 		this.buyer = buyer;
-	}*/
+	}
 	
 	
 	

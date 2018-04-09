@@ -19,4 +19,5 @@ public enum Role {
 
 	USER, ADMIN, SYSTEMADMIN, FANZONEADMIN
 	
+	
 }
