@@ -13,6 +13,10 @@ public class AdminItem {
 	private double price;
 	private boolean isReserved;
 	@ManyToOne
+	private Theatre theatre;
+	@ManyToOne
+	private Cinema cinema;
+	@ManyToOne
 	private User buyer;
 	@ManyToOne
 	private User postedBy;

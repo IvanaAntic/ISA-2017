@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Fan Zona</title>
+    <title>Admin fan zone</title>
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -17,8 +17,8 @@
     <link href="css/shop-item.css" rel="stylesheet">
 
     <!-- Bootstrap core JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>   
-    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
+
     <script src="scripts/tether.min.js"></script>
     <script src="scripts/jquery-3.2.1.min.js"></script>
     <script src="scripts/bootstrap.bundle.min.js"></script>
@@ -33,14 +33,14 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css" />
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>   
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.5/validator.min.js"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
-    
-    
+
+
   </head>
 
   <body>
@@ -85,9 +85,9 @@
       <div class="row">
 
         <div class="col-lg-3">
-          <h1 class="my-4">Fan Zona</h1>
+          <h1 class="my-4">Admin Fan Zona</h1>
           <div class="list-group">
-            <a href="#newItemModal" data-toggle="modal" data-target="#newItemModal" class="btn btn-success">Novi oglas</a>
+            <a href="#newItemModal" data-toggle="modal" data-target="#newItemModal" class="btn btn-success">Novi proizvod</a>
 
           </div>
         </div>
@@ -110,6 +110,7 @@
 
           <div class="tab-content">
             <div id="zvanicnaProdavnica" class="tab-pane fade in active">
+              
               <div id="IDPROIZVODA1" class="card mt-4">
                 <img class="card-img-top img-fluid" src="http://placehold.it/150x100" alt="">
                 <div class="card-body">
@@ -131,11 +132,14 @@
 				      </tr>
 				    </tbody>
 				  </table>
-                 
-                  <a href="#" class="btn btn-success" style="float : right">Rezervisi</a>
+                <!--  <a href="#" class="btn btn-success" style="float : right">Rezervisi</a> -->
+                  <div style="float : right">
+                    <a href="#" class="btn btn-warning" >Izmeni</a>
+                    <a href="#" class="btn btn-danger" >Ukloni</a>
+                  </div>
                 </div>
               </div>
-              
+
             </div>
 
             <!-- Tab sa oglasima korisnika -->
@@ -145,7 +149,6 @@
                 <img class="card-img-top img-fluid" src="http://placehold.it/150x100" alt="">
                 <div class="card-body">
                   <h3 class="card-title">Naziv proizvoda</h3>
-                  <h4>Ovde ide cena proizvoda</h4>
                   <p class="card-text">Ovde ide opis proizvoda. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente dicta fugit fugiat hic aliquam itaque facere, soluta. Totam id dolores, sint aperiam sequi pariatur praesentium animi perspiciatis molestias iure, ducimus!</p>
                   <table class="table">
 				    <tbody>
@@ -154,19 +157,21 @@
 				        <td "class="bid">2000</td>
 				      </tr>
 				      <tr>
-				        <td class="price">Moja ponuda:</td>
-				        <td class="myBid">1000</td>
-				      </tr>
-				      <tr>
-				        <td class="status">Zavrsetak licitacije:</td>
+				        <td >Zavrsetak licitacije:</td>
 				        <td class="endTime">neko vreme</td>
 				      </tr>
+				      <tr>
+				        <td >Status:</td>
+				        <td class="status">neki status</td>
+				      </tr>
 				    </tbody>
-				  </table>                  
+				  </table>
+                  
                   <div style="float : right">
-                    <input type="number" >
-                    <a href="#" class="btn btn-success" >Licitiraj</a>
-                </div>
+                    <a href="#" class="btn btn-success" >Odobri</a>
+                    <a href="#" class="btn btn-warning" >Zabrani</a>
+                    <a href="#" class="btn btn-danger" >Ukloni</a>
+                  </div>
                 </div>
               </div>
             </div>
@@ -182,7 +187,7 @@
       </div>
 
     </div>
-    
+
 	<div class="modal fade" id="newItemModal" tabindex="-1" role="dialog">
 		  <div class="modal-dialog" role="document">
 		    <div class="modal-content">
@@ -192,36 +197,39 @@
 		      <form id="inputForm" data-toggle="validator" role="form" data-disable="true">
 		      	<div class="modal-body">
 					<input type="hidden" name="id" id="id" />
-					
+
 					<div class="form-group ">
 						<label for="nameInput" class="control-label">Naziv:</label> <input type="text" class="form-control" name="nameInput"
 						id="nameInput" data-error="Unesite naziv predmeta" required/>
 						<div class="help-block with-errors"></div>
 					</div>
-					
+
 					<div class="form-group">
 						<label for="descriptionInput" >Opis:</label> <textarea class="form-control" rows="3" name="descriptionInput"
 						id="descriptionInput" data-error="Unesite opis predmeta"  required></textarea>
 						<div class="help-block with-errors"></div>
-					</div>					
+					</div>
 				 	<div class="form-group">
 						<label for="priceInput" >Cena:</label> <input type="text" class="form-control" name="priceInput"
-						id="priceInput" data-error="Unesite pocetnu cenu predmeta" required/>
+						id="priceInput" data-error="Unesite cenu predmeta" pattern="^[_0-9]{1,}$" required/>
 						<div class="help-block with-errors"></div>
 					</div>
-        			<div class="form-group ">
-        				<label for="dateTimeInput">Kraj licitacije:</label>
-		           		<div class='input-group date' id='dateTimePicker'>
-		                	<input type='text' class="form-control" data-error="Izaberite datum i vreme kraja licitacije" required/>
-		                	<span class="input-group-addon">
-		                    	<span class="glyphicon glyphicon-calendar"></span>
-		               	 	</span>
-		            	</div>
-		            	<div class="help-block with-errors"></div>
-        	 		</div>
-        	 		
+		          	<div class="form-group">
+		            	<label for="place">Izaberite mesto gde se iznajmljuje proizvod:</label>
+
+                  <select id="place" class="form-control">
+		                	<optgroup class="cinemaOption" label="Bioskopi">
+		                		<option value="ovde ide ID bioskopa" >Ovde ide naziv bioskopa</option>
+		               	 	</optgroup>
+		                	<optgroup class="theatreOption" label="Pozorista">
+		                		<option value="ovde ide ID pozorista" ">Ovde ide naziv pozorista</option>
+		                	</optgroup>
+		          		</select>
+
+		          	</div>
+		          	<br>
         	 		<div class="form-group">
-    					<label for="itemImage">Izaberite sliku:</label>
+    					<label for="itemImage">Izaberite sliku (opciono):</label>
     					<input type="file" class="form-control-file" id="itemImage">
  					</div>
 
@@ -235,7 +243,7 @@
 		    </div>
 		  </div>
 		</div>
-	
+
 
 
 
@@ -247,9 +255,9 @@ $(document).ready(function() {
             	format : 'DD/MM/YYYY HH:mm',
             	minDate: moment()
             });
-            
+
         });
-        
+
     });
 </script>
 </html>

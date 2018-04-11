@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Admin sistema</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/shop-item.css" rel="stylesheet">
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
+
+    <script src="scripts/tether.min.js"></script>
+    <script src="scripts/jquery-3.2.1.min.js"></script>
+    <script src="scripts/bootstrap.bundle.min.js"></script>
+    <script src="scripts/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="css/bootstrap-3.3.7.min.css">
+    <script src="scripts/jquery-3.3.1.min.js"></script>
+    <script src="scripts/bootstrap-3.3.7.min.js"></script>
+    <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css" />
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.5/validator.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
+
+
+  </head>
+
+  <body>
+
+    <!-- Navigation
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="#">Start Bootstrap</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Home
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Services</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+     -->
+    <!-- Page Content -->
+    <div class="container">
+
+
+
+
+
+
+
+      <div class="row">
+
+        <div class="col-lg-3">
+          <h1 class="my-4">Admin sistema</h1>
+          <div class="list-group">
+          	<a href="#newTheatreModal" data-toggle="modal" data-target="#newTheatreModal" class="btn btn-light">Dodaj pozoriste</a>
+          	<br>
+          	<a href="#newCinemaModal" data-toggle="modal" data-target="#newCinemaModal" class="btn btn-light">Dodaj bioskop</a>
+          	<br>
+          	<a href="#newMovieModal" data-toggle="modal" data-target="#newMovieModal" class="btn btn-light">Dodaj film</a>
+          	<br>
+          	<a href="#newPlayModal" data-toggle="modal" data-target="#newPlayModal" class="btn btn-light">Dodaj predstavu</a>
+            
+
+          </div>
+        </div>
+        <!-- /.col-lg-3 -->
+
+        <div class="col-lg-9">
+
+          <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#users">Korisnici</a></li>
+            <li><a data-toggle="tab" href="#theatre">Pozorista</a></li>
+            <li><a data-toggle="tab" href="#cinema">Bioskopi</a></li>
+          </ul>
+
+          <div class="tab-content">
+          <!-- Tab sa profilima korisnika -->
+          	<div id="users" class="tab-pane fade in active">
+          		<table class="table" id="usersTable">
+          			
+					<tr>
+						<th>Ime</th>
+					  	<th>Prezime</th>
+					  	<th>Email</th>
+					  	<th>Br. Tel</th>
+					  	<th>Mesto</th>
+					  	<th>Uloga</th> 				  
+					</tr>
+				   
+				   
+		     		<tr>
+				      	<td class="name">Pera</td>
+				      	<td class="surname">Peric</td>
+				      	<td class="email">pera@pera.com</td>
+				      	<td class="phone">+38164/555-333</td>
+				      	<td class="city">Novi Sad</td>
+				      	<td class="role">Korisnik</td>
+				      	<td class="buttons">
+				      		<div style="float : right">
+                    			<a href="#" class="btn btn-warning" >Izmeni</a>
+                   			 	<a href="#" class="btn btn-danger" >Ukloni</a>
+                  			</div>
+				      	</td>
+				      	<td class="userId" style="visibility:hidden;">1</td>
+					</tr>			    				    
+				  </table>
+          	</div>
+          	<div id="theatre" class="tab-pane fade ">
+          		<table class="table" id="thetreTable">
+       				<thead>
+						<tr>
+					        <th>Naziv</th>
+					        <th>Opis</th>
+					        <th>Adresa</th>
+					        <th>Br. Tel</th>
+					        <th>Prosecna ocena</th>
+					        <th>Repertoar</th>
+					        <th></th>
+				      	</tr>
+				    </thead>
+				    
+				    	<tr>				      
+							<td class="name">Narodno pozoriste</td>
+							<td class="description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente dicta fugit fugiat hic aliquam itaque facere, soluta. Totam id dolores, sint aperiam sequi pariatur praesentium animi perspiciatis molestias iure, ducimus!</td>
+							<td class="adress">Adresa pozorista</td>
+							<td class="phone">+38164/555-333</td>
+							<td class="rating">4.5</td>
+							<td class="projections">Repertoar</td>
+							<td class="buttons">
+				      		<div style="float : right">
+                    			<a href="#" class="btn btn-warning" >Izmeni</a>
+                    			<a href="#" class="btn btn-danger" >Ukloni</a>
+                  			</div>
+				     		</td>
+				      <td class=theatreId" style="visibility:hidden;">1</td>
+			      </tr>
+				    
+				  </table>
+          	</div>
+          	<div id="cinema" class="tab-pane fade ">
+          		<table class="table" id="cinemaTable">
+          			<thead>
+				      <tr>
+				        <th>Naziv</th>
+				        <th>Opis</th>
+				        <th>Adresa</th>
+				        <th>Br. Tel</th>
+				        <th>Prosecna ocena</th>
+				        <th>Repertoar</th>
+				        <th></th>
+				      </tr>
+				    </thead>
+				    <tbody>
+				      <tr>
+						<td class="name">Arena Cineplex</td>
+						<td class="description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente dicta fugit fugiat hic aliquam itaque facere, soluta. Totam id dolores, sint aperiam sequi pariatur praesentium animi perspiciatis molestias iure, ducimus!</td>
+						<td class="adress">Adresa bioskopa</td>
+						<td class="phone">+38164/555-333</td>
+						<td class="rating">4.5</td>
+						<td class="projections">Repertoar</td>
+						<td class="buttons">
+				      		<div style="float : right">
+                    			<a href="#" class="btn btn-warning" >Izmeni</a>
+                    			<a href="#" class="btn btn-danger" >Ukloni</a>
+                  			</div>
+				      	</td>
+				      	<td class=cinemaId" style="visibility:hidden;">56</td>
+				      </tr>
+				    </tbody>
+				  </table>
+          	</div>
+          	<!-- Tab sa pozoristima 
+            <div id="zvanicnaProdavnica" class="tab-pane fade in active">
+              <div id="IDPROIZVODA1" class="card mt-4">
+                <img class="card-img-top img-fluid" src="http://placehold.it/150x100" alt="">
+                <div class="card-body">
+                  <h3 class="card-title">Naziv proizvoda</h3>
+                  <p class="card-text">Ovde ide opis proizvoda. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente dicta fugit fugiat hic aliquam itaque facere, soluta. Totam id dolores, sint aperiam sequi pariatur praesentium animi perspiciatis molestias iure, ducimus!</p>
+                  <table class="table">
+				    <tbody>
+				      <tr>
+				        <td>Mesto:</td>
+				        <td class="place">Neko mesto</td>
+				      </tr>
+				      <tr>
+				        <td class="price">Cena:</td>
+				        <td>1000</td>
+				      </tr>
+				      <tr>
+				        <td class="status">Status:</td>
+				        <td>Rezervisano</td>
+				      </tr>
+				    </tbody>
+				  </table>
+                
+                  <div style="float : right">
+                    <a href="#" class="btn btn-warning" >Izmeni</a>
+                    <a href="#" class="btn btn-danger" >Ukloni</a>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+			-->
+            <!-- Tab sa oglasima korisnika 
+            <div id="oglasi" class="tab-pane fade">
+              <!-- Oglas korisnika:  
+              <div id="IDPROIZVODA2" class="card mt-4">
+                <img class="card-img-top img-fluid" src="http://placehold.it/150x100" alt="">
+                <div class="card-body">
+                  <h3 class="card-title">Naziv proizvoda</h3>
+                  <p class="card-text">Ovde ide opis proizvoda. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente dicta fugit fugiat hic aliquam itaque facere, soluta. Totam id dolores, sint aperiam sequi pariatur praesentium animi perspiciatis molestias iure, ducimus!</p>
+                  <table class="table">
+				    <tbody>
+				      <tr>
+				        <td>Aktuelna ponuda:</td>
+				        <td "class="bid">2000</td>
+				      </tr>
+				      <tr>
+				        <td >Zavrsetak licitacije:</td>
+				        <td class="endTime">neko vreme</td>
+				      </tr>
+				      <tr>
+				        <td >Status:</td>
+				        <td class="status">neki status</td>
+				      </tr>
+				    </tbody>
+				  </table>
+                  
+                  <div style="float : right">
+                    <a href="#" class="btn btn-success" >Odobri</a>
+                    <a href="#" class="btn btn-warning" >Zabrani</a>
+                    <a href="#" class="btn btn-danger" >Ukloni</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+			-->
+          <!-- /.card -->
+
+
+
+        </div>
+        <!-- /.col-lg-9 -->
+
+      </div>
+
+    </div>
+
+	<div class="modal fade" id="newItemModal" tabindex="-1" role="dialog">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h4 class="modal-title" id="exampleModalLabel">Novi oglas</h4>
+		      </div>
+		      <form id="inputForm" data-toggle="validator" role="form" data-disable="true">
+		      	<div class="modal-body">
+					<input type="hidden" name="id" id="id" />
+
+					<div class="form-group ">
+						<label for="nameInput" class="control-label">Naziv:</label> <input type="text" class="form-control" name="nameInput"
+						id="nameInput" data-error="Unesite naziv predmeta" required/>
+						<div class="help-block with-errors"></div>
+					</div>
+
+					<div class="form-group">
+						<label for="descriptionInput" >Opis:</label> <textarea class="form-control" rows="3" name="descriptionInput"
+						id="descriptionInput" data-error="Unesite opis predmeta"  required></textarea>
+						<div class="help-block with-errors"></div>
+					</div>
+				 	<div class="form-group">
+						<label for="priceInput" >Cena:</label> <input type="text" class="form-control" name="priceInput"
+						id="priceInput" data-error="Unesite cenu predmeta" pattern="^[_0-9]{1,}$" required/>
+						<div class="help-block with-errors"></div>
+					</div>
+		          	<div class="form-group">
+		            	<label for="place">Izaberite mesto gde se iznajmljuje proizvod:</label>
+
+                  <select id="place" class="form-control">
+		                	<optgroup class="cinemaOption" label="Bioskopi">
+		                		<option value="ovde ide ID bioskopa" >Ovde ide naziv bioskopa</option>
+		               	 	</optgroup>
+		                	<optgroup class="theatreOption" label="Pozorista">
+		                		<option value="ovde ide ID pozorista" ">Ovde ide naziv pozorista</option>
+		                	</optgroup>
+		          		</select>
+
+		          	</div>
+		          	<br>
+        	 		<div class="form-group">
+    					<label for="itemImage">Izaberite sliku (opciono):</label>
+    					<input type="file" class="form-control-file" id="itemImage">
+ 					</div>
+
+
+		      	</div>
+		      	<div class="modal-footer">
+		        	<button type="button" class="btn btn-secondary" data-dismiss="modal">Zatvori</button>
+		        	<button type="submit" class="btn btn-primary" id="add">Potvrda</button>
+		      	</div>
+		      </form>
+		    </div>
+		  </div>
+		</div>
+		
+		<div class="modal fade" id="newTheatreModal" tabindex="-1" role="dialog">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h4 class="modal-title" id="exampleModalLabel">Novo pozoriste</h4>
+		      </div>
+		      <form id="theatreInputForm" data-toggle="validator" role="form" data-disable="true">
+		      	<div class="modal-body">
+					<input type="hidden" name="id" id="id" />
+
+					<div class="form-group ">
+						<label for="nameInput" class="control-label">Naziv:</label> <input type="text" class="form-control" name="nameInput"
+						id="nameInput" data-error="Unesite naziv pozorista" required/>
+						<div class="help-block with-errors"></div>
+					</div>
+
+					<div class="form-group">
+						<label for="descriptionInput" >Opis:</label> <textarea class="form-control" rows="3" name="descriptionInput"
+						id="descriptionInput" data-error="Unesite opis pozorista"  required></textarea>
+						<div class="help-block with-errors"></div>
+					</div>
+				 	<div class="form-group">
+						<label for="priceInput" >Adresa:</label> <input type="text" class="form-control" name="priceInput"
+						id="priceInput" data-error="Unesite adresu pozorista"  required/>
+						<div class="help-block with-errors"></div>
+					</div>
+		          
+		          	<br>
+        	 		<div class="form-group">
+    					<label for="itemImage">Izaberite sliku (opciono):</label>
+    					<input type="file" class="form-control-file" id="itemImage">
+ 					</div>
+
+
+		      	</div>
+		      	<div class="modal-footer">
+		        	<button type="button" class="btn btn-secondary" data-dismiss="modal">Zatvori</button>
+		        	<button type="submit" class="btn btn-primary" id="addTheatre">Potvrda</button>
+		      	</div>
+		      </form>
+		    </div>
+		  </div>
+		</div>
+		
+		<div class="modal fade" id="newCinemaModal" tabindex="-1" role="dialog">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h4 class="modal-title" id="exampleModalLabel">Novo pozoriste</h4>
+		      </div>
+		      <form id="cinemaInputForm" data-toggle="validator" role="form" data-disable="true">
+		      	<div class="modal-body">
+					<input type="hidden" name="id" id="id" />
+
+					<div class="form-group ">
+						<label for="nameInput" class="control-label">Naziv:</label> <input type="text" class="form-control" name="nameInput"
+						id="nameInput" data-error="Unesite naziv bioskopa" required/>
+						<div class="help-block with-errors"></div>
+					</div>
+
+					<div class="form-group">
+						<label for="descriptionInput" >Opis:</label> <textarea class="form-control" rows="3" name="descriptionInput"
+						id="descriptionInput" data-error="Unesite opis bioskopa"  required></textarea>
+						<div class="help-block with-errors"></div>
+					</div>
+				 	<div class="form-group">
+						<label for="priceInput" >Adresa:</label> <input type="text" class="form-control" name="priceInput"
+						id="priceInput" data-error="Unesite adresu pozorista"  required/>
+						<div class="help-block with-errors"></div>
+					</div>
+		          
+		          	<br>
+        	 		<div class="form-group">
+    					<label for="itemImage">Izaberite sliku (opciono):</label>
+    					<input type="file" class="form-control-file" id="itemImage">
+ 					</div>
+
+
+		      	</div>
+		      	<div class="modal-footer">
+		        	<button type="button" class="btn btn-secondary" data-dismiss="modal">Zatvori</button>
+		        	<button type="submit" class="btn btn-primary" id="addTheatre">Potvrda</button>
+		      	</div>
+		      </form>
+		    </div>
+		  </div>
+		</div>
+
+
+
+
+  </body>
+<script type="text/javascript">
+$(document).ready(function() {
+        $(function () {
+            $('#dateTimePicker').datetimepicker({
+            	format : 'DD/MM/YYYY HH:mm',
+            	minDate: moment()
+            });
+
+        });
+
+    });
+</script>
+</html>
