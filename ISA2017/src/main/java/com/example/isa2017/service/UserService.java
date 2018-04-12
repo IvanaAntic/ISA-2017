@@ -12,4 +12,9 @@ public interface UserService {
 
 	User save(UserDTO user);
 	User signIn(UserDTO user);
+	
+	void sendVerificationMail(User user);
+	User verifyEmail(Long id);
+	
+	
 }

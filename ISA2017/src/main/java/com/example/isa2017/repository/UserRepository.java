@@ -9,5 +9,7 @@ import com.example.isa2017.model.User;
 public interface UserRepository extends JpaRepository<User, Long> {
  
 		User findByEmail(String email);
+		//User findByIdEquals(Long id);
+		User findById(Long id);
 	
 }

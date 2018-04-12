@@ -42,10 +42,16 @@ public class User {
 	@Column(name="role")
 	private Role role;
 	
+	@Column(name="is_active")
+	private boolean active;
+	
+	
+
+
 	public User(){}
 	
 	
-	public User(String email, String password, String name, String surname, String phoneNumber, String city,Role role) {
+	public User(String email, String password, String name, String surname, String phoneNumber, String city,Role role,boolean active) {
 		super();
 		this.email = email;
 		this.password = password;
@@ -54,6 +60,7 @@ public class User {
 		this.phoneNumber = phoneNumber;
 		this.city = city;
 		this.role=role;
+		this.active=active;
 		
 	}
 	public Long getId() {
@@ -111,7 +118,14 @@ public class User {
 
 	
 	
+	public boolean isActive() {
+		return active;
+	}
 
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
 	
 	
 	
