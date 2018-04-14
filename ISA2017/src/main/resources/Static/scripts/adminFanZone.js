@@ -106,8 +106,20 @@ function sendEditAdminItem(){
 			console.log(data);
 			//vrati onclik na staro
 			$('#addNewItem').attr('onclick','addNewAdminItem()');
-			//TODO:Izmeniti podatke na forontu
-		},
+			if (data.theatreName) {
+				placeName = data.theatreName;
+				placeId = data.theatreId;
+			} else {
+				placeName = data.cinemaName;
+				placeId = data.cinemaId;
+			}
+			edited = $("#zvanicnaProdavnica").find("#"+data.id+"");
+			edited.find("#adminItemName").html(data.name);
+			edited.find("#adminItemDescription").html(data.description);
+			edited.find(".placeName").html(placeName);
+			edited.find(".placeId").html(placeId);
+			edited.find(".price").html(data.placeName);
+		},	
 		error: function(error){
 			alert("Doslo je do greske.")
 		}
@@ -153,7 +165,7 @@ function editAdminItemClicked(event){
 	$('#newItemModal').modal('toggle');
 }
 function addNewAdminItem(){
-	$('#newItemModal').modal('toggle');
+	//$('#newItemModal').modal('toggle');
 	$('#addNewItem').attr('onclick','addNewAdminItem()');
 	var theatrePlace = $(document).find(".theatreOption option:selected").val();
 	var cinemaPlace = $(document).find(".cinemaOption option:selected").val();

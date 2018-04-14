@@ -1,6 +1,10 @@
 package com.example.isa2017.controller;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -62,19 +66,20 @@ public class FanZoneController {
 			method = RequestMethod.POST,
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<AdminItemDTO> addNewItem(@Validated @RequestBody AdminItemDTO adminItemDTO) {
-		logger.info("> addNewItem");
+		logger.info("addNewItem");
 		
 		AdminItem newItem = adminItemService.addNewItem(adminItemDTO);
 		
 		if (newItem == null) {
-			logger.info("< addNewItem");
+			logger.info(" addNewItem error");
 			return new ResponseEntity<AdminItemDTO>(adminItemDTO,
 					HttpStatus.FORBIDDEN);
 		}
 		
 		AdminItemDTO newAdminItemDTO = new AdminItemDTO(newItem);
-		System.out.println(newItem.getId());
-		logger.info("< addNewItem");
+		
+		logger.info("< addNewItem ok");
+		
 		return new ResponseEntity<AdminItemDTO>(newAdminItemDTO,
 				HttpStatus.OK);
 	}
@@ -83,7 +88,7 @@ public class FanZoneController {
 			method = RequestMethod.PUT,
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<AdminItemDTO> editAdminItem(@Validated @RequestBody AdminItemDTO adminItemDTO) {
-		logger.info("> addNewItem");
+		logger.info("> editAdminItem");
 		
 		AdminItem itemForEdit = adminItemService.findOne(adminItemDTO.getId());
 		itemForEdit.setName(adminItemDTO.getName());
@@ -105,7 +110,9 @@ public class FanZoneController {
 			}			
 		}
 		adminItemService.save(itemForEdit);
-		logger.info("< addNewItem");
+		logger.info("< editAdminItem ok");
+		
+		
 		return new ResponseEntity<AdminItemDTO>(new AdminItemDTO(itemForEdit),
 				HttpStatus.OK);
 	}
