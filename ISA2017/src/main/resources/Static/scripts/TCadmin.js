@@ -8,7 +8,7 @@ $(document).ready(function(){
 		
 		$(".buttonsHolder").fadeOut(function(){
 			$.ajax({
-				url : "http://localhost:8080/cinemas/getCinemas"
+				url : "http://localhost:8080/cinemas/getTCadminCinemas"
 			}).then(
 					function(data) {
 						
@@ -99,7 +99,7 @@ $(document).ready(function(){
 		
 		$(".buttonsHolder").fadeOut(function(){
 			$.ajax({
-				url : "http://localhost:8080/theatres/getTheatres"
+				url : "http://localhost:8080/theatres/getTCadminTheatres"
 			}).then(
 					function(data) {
 						

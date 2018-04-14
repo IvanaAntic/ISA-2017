@@ -27,9 +27,17 @@ public class CinemaController {
 	@RequestMapping(value="getCinemas", method = RequestMethod.GET)
 	public ResponseEntity<List<CinemaDTO>> getCinemas() {
 		
-		 List<Cinema> cinemas = cinemaService.findAll();
+		List<Cinema> cinemas = cinemaService.findAll();
 		 
-		 return new ResponseEntity<>(toCinemaDTO.convert(cinemas), HttpStatus.OK);
+		return new ResponseEntity<>(toCinemaDTO.convert(cinemas), HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="getTCadminCinemas", method = RequestMethod.GET)
+	public ResponseEntity<List<Cinema>> getTCadminCinemas() {
+		
+		List<Cinema> cinemas = cinemaService.findAll();
+		 
+		return new ResponseEntity<>(cinemas, HttpStatus.OK);
 	}
 	
 }

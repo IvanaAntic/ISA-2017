@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 
 /*
 svaka stranica predstave/filma sadrži:
@@ -48,9 +49,9 @@ public class Movie {
 	@Column(columnDefinition="VARCHAR(10)")
 	private String runtime;
 	
-/*	@Lob
-    @Column(name="MOVIE_IMAGE", nullable=false, columnDefinition="mediumblob")
-    private byte[] image;*/
+	@Lob
+    @Column(name="MOVIE_IMAGE", columnDefinition="mediumblob")
+    private byte[] image;
 	
 	@Column
 	private int rating;
@@ -85,6 +86,21 @@ public class Movie {
 		this.description = description;
 		this.projectionTimes = projectionTimes;
 		this.price = price;
+	}
+	
+	public Movie(String name, List<String> actors, String genre, String director, String runtime, int rating,
+			String description, List<String> projectionTimes, int price, byte[] image) {
+		super();
+		this.name = name;
+		this.actors = actors;
+		this.genre = genre;
+		this.director = director;
+		this.runtime = runtime;
+		this.rating = rating;
+		this.description = description;
+		this.projectionTimes = projectionTimes;
+		this.price = price;
+		this.image = image;
 	}
 
 	public String getName() {
@@ -166,6 +182,14 @@ public class Movie {
 
 	public void setId(Long id) {
 		Id = id;
+	}
+
+	public byte[] getImage() {
+		return image;
+	}
+
+	public void setImage(byte[] image) {
+		this.image = image;
 	}
 	
 	

@@ -1,5 +1,7 @@
 package com.example.isa2017;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -101,6 +103,21 @@ public class TestData {
 				 + " istraživanju. Radnja se odvija oko skupine nekoliko tih replikanata koji su pobjegli te se skrivaju"
 				 + " u Los Angelesu, te ih posebna policija zvana 'Blade Runner' mora uloviti, a među njima je i iskusni "
 				 + "Rick Deckard (Harrison Ford).", projectionTimes, 750);
+		
+		
+		File file = new File("C:\\Users\\igor\\Downloads\\vivify.png");
+        byte[] bFile = new byte[(int) file.length()];
+ 
+        try {
+            FileInputStream fileInputStream = new FileInputStream(file);
+            fileInputStream.read(bFile);
+            fileInputStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+		
+        movie1.setImage(bFile);
+		
 		movieService.save(movie1);
 		
 		Movie movie2 = new Movie("Bekstvo iz Šošenka", actors,  "Drama",

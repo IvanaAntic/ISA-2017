@@ -1,9 +1,5 @@
 package com.example.isa2017.modelDTO;
 
-import java.util.List;
-
-import com.example.isa2017.model.Movie;
-
 public class CinemaDTO {
 
 
@@ -13,20 +9,17 @@ public class CinemaDTO {
 	private String description;
 	private int avgRating;
 	
-	private List<Movie> movies;
-	
 	CinemaDTO(){
 		
 	}
 
-	public CinemaDTO(Long id, String name, String address, String description, int avgRating, List<Movie> movies) {
+	public CinemaDTO(Long id, String name, String address, String description, int avgRating) {
 		super();
 		Id = id;
 		this.name = name;
 		this.address = address;
 		this.description = description;
 		this.avgRating = avgRating;
-		this.movies = movies;
 	}
 
 	public Long getId() {
@@ -67,14 +60,6 @@ public class CinemaDTO {
 
 	public void setAvgRating(int avgRating) {
 		this.avgRating = avgRating;
-	}
-
-	public List<Movie> getMovies() {
-		return movies;
-	}
-
-	public void setMovies(List<Movie> movies) {
-		this.movies = movies;
 	}
 
 	

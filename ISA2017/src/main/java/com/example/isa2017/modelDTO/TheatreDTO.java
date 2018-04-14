@@ -1,9 +1,5 @@
 package com.example.isa2017.modelDTO;
 
-import java.util.List;
-
-import com.example.isa2017.model.Play;
-
 public class TheatreDTO {
 
 	private Long Id;
@@ -11,21 +7,18 @@ public class TheatreDTO {
 	private String address;
 	private String description;
 	private int avgRating;
-	
-	private List<Play> plays;
 
 	public TheatreDTO() {
 		super();
 	}
 
-	public TheatreDTO(Long id, String name, String address, String description, int avgRating, List<Play> plays) {
+	public TheatreDTO(Long id, String name, String address, String description, int avgRating) {
 		super();
 		Id = id;
 		this.name = name;
 		this.address = address;
 		this.description = description;
 		this.avgRating = avgRating;
-		this.plays = plays;
 	}
 
 	public Long getId() {
@@ -66,14 +59,6 @@ public class TheatreDTO {
 
 	public void setAvgRating(int avgRating) {
 		this.avgRating = avgRating;
-	}
-
-	public List<Play> getPlays() {
-		return plays;
-	}
-
-	public void setPlays(List<Play> plays) {
-		this.plays = plays;
 	}
 	
 	

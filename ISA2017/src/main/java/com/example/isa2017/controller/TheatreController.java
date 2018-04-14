@@ -29,4 +29,10 @@ public class TheatreController {
 		 List<Theatre> theatres = theatreService.findAll();
 		 return new ResponseEntity<>(toTheatreDTO.convert(theatres), HttpStatus.OK);
 	}
+	
+	@RequestMapping(value="getTCadminTheatres", method = RequestMethod.GET)
+	public ResponseEntity<List<Theatre>> getTCadminTheatres() {
+		 List<Theatre> theatres = theatreService.findAll();
+		 return new ResponseEntity<>(theatres, HttpStatus.OK);
+	}
 }
