@@ -1,6 +1,7 @@
 package com.example.isa2017.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class AdminItem {
@@ -8,9 +9,12 @@ public class AdminItem {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
+	@NotNull
 	private String name;
+	@NotNull
 	private String description;
-	private double price;
+	@NotNull
+	private int price;
 	private boolean isReserved;
 	@ManyToOne
 	private Theatre theatre;
@@ -24,8 +28,20 @@ public class AdminItem {
 	public AdminItem() {
 		super();
 	}
+	
+	public AdminItem( String name, String description, int price, boolean isReserved, Theatre theatre,
+			Cinema cinema, User buyer, User postedBy) {
+		this.name = name;
+		this.description = description;
+		this.price = price;
+		this.isReserved = isReserved;
+		this.theatre = theatre;
+		this.cinema = cinema;
+		this.buyer = buyer;
+		this.postedBy = postedBy;
+	}
 
-	public AdminItem(Long id, String name, String description, double price, boolean isReserved) {
+	public AdminItem(Long id, String name, String description, int price, boolean isReserved) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -59,11 +75,11 @@ public class AdminItem {
 		this.description = description;
 	}
 
-	public double getPrice() {
+	public int getPrice() {
 		return price;
 	}
 
-	public void setPrice(double price) {
+	public void setPrice(int price) {
 		this.price = price;
 	}
 
@@ -81,6 +97,30 @@ public class AdminItem {
 
 	public void setBuyer(User buyer) {
 		this.buyer = buyer;
+	}
+
+	public Theatre getTheatre() {
+		return theatre;
+	}
+
+	public void setTheatre(Theatre theatre) {
+		this.theatre = theatre;
+	}
+
+	public Cinema getCinema() {
+		return cinema;
+	}
+
+	public void setCinema(Cinema cinema) {
+		this.cinema = cinema;
+	}
+
+	public User getPostedBy() {
+		return postedBy;
+	}
+
+	public void setPostedBy(User postedBy) {
+		this.postedBy = postedBy;
 	}
 	
 	
