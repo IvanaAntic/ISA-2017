@@ -63,17 +63,17 @@ public class UserController {
 	@RequestMapping(value="/login",method=RequestMethod.POST)
 	public ResponseEntity<User> loginUser(@RequestBody UserDTO user,HttpSession session,HttpServletRequest request){
 		User logged=userService.signIn(user);
+		
+		if(logged!=null ){
 			
-		if(logged==null){
-			
-			return new ResponseEntity<>(logged,HttpStatus.NOT_FOUND);
+			HttpSession newSession = request.getSession();
+		    newSession.setAttribute("logged", logged);
+			System.out.println("u:"+logged.getEmail());
+			return new ResponseEntity<>(logged,HttpStatus.OK);
 			
 		}
-		HttpSession newSession = request.getSession();
-	    newSession.setAttribute("logged", logged);
 		
-		return new ResponseEntity<>(logged,HttpStatus.OK);
-		
+		return new ResponseEntity<>(logged,HttpStatus.NOT_FOUND);
 	}
 	
 	

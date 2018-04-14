@@ -51,7 +51,8 @@ public class UserServiceImpl implements UserService{
 		
 		User user1=new User();
 		//da li taj email vec NE postoji mozes da ga signIN-ujes
-		if(emailExist(user.getEmail()))
+		//if(emailExist(user.getEmail()))
+		if(userExist(user.getEmail(),user.getPassword()))
 		{
 			
 			user1.setEmail(user.getEmail());
@@ -71,12 +72,23 @@ public class UserServiceImpl implements UserService{
 	private boolean emailExist(String email) {
         User user = userRepository.findByEmail(email);
         if (user != null) {
+        	
         	System.out.println("true");
             return true;
+            
         }
         System.out.println("false");
         return false;
     }
+	private boolean userExist(String email,String password){
+		User user=userRepository.findByEmailAndPassword(email, password);
+		if(user!=null){
+			System.out.println("Odgovaraju email i sifra");
+            return true;
+		}
+		 System.out.println("Ne odgovaraju email i sifra");
+	        return false;
+	}
 	
 	public void sendVerificationMail(User user)throws MailException{
 		//send email
