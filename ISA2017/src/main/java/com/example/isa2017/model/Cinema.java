@@ -1,10 +1,14 @@
 package com.example.isa2017.model;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 
 /*Neprijavljeni korisnici mogu videti osnovne informacije o
 svakom pozorištu/bioskopu kao što su naziv, adresa (dodatno lokacija korišćenjem
@@ -29,6 +33,10 @@ public class Cinema {
 	@Column(name="averageRating")
 	private int avgRating;
 	
+	@ManyToMany
+	@JoinColumn(name="cinema_id")
+	private List<Movie> movies;
+	
 	public Cinema(){
 		
 	}
@@ -39,6 +47,17 @@ public class Cinema {
 		this.address = address;
 		this.description = description;
 		this.avgRating = avgRating;
+	}
+	
+	
+
+	public Cinema(String name, String address, String description, int avgRating, List<Movie> movies) {
+		super();
+		this.name = name;
+		this.address = address;
+		this.description = description;
+		this.avgRating = avgRating;
+		this.movies = movies;
 	}
 
 	public Long getId() {
@@ -79,6 +98,14 @@ public class Cinema {
 
 	public void setAvgRating(int avgRating) {
 		this.avgRating = avgRating;
+	}
+
+	public List<Movie> getMovies() {
+		return movies;
+	}
+
+	public void setMovies(List<Movie> movies) {
+		this.movies = movies;
 	}
 	
 	

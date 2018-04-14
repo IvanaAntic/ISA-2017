@@ -1,54 +1,26 @@
-package com.example.isa2017.model;
+package com.example.isa2017.modelDTO;
 
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
+import com.example.isa2017.model.Play;
 
-@Entity(name="theatre")
-public class Theatre {
-	
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+public class TheatreDTO {
+
 	private Long Id;
-	
-	@Column(name="name", columnDefinition="VARCHAR(40)")
 	private String name;
-	
-	@Column(name="address", columnDefinition="VARCHAR(40)")
 	private String address;
-	
-	@Column(name="description", columnDefinition="VARCHAR(260)")
 	private String description;
-	
-	@Column(name="averageRating")
 	private int avgRating;
 	
-	@ManyToMany
-	@JoinColumn(name="theatre_id")
 	private List<Play> plays;
-	
-	public Theatre(){
-		
+
+	public TheatreDTO() {
+		super();
 	}
 
-	public Theatre(String name, String address, String description, int avgRating) {
+	public TheatreDTO(Long id, String name, String address, String description, int avgRating, List<Play> plays) {
 		super();
-		this.name = name;
-		this.address = address;
-		this.description = description;
-		this.avgRating = avgRating;
-	}
-	
-	
-
-	public Theatre(String name, String address, String description, int avgRating, List<Play> plays) {
-		super();
+		Id = id;
 		this.name = name;
 		this.address = address;
 		this.description = description;
@@ -103,7 +75,6 @@ public class Theatre {
 	public void setPlays(List<Play> plays) {
 		this.plays = plays;
 	}
-	
 	
 	
 	

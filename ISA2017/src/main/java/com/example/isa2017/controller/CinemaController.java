@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.isa2017.converters.CinemaToCinemaDTO;
 import com.example.isa2017.model.Cinema;
+import com.example.isa2017.modelDTO.CinemaDTO;
 import com.example.isa2017.service.CinemaService;
 
 @RestController
@@ -19,10 +21,15 @@ public class CinemaController {
 	@Autowired
 	private CinemaService cinemaService;
 	
+	@Autowired
+	private CinemaToCinemaDTO toCinemaDTO;
+	
 	@RequestMapping(value="getCinemas", method = RequestMethod.GET)
-	public ResponseEntity<List<Cinema>> getCinemas() {
+	public ResponseEntity<List<CinemaDTO>> getCinemas() {
+		
 		 List<Cinema> cinemas = cinemaService.findAll();
-		 return new ResponseEntity<>(cinemas, HttpStatus.OK);
+		 
+		 return new ResponseEntity<>(toCinemaDTO.convert(cinemas), HttpStatus.OK);
 	}
 	
 }
