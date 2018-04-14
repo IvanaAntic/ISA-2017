@@ -11,7 +11,10 @@ import org.springframework.stereotype.Component;
 import com.example.isa2017.model.Cinema;
 import com.example.isa2017.model.Movie;
 import com.example.isa2017.model.Play;
+import com.example.isa2017.model.Role;
 import com.example.isa2017.model.Theatre;
+import com.example.isa2017.model.User;
+import com.example.isa2017.repository.UserRepository;
 import com.example.isa2017.service.CinemaService;
 import com.example.isa2017.service.MovieService;
 import com.example.isa2017.service.PlayService;
@@ -31,6 +34,9 @@ public class TestData {
 	
 	@Autowired
 	private PlayService playService;
+	
+	@Autowired
+	private UserRepository userRepository;
 	
 	@PostConstruct
 	private void init(){
@@ -70,6 +76,8 @@ public class TestData {
 		
 		Theatre theatre5 = new Theatre("Narodno pozorište „Toša Jovanović“", "Zrenjanin, Trg slobode 7", "Najstarija pozorišna zgrada u današnjoj Srbiji.", 4, generatedPlays.get(4));
 		theatreService.save(theatre5);
+		User gema = new User("gema@gema", "gema", "Sasa", "Gemovic", "064123123", "Uzvece", Role.FANZONEADMIN, true);
+		userRepository.save(gema);
 	}
 	
 	public List<List<Movie>> generateMovies(){

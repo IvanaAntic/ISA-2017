@@ -70,9 +70,15 @@
 				datatype: 'json',
 				success: function(data) {
 					
-				  }
+						//sessionStorage.setItem('loggedId',data.email);
+						//window.location.href='userHomePage.html';
+						 $('#inputModal').modal('toggle');
+				  },
+				error : function(error) {
+					alert("Neispravni email i sifra ");
+				}
 				});
-			 $('#inputModal').modal('toggle');
+			
 			});
 			
 		

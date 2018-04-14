@@ -24,14 +24,14 @@ public class Bid {
 	private User buyer;
 	@ManyToOne()
 	private UserItem item;
-	private double price;
+	private int price;
 	
 	public Bid() {
 		super();
 	}
 
 	
-	public Bid(Long id, Date date, Time time, User buyer, UserItem item, double price) {
+	public Bid(Long id, Date date, Time time, User buyer, UserItem item, int price) {
 		super();
 		this.id = id;
 		this.date = date;
@@ -82,11 +82,11 @@ public class Bid {
 		this.item = item;
 	}
 
-	public double getPrice() {
+	public int getPrice() {
 		return price;
 	}
 
-	public void setPrice(double price) {
+	public void setPrice(int price) {
 		this.price = price;
 	}
 	
