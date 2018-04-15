@@ -64,6 +64,7 @@ private Logger logger = LoggerFactory.getLogger(this.getClass());
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<UserItemDTO> addUserItem(@RequestBody UserItemDTO userItemDTO){
 		logger.info("> addUserItem");
+		
 		UserItem newItem = userItemService.addNewItem(userItemService.convertFromDTO(userItemDTO));
 		
 		logger.info("< addUserItem");
