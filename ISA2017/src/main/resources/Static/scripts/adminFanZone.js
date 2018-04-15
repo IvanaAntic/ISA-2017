@@ -278,8 +278,10 @@ function appendUserItem(data){
 					+    "</div>"
 					+  "</div>";
 		if (data.approved && (data.approvedById == sessionStorage.loggedId)) {
+			
 			$("#userItemsApproved").append(newUserItem);
 		} else {
+			
 			$("#userItemsNotApproved").append(newUserItem);
 		}		
 		
