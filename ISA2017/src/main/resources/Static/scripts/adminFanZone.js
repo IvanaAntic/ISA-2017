@@ -1,6 +1,23 @@
 var urlBase = "http://localhost:8080/"
 	
-
+function isFanZoneAdmin(){
+	loggedUserId = sessionStorage.loggedId;
+	$.ajax({
+		method : 'GET',
+		url : urlBase + "user/role/"+loggedUserId,
+		success : function(data){
+			if (data != "FANZONEADMIN") {
+				alert("Nemate prava pristupa!");
+				window.location.href='index.html';
+			}
+		},
+		error : function(error){
+			window.location.href='index.html';
+			alert(error);
+			
+		}
+	});
+}
 function getPlaces(){
 	$("#cinemaOption").children().remove();
 	$("#theatreOption").children().remove();
@@ -63,6 +80,22 @@ function getAdminItems(){
 }
 function getUserItems(){
 	
+	$.ajax({
+		method : 'GET',
+		url : urlBase + "userItem/getAll",
+		contentType: "application/json",
+		datatype: 'json',
+		success : function(data){
+			console.log(data);
+			for (i = 0; i < data.length; i++) {
+				
+					appendUserItem(data[i]);
+			}
+		},
+		error: function(error){
+			console.log("Greska");
+		}
+	});
 }
 function removeAdminItem(event){
 	console.log(event.id);
@@ -205,7 +238,53 @@ function addNewAdminItem(){
 	});
 	
 }
-	
+function appendUserItem(data){
+	 
+	newUserItem =		"<div id=\""+data.id+"\" class=\"card mt-4\">"
+					+   "<img class=\"card-img-top img-fluid\" src=\"http://placehold.it/150x100\" >"
+					+	"<div class=\"card-body\">"
+				    +  	"<h3 class=\"card-title\" id=\"userItemName\">"+data.name+"</h3>"
+					+      "<p class=\"card-text\" id=\"userItemDescription\">"+data.description+"</p>"
+					+     	"<table class=\"table\">"
+				    +	   		"<tbody>"
+					+	     	"<tr>"
+					+	        	"<td>Prodavac:</td>"
+					+	        	"<td id=\"postedByName\">"+data.postedByName+"</td>"
+					+				"<td id=\"postedById\" style=\"display:none;\">"+data.postedById+"</td>"
+					+	      	"</tr>"
+					+	      	"<tr>"
+					+	        "<td>Cena:</td>"
+					+	        "<td id=\"price\">"+data.startPrice+"</td>"
+					+	      "</tr>"
+					+	      "<tr>"
+					+	        "<td>Aktuelna ponuda:</td>"
+					+	        "<td id=\"currentBid\">"+data.currentPrice+"</td>"
+					+	      "</tr>"
+					+	      "<tr>"
+					+	        "<td >Zavrsetak licitacije:</td>"
+					+	        "<td id=\"endTime\">"+data.endDate+"</td>"
+					+	      "</tr>"
+					+	      "<tr>"
+					+	        "<td >Status:</td>"
+					+	        "<td id=\"status\">"+data.status+"</td>"
+					+	      "</tr>"
+					+	    "</tbody>"
+					+	  "</table>"     
+					+    "<div id=\"userItemButtons\" style=\"float : right\">"
+					+        "<a id=\""+data.id+"\" class=\"btn btn-warning\" >Zabrani</a>"
+					+        "<a id=\""+data.id+"\" class=\"btn btn-success\" >Odobri</a>"
+					+        "<a id=\""+data.id+"\" class=\"btn btn-danger\" >Ukloni</a>"
+					+      "</div>"
+					+    "</div>"
+					+  "</div>";
+		if (data.approved && (data.approvedById == sessionStorage.loggedId)) {
+			$("#userItemsApproved").append(newUserItem);
+		} else {
+			$("#userItemsNotApproved").append(newUserItem);
+		}		
+		
+}
+
 function appendItem(data){
 	if (data.theatreName) {
 		placeName = data.theatreName;
@@ -243,8 +322,8 @@ function appendItem(data){
 			  +	    	"</tbody>"
 			  +	  	"</table>"
 			  +     "<div style=\"float : right\">"
-			  +      "<a href=\"#\" id=\""+data.id+"\"class=\"btn btn-danger\" onclick=\"removeAdminItem(this)\" >Ukloni</a>"
-			  +      " <a href=\"#\" id=\""+data.id+"\"class=\"btn btn-warning\" onclick=\"editAdminItemClicked(this)\" >Izmeni</a>"
+			  +      "<a  id=\""+data.id+"\"class=\"btn btn-danger\" onclick=\"removeAdminItem(this)\" >Ukloni</a>"
+			  +      " <a  id=\""+data.id+"\"class=\"btn btn-warning\" onclick=\"editAdminItemClicked(this)\" >Izmeni</a>"
 			  +     "</div>"
 			  +  "</div>"
 			  + "</div>"			

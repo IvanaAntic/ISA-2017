@@ -26,7 +26,7 @@ public class UserItem {
 	private String description;
 	private int startPrice;
 	private int currentPrice;
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date endDate;
 	@OneToMany(mappedBy = "item",cascade = CascadeType.ALL)
 	private List<Bid> bids;

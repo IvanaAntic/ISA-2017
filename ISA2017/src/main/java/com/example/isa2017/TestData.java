@@ -90,9 +90,10 @@ public class TestData {
 		Theatre theatre5 = new Theatre("Narodno pozorište „Toša Jovanović“", "Zrenjanin, Trg slobode 7", "Najstarija pozorišna zgrada u današnjoj Srbiji.", 4, generatedPlays.get(4));
 		theatreService.save(theatre5);
 		User pera = new User("pera@pera", "pera", "Petar", "Petrovic", "064123123", "Petrovac", Role.USER, true);
-		userRepository.save(pera);
+		
 		User gema = new User("gema@gema", "gema", "Sasa", "Gemovic", "064123123", "Uzvece", Role.FANZONEADMIN, true);
 		userRepository.save(gema);
+		userRepository.save(pera);
 		User adminFZ = new User("adminFZ@adminFZ", "admin", "AdminFZ", "AdminFZ", "064123123", "Uzvece", Role.FANZONEADMIN, true);
 		userRepository.save(gema);
 		userRepository.save(adminFZ);
@@ -107,7 +108,7 @@ public class TestData {
 			userItem.setStartPrice(1000);
 			userItem.setEndDate(datum);
 			userItem.setPostedBy(pera);
-			userItem.setStatus(AuctionStatus.CEKA_ODOBRENJE);
+			userItem.setStatus(AuctionStatus.Ceka_odobrenje);
 			userItemService.addNewItem(userItem);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block

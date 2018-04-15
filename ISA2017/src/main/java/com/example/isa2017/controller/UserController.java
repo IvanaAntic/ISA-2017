@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.isa2017.model.Role;
 import com.example.isa2017.model.User;
 import com.example.isa2017.modelDTO.UserDTO;
 import com.example.isa2017.service.UserService;
@@ -57,7 +58,15 @@ public class UserController {
 		
 		return new ResponseEntity<String>("verifikovan",HttpStatus.ACCEPTED);
 	}
-	
+	@RequestMapping(value="/role/{id}")
+	public ResponseEntity<Role> getUserRole(@PathVariable Long id){
+		
+		User user =  userService.findById(id);
+		if (user == null) {
+			return new ResponseEntity<Role>(user.getRole(),HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<Role>(user.getRole(),HttpStatus.OK);
+	}
 	
 	
 	@RequestMapping(value="/login",method=RequestMethod.POST)

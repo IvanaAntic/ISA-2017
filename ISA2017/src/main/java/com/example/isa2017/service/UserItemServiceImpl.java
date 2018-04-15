@@ -63,7 +63,7 @@ public class UserItemServiceImpl implements UserItemService {
 	@Override
 	public UserItem addNewItem(UserItem userItem) {
 		userItem.setApproved(false);
-		userItem.setStatus(AuctionStatus.CEKA_ODOBRENJE);
+		userItem.setStatus(AuctionStatus.Ceka_odobrenje);
 		return save(userItem);
 	}
 
@@ -132,15 +132,19 @@ public class UserItemServiceImpl implements UserItemService {
 		userItem.setDescription(userItemDTO.getDescription());
 		userItem.setStartPrice(Integer.parseInt(userItemDTO.getStartPrice()));
 		userItem.setCurrentPrice(Integer.parseInt(userItemDTO.getCurrentPrice()));
-		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		//2018-04-20 20:00:00
+		//ovakav datum saljem "2018-4-20 20:00:00"
 		List<BidDTO> bidsDTO = userItemDTO.getBids();
 		List<Bid> bids = new ArrayList<>();
 		for (BidDTO bidDTO : bidsDTO) {
 			bids.add(bidService.bidFromDTO(bidDTO));
 		}
 		try {
+			System.out.println("Za parsianje "+ userItemDTO.getEndDate());
 			Date endDate = dateFormat.parse(userItemDTO.getEndDate());
-			System.out.println(endDate);
+			System.out.println("Nakon parsiranja "+ endDate);
+			System.out.println("Nakon parsiranja i formatiran "+ dateFormat.format(endDate));
 			userItem.setEndDate(endDate);
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
@@ -165,7 +169,9 @@ public class UserItemServiceImpl implements UserItemService {
 		userItemDTO.setDescription(userItem.getDescription());
 		userItemDTO.setStartPrice(Integer.toString(userItem.getStartPrice()));
 		userItemDTO.setCurrentPrice(Integer.toString(userItem.getCurrentPrice()));
-		userItemDTO.setEndDate(userItem.getEndDate().toString());
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		
+		userItemDTO.setEndDate(dateFormat.format(userItem.getEndDate()));
 		
 		List<Bid> bids = userItem.getBids();
 		if (bids != null) {
@@ -221,7 +227,7 @@ public class UserItemServiceImpl implements UserItemService {
 			throw new IllegalArgumentException("Morate biti administrator fan zone.");
 		}
 		userItem.setApprovedBy(admin);
-		userItem.setStatus(AuctionStatus.AKTUELNA);
+		userItem.setStatus(AuctionStatus.Aktuelan);
 		userItem.setApproved(true);
 		userItemRepository.save(userItem);
 		return userItem;
@@ -239,7 +245,7 @@ public class UserItemServiceImpl implements UserItemService {
 		}
 		userItem.setApprovedBy(null);
 		userItem.setApproved(false);
-		userItem.setStatus(AuctionStatus.ODBIJENA);
+		userItem.setStatus(AuctionStatus.Odbijen);
 		userItemRepository.save(userItem);
 		return userItem;
 	}
