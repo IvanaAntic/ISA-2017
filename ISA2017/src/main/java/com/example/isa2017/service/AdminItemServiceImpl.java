@@ -134,6 +134,35 @@ public class AdminItemServiceImpl implements AdminItemService {
 		return null;
 	}
 
+	@Override
+	public List<AdminItem> getMyAdminItems(Long id) {
+		List<AdminItem> retVal = new ArrayList<>();
+		List<AdminItem> items = adminItemRepository.findAll();
+		for (AdminItem adminItem : items) {
+			if (adminItem.getPostedBy().getId() == id) {
+				retVal.add(adminItem);
+			}
+		}
+		return retVal;
+	}
+
+	@Override
+	public List<AdminItem> adminItemsFromDTO(List<AdminItemDTO> adminItemsDTOs) {
+		for (AdminItemDTO adminItemDTO : adminItemsDTOs) {
+			
+		}
+		return null;
+	}
+
+	@Override
+	public List<AdminItemDTO> adminItemsToDTO(List<AdminItem> adminItems) {
+		List<AdminItemDTO> retVal = new ArrayList<>();
+		for (AdminItem adminItem : adminItems) {
+			retVal.add(new AdminItemDTO(adminItem));
+		}
+		return retVal;
+	}
+
 	
 
 }

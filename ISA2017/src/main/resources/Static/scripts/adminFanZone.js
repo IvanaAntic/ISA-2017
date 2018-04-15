@@ -48,7 +48,10 @@ function getAdminItems(){
 		success : function(data){
 			console.log(data);
 			for (i = 0; i < data.length; i++) {
-				appendItem(data[i]);
+				if (data[i].postedById == sessionStorage.loggedId) {
+					appendItem(data[i]);
+				}
+				
 			}
 			
 		},
@@ -72,7 +75,7 @@ function removeAdminItem(event){
 			success : function(data){
 				console.log("Obrisan "+data);
 				alert("Obrisali ste " + data.name);
-				$("#zvanicnaProdavnica").find("#"+data.id+"").remove();
+				$("#adminItemsAll").find("#"+data.id+"").remove();
 				$('#inputModal').modal('toggle');
 			},
 			error: function(error){
@@ -113,7 +116,7 @@ function sendEditAdminItem(){
 				placeName = data.cinemaName;
 				placeId = data.cinemaId;
 			}
-			edited = $("#zvanicnaProdavnica").find("#"+data.id+"");
+			edited = $("#adminItemsAll").find("#"+data.id+"");
 			edited.find("#adminItemName").html(data.name);
 			edited.find("#adminItemDescription").html(data.description);
 			edited.find(".placeName").html(placeName);
@@ -126,7 +129,7 @@ function sendEditAdminItem(){
 	});
 }
 function editAdminItemClicked(event){
-	var forEdit = $("#zvanicnaProdavnica").find("#"+event.id+"");
+	var forEdit = $("#adminItemsAll").find("#"+event.id+"");
 	name = forEdit.find("#adminItemName").html();
 	description = forEdit.find("#adminItemDescription").html();
 	price = forEdit.find(".price").html();
@@ -246,5 +249,5 @@ function appendItem(data){
 			  +  "</div>"
 			  + "</div>"			
 			  +"</div>";
-	$("#zvanicnaProdavnica").append(newItem);
+	$("#adminItemsAll").append(newItem);
 }

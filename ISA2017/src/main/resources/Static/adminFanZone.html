@@ -96,8 +96,9 @@
         <div class="col-lg-7">
 
           <ul class="nav nav-tabs">
-            <li class="active"><a data-toggle="tab" href="#zvanicnaProdavnica">Zvanicna prodavnica</a></li>
-            <li><a data-toggle="tab" href="#oglasi">Oglasi</a></li>
+            <li class="active"><a data-toggle="tab" href="#adminItemsAll">Tematski proizvodi</a></li>
+            <li><a data-toggle="tab" href="#userItemsNotApproved">Oglasi na cekanju</a></li>
+            <li><a data-toggle="tab" href="#userItemsApproved">Odobreni oglasi</a></li>
             <li>
               <div class="input-group">
                 <input type="text" class="form-control" placeholder="Search for...">
@@ -109,43 +110,79 @@
           </ul>
 
           <div class="tab-content">
-            <div id="zvanicnaProdavnica" class="tab-pane fade in active">              
+            <div id="adminItemsAll" class="tab-pane fade in active">              
 		
             </div>
 
-            <!-- Tab sa oglasima korisnika -->
-            <div id="oglasi" class="tab-pane fade">
+            <!-- Tab sa neodobrenim oglasima korisnika -->
+            <div id="userItemsNotApproved" class="tab-pane fade">
               <!-- Oglas korisnika:  -->
               <div id="IDPROIZVODA2" class="card mt-4">
                 <img class="card-img-top img-fluid" src="http://placehold.it/150x100" alt="">
                 <div class="card-body">
-                  <h3 class="card-title">Naziv proizvoda</h3>
-                  <p class="card-text">Ovde ide opis proizvoda. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente dicta fugit fugiat hic aliquam itaque facere, soluta. Totam id dolores, sint aperiam sequi pariatur praesentium animi perspiciatis molestias iure, ducimus!</p>
+                  <h3 class="card-title" id="userItemName">Naziv proizvoda</h3>
+                  <p class="card-text" id="userItemDescription">Ovde ide opis proizvoda. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente dicta fugit fugiat hic aliquam itaque facere, soluta. Totam id dolores, sint aperiam sequi pariatur praesentium animi perspiciatis molestias iure, ducimus!</p>
                   <table class="table">
 				    <tbody>
 				      <tr>
 				        <td>Aktuelna ponuda:</td>
-				        <td "class="bid">2000</td>
+				        <td id="currentBid">2000</td>
 				      </tr>
 				      <tr>
 				        <td >Zavrsetak licitacije:</td>
-				        <td class="endTime">neko vreme</td>
+				        <td id="endTime">neko vreme</td>
 				      </tr>
 				      <tr>
 				        <td >Status:</td>
-				        <td class="status">neki status</td>
+				        <td id="status">neki status</td>
 				      </tr>
 				    </tbody>
 				  </table>
                   
                   <div style="float : right">
                     <a href="#" class="btn btn-success" >Odobri</a>
-                    <a href="#" class="btn btn-warning" >Zabrani</a>
+                   <!--  <a href="#" class="btn btn-warning" >Zabrani</a>--> 
                     <a href="#" class="btn btn-danger" >Ukloni</a>
                   </div>
                 </div>
               </div>
             </div>
+            
+            <!-- Tab sa odobrenim oglasima korisnika -->
+            <div id="userItemsApproved" class="tab-pane fade">
+              <!-- Oglas korisnika:  -->
+              <div id="IDPROIZVODA2" class="card mt-4">
+                <img class="card-img-top img-fluid" src="http://placehold.it/150x100" alt="">
+                <div class="card-body">
+                  <h3 class="card-title" id="userItemName">Naziv proizvoda</h3>
+                  <p class="card-text" id="userItemDescription">Ovde ide opis proizvoda. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente dicta fugit fugiat hic aliquam itaque facere, soluta. Totam id dolores, sint aperiam sequi pariatur praesentium animi perspiciatis molestias iure, ducimus!</p>
+                  <table class="table">
+				    <tbody>
+				      <tr>
+				        <td>Aktuelna ponuda:</td>
+				        <td id="currentBid">2000</td>
+				      </tr>
+				      <tr>
+				        <td >Zavrsetak licitacije:</td>
+				        <td id="endTime">neko vreme</td>
+				      </tr>
+				      <tr>
+				        <td >Status:</td>
+				        <td id="status">neki status</td>
+				      </tr>
+				    </tbody>
+				  </table>
+                  
+                  <div style="float : right">
+                    <!--  <a href="#" class="btn btn-success" >Odobri</a>-->
+                    <a href="#" class="btn btn-warning" >Zabrani</a> 
+                    <a href="#" class="btn btn-danger" >Ukloni</a>
+                  </div>
+                </div>
+              </div>
+            </div> 
+            
+            
           </div>
 
           <!-- /.card -->

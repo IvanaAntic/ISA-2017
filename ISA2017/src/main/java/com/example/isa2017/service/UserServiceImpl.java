@@ -61,7 +61,10 @@ public class UserServiceImpl implements UserService{
 			user1.setEmail(user.getEmail());
 			user1.setPassword(user.getPassword());
         	System.out.println("Mapira");
-
+        	
+        	//Ovo sam uradio da bi mi vratio id usera na front
+        	user1.setId(findByEmail(user.getEmail()).getId());
+        	
 			return user1;
 		
 		}

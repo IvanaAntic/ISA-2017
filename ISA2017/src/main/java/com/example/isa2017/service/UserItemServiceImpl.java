@@ -12,7 +12,10 @@ import org.springframework.stereotype.Service;
 
 
 import com.example.isa2017.model.Bid;
+import com.example.isa2017.model.Role;
+import com.example.isa2017.model.User;
 import com.example.isa2017.model.UserItem;
+import com.example.isa2017.modelDTO.AuctionStatus;
 import com.example.isa2017.modelDTO.BidDTO;
 import com.example.isa2017.modelDTO.UserItemDTO;
 import com.example.isa2017.repository.UserItemRepository;
@@ -60,6 +63,7 @@ public class UserItemServiceImpl implements UserItemService {
 	@Override
 	public UserItem addNewItem(UserItem userItem) {
 		userItem.setApproved(false);
+		userItem.setStatus(AuctionStatus.CEKA_ODOBRENJE);
 		return save(userItem);
 	}
 
@@ -161,18 +165,27 @@ public class UserItemServiceImpl implements UserItemService {
 		userItemDTO.setDescription(userItem.getDescription());
 		userItemDTO.setStartPrice(Integer.toString(userItem.getStartPrice()));
 		userItemDTO.setCurrentPrice(Integer.toString(userItem.getCurrentPrice()));
-		userItemDTO.setEndDate(userItem.getEndDate().toLocaleString());
+		userItemDTO.setEndDate(userItem.getEndDate().toString());
+		
 		List<Bid> bids = userItem.getBids();
-		List<BidDTO> bidsDTO = new ArrayList<>();
-		for (Bid bid : bids) {
-			bidsDTO.add(new BidDTO(bid));
+		if (bids != null) {
+			List<BidDTO> bidsDTO = new ArrayList<>();
+			for (Bid bid : bids) {
+				bidsDTO.add(new BidDTO(bid));
+			}
+			userItemDTO.setBids(bidsDTO);
 		}
-		userItemDTO.setBids(bidsDTO);
+		
 		//podaci o USERU
-		userItemDTO.setApprovedById(userItem.getApprovedBy().getId());
-		userItemDTO.setApprovedByName(userItem.getApprovedBy().getEmail().split("@")[0]);
-		userItemDTO.setBuyerId(userItem.getBuyer().getId());
-		userItemDTO.setBuyerName(userItem.getBuyer().getEmail().split("@")[0]);
+		if (userItem.isApproved()) {
+			userItemDTO.setApprovedById(userItem.getApprovedBy().getId());
+			userItemDTO.setApprovedByName(userItem.getApprovedBy().getEmail().split("@")[0]);
+		}
+		if (userItem.getBuyer() != null) {
+			userItemDTO.setBuyerId(userItem.getBuyer().getId());
+			userItemDTO.setBuyerName(userItem.getBuyer().getEmail().split("@")[0]);
+		}
+		
 		userItemDTO.setPostedById(userItem.getPostedBy().getId());
 		userItemDTO.setPostedByName(userItem.getPostedBy().getEmail().split("@")[0]);
 		userItemDTO.setStatus(userItem.getStatus());
@@ -198,6 +211,37 @@ public class UserItemServiceImpl implements UserItemService {
 			userItemsDTO.add(convertToDTO(userItem));
 		}
 		return userItemsDTO;
+	}
+
+	@Override
+	public UserItem approve(Long itemId, Long adminId) {
+		UserItem userItem = findOne(itemId);
+		User admin = userService.findById(adminId);
+		if (admin.getRole() != Role.FANZONEADMIN) {
+			throw new IllegalArgumentException("Morate biti administrator fan zone.");
+		}
+		userItem.setApprovedBy(admin);
+		userItem.setStatus(AuctionStatus.AKTUELNA);
+		userItem.setApproved(true);
+		userItemRepository.save(userItem);
+		return userItem;
+	}
+
+	@Override
+	public UserItem disapprove(Long itemId, Long adminId) {
+		UserItem userItem = findOne(itemId);
+		User admin = userService.findById(adminId);
+		if (admin.getRole() != Role.FANZONEADMIN) {
+			throw new IllegalArgumentException("Morate biti administrator fan zone.");
+		}
+		if (userItem.getApprovedBy() != admin) {
+			throw new IllegalArgumentException("Niste odobrili ovaj proizvod.");
+		}
+		userItem.setApprovedBy(null);
+		userItem.setApproved(false);
+		userItem.setStatus(AuctionStatus.ODBIJENA);
+		userItemRepository.save(userItem);
+		return userItem;
 	}
 	
 
