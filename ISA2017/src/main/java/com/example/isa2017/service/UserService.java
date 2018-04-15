@@ -25,6 +25,10 @@ public interface UserService {
 	User findByEmail(String email);
 	
 	User findById(Long id);
+
+	User convertFromDTO(UserDTO user);
+
+	UserDTO convertToDTO(User user);
 	
 	
 	
