@@ -185,7 +185,7 @@ public class FanZoneController {
 	}
 	@RequestMapping(
 			value = "/disapprove/{itemId}/{adminId}",
-			method = RequestMethod.GET,
+			method = RequestMethod.POST,
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<UserItemDTO> disapproveUserItem(@PathVariable Long itemId,@PathVariable Long adminId) {
 		logger.info("> getUserItem");
@@ -217,6 +217,14 @@ public class FanZoneController {
 
 		logger.info("< getApprovedItems");
 		return new ResponseEntity<List<UserItemDTO>>(userItemService.convertToDTOs(userItems),
+				HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/deleteUserItem/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<UserItemDTO> deleteUserItem(@PathVariable Long id) {
+	
+		UserItem deleted = userItemService.delete(id);
+		return new ResponseEntity<UserItemDTO>(userItemService.convertToDTO(deleted),
 				HttpStatus.OK);
 	}
 	

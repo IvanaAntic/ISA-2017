@@ -18,7 +18,6 @@
 
     <!-- Bootstrap core JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
-	<script src="scripts/adminFanZone.js"></script>
     <script src="scripts/tether.min.js"></script>
     <script src="scripts/jquery-3.2.1.min.js"></script>
     <script src="scripts/bootstrap.bundle.min.js"></script>
@@ -27,19 +26,19 @@
     <script src="scripts/jquery-3.3.1.min.js"></script>
     <script src="scripts/bootstrap-3.3.7.min.js"></script>
     <!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 
-<!-- Optional theme -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css" />
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.5/validator.min.js"></script>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
-
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css" />
+	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.5/validator.min.js"></script>
+	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
+	<script type="text/javascript" src="scripts/adminFanZone.js"></script>
 
   </head>
 
@@ -96,9 +95,10 @@
         <div class="col-lg-7">
 
           <ul class="nav nav-tabs">
-            <li class="active"><a data-toggle="tab" href="#adminItemsAll">Tematski proizvodi</a></li>
+            <li class="active"><a data-toggle="tab" href="#adminItemsAll">Tematski rekvizit</a></li>
             <li><a data-toggle="tab" href="#userItemsNotApproved">Oglasi na cekanju</a></li>
             <li><a data-toggle="tab" href="#userItemsApproved">Odobreni oglasi</a></li>
+            <li><a data-toggle="tab" href="#editAdminData">Profil</a></li>
             <li>
               <!-- <div class="input-group">
                 <input type="text" class="form-control" placeholder="Search for...">
@@ -112,85 +112,61 @@
           <div class="tab-content">
             <div id="adminItemsAll" class="tab-pane fade in active">              
 		
+		
             </div>
-
             <!-- Tab sa neodobrenim oglasima korisnika -->
             <div id="userItemsNotApproved" class="tab-pane fade">
-              <!-- Oglas korisnika:  -->
-              <div id="IDPROIZVODA2" class="card mt-4">
-                <img class="card-img-top img-fluid" src="http://placehold.it/150x100" alt="">
-                <div class="card-body">
-                  <h3 class="card-title" id="userItemName">Naziv proizvoda</h3>
-                  <p class="card-text" id="userItemDescription">Ovde ide opis proizvoda. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente dicta fugit fugiat hic aliquam itaque facere, soluta. Totam id dolores, sint aperiam sequi pariatur praesentium animi perspiciatis molestias iure, ducimus!</p>
-                  <table class="table">
-				    <tbody>
-				      <tr>
-				        <td>Prodavac:</td>
-				        <td id="postedBy"></td>
-				      </tr>
-				      <tr>
-				        <td>Cena:</td>
-				        <td id="price">2000</td>
-				      </tr>
-				      <tr>
-				        <td>Aktuelna ponuda:</td>
-				        <td id="currentBid">2000</td>
-				      </tr>
-				      <tr>
-				        <td >Zavrsetak licitacije:</td>
-				        <td id="endTime">neko vreme</td>
-				      </tr>
-				      <tr>
-				        <td >Status:</td>
-				        <td id="status">neki status</td>
-				      </tr>
-				    </tbody>
-				  </table>
-                  
-                  <div style="float : right">
-                    <a href="#" class="btn btn-success" >Odobri</a>
-                   <!--  <a href="#" class="btn btn-warning" >Zabrani</a>--> 
-                    <a href="#" class="btn btn-danger" >Ukloni</a>
-                  </div>
-                </div>
-              </div>
+              
+              
             </div>
             
             <!-- Tab sa odobrenim oglasima korisnika -->
             <div id="userItemsApproved" class="tab-pane fade">
-              <!-- Oglas korisnika:  -->
-              <div id="IDPROIZVODA2" class="card mt-4">
-                <img class="card-img-top img-fluid" src="http://placehold.it/150x100" alt="">
-                <div class="card-body">
-                  <h3 class="card-title" id="userItemName">Naziv proizvoda</h3>
-                  <p class="card-text" id="userItemDescription">Ovde ide opis proizvoda. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente dicta fugit fugiat hic aliquam itaque facere, soluta. Totam id dolores, sint aperiam sequi pariatur praesentium animi perspiciatis molestias iure, ducimus!</p>
-                  <table class="table">
-				    <tbody>
-				      <tr>
-				        <td>Aktuelna ponuda:</td>
-				        <td id="currentBid">2000</td>
-				      </tr>
-				      <tr>
-				        <td >Zavrsetak licitacije:</td>
-				        <td id="endTime">neko vreme</td>
-				      </tr>
-				      <tr>
-				        <td >Status:</td>
-				        <td id="status">neki status</td>
-				      </tr>
-				    </tbody>
-				  </table>
-                  
-                  <div style="float : right">
-                    <!--  <a href="#" class="btn btn-success" >Odobri</a>-->
-                    <a href="#" class="btn btn-warning" >Zabrani</a> 
-                    <a href="#" class="btn btn-danger" >Ukloni</a>
-                  </div>
-                </div>
-              </div>
+              
+        
             </div> 
             
-            
+            <!-- Tab sa podacima administratora -->
+            <div id="editAdminData" class="tab-pane fade">
+            <form id="editAdminForm" data-toggle="validator" role="form" data-disable="true">
+		      	<div class="modal-body">
+					<input type="hidden" name="editAdminId" id="editAdminId" />
+
+					<div class="form-group ">
+						<label for="adminNameInput" class="control-label">Ime:</label> <input type="text" class="form-control" name="adminNameInput"
+						id="adminNameInput" data-error="Unesite ime" required/>
+						<div class="help-block with-errors"></div>
+					</div>
+					<div class="form-group ">
+						<label for="adminSurnameInput" class="control-label">Prezime:</label> <input type="text" class="form-control" name="adminSurnameInput"
+						id="adminSurnameInput" data-error="Unesite prezime" required/>
+						<div class="help-block with-errors"></div>
+					</div>
+					<div class="form-group ">
+						<label for="adminCityInput" class="control-label">Grad:</label> <input type="text" class="form-control" name="adminCityInput"
+						id="adminCityInput" data-error="Unesite grad" required/>
+						<div class="help-block with-errors"></div>
+					</div>
+					<div class="form-group">
+						<label for="adminPhoneInput" >Broj telefona:</label> <input type="text" class="form-control" name="adminPhoneInput"
+						id="adminPhoneInput" data-error="Unesite broj telefona" pattern="^[_0-9]{1,}$" required/>
+						<div class="help-block with-errors"></div>
+					</div>
+					<div class="form-group ">
+						<label for="adminEmailInput" class="control-label">Email:</label> <input type="email" class="form-control" name="adminEmailInput"
+						id="adminEmailInput" data-error="Unesite email" readonly required/>
+						<div class="help-block with-errors"></div>
+					</div>      	 		
+					<div class="form-group">
+						<button href="#editPassModal" data-toggle="modal" data-target="#editPassModal" type="button" class="btn btn-secondary" data-dismiss="modal">Promeni lozinku</button>
+					</div>
+		      	</div>
+		      	<div class="modal-footer">
+		        	<button type="button" class="btn btn-primary" id="editAdminBtn" onclick="">Potvrda</button>
+		        	
+		      	</div>
+		      </form>
+		      </div>
           </div>
 
           <!-- /.card -->
@@ -212,7 +188,7 @@
 		      </div>
 		      <form id="inputForm" data-toggle="validator" role="form" data-disable="true">
 		      	<div class="modal-body">
-					<input type="hidden" name="id" id="id" />
+					<input type="hidden" name="itemId" id="itemId" />
 
 					<div class="form-group ">
 						<label for="nameInput" class="control-label">Naziv:</label> <input type="text" class="form-control" name="nameInput"
@@ -254,6 +230,47 @@
 		      	<div class="modal-footer">
 		        	<button type="button" class="btn btn-secondary" data-dismiss="modal">Zatvori</button>
 		        	<button type="button" class="btn btn-primary" id="addNewItem" onclick="addNewAdminItem()">Potvrda</button>
+		      	</div>
+		      </form>
+		    </div>
+		  </div>
+		</div>
+		
+		<!-- Modalni za promenu loznike -->
+		<div class="modal fade" id="editPassModal" tabindex="-1" role="dialog">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h4 class="modal-title" id="exampleModalLabel">Promena lozinke</h4>
+		      </div>
+		      <form id="editPassForm" data-toggle="validator" role="form" data-disable="true">
+		      	<div class="modal-body">
+					<input type="hidden" name="passAdminId" id="passAdminId" />
+
+					<div class="form-group ">
+						<label for="oldPassInput" class="control-label">Stara lozinka:</label> <input type="password" class="form-control"  name="oldPassInput"
+						id="oldPassInput" data-error="Unesite staru lozinku" required/>
+						<div class="help-block with-errors"></div>
+					</div>
+					<br>
+					<br>
+					<div class="form-group ">
+						<label for="newPassInput" class="control-label">Nova loznika:</label> <input type="password" class="form-control" name="newPassInput"
+						id="newPassInput" data-error="Unesite novu lozinku" required/>
+						<div class="help-block with-errors"></div>
+				<!-- 	</div>
+					<div class="form-group "> -->
+						<label for="confNewPassInput" class="control-label">Potvrdite novu lozinku:</label> <input type="password" class="form-control" name="confNewPassInput"
+						id="confNewPassInput" data-error="Unesite novu lozinku" required/>
+						<div class="help-block with-errors"></div>
+					</div>			
+				 	
+
+
+		      	</div>
+		      	<div class="modal-footer">
+		        	<button type="button" class="btn btn-secondary" data-dismiss="modal">Zatvori</button>
+		        	<button type="button" class="btn btn-primary" id="editPassBtn" onclick="">Potvrda</button>
 		      	</div>
 		      </form>
 		    </div>

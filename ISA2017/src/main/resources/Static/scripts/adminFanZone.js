@@ -1,23 +1,60 @@
-var urlBase = "http://localhost:8080/"
-	
+var urlBase = "http://localhost:8080/";
+
 function isFanZoneAdmin(){
+	loggedUserId = null;
+	$.ajax({
+		method : 'GET',
+		url : urlBase + "user/displayUser",
+		success : function(data){
+			if (data.role!= "FANZONEADMIN") {
+				alert("Nemate prava pristupa!");
+				window.location.href='index.html';
+			}else{
+				$("#editAdminForm [name='editAdminId']").val(data.id);
+				$("#editAdminForm [name='adminNameInput']").val(data.name);
+				$("#editAdminForm [name='adminSurnameInput']").val(data.surname);
+				$("#editAdminForm [name='adminCityInput']").val(data.city);
+				$("#editAdminForm [name='adminPhoneInput']").val(data.phoneNumber);
+				$("#editAdminForm [name='adminEmailInput']").val(data.email);
+				loggedUserId = data.id;
+				
+			}
+				
+		},
+		error : function(xhr, status, error) {
+			  var err = eval("(" + xhr.responseText + ")");
+			  alert(err.error + " Status: "+err.status+"\nMorate biti ulogovani!");
+			  window.location.href='index.html';
+			}
+	});
+	return loggedUserId;
+}
+/*function isFanZoneAdmin(){
 	loggedUserId = sessionStorage.loggedId;
 	$.ajax({
 		method : 'GET',
-		url : urlBase + "user/role/"+loggedUserId,
+		url : urlBase + "user/info/"+loggedUserId,
 		success : function(data){
-			if (data != "FANZONEADMIN") {
+			if (data.role!= "FANZONEADMIN") {
 				alert("Nemate prava pristupa!");
 				window.location.href='index.html';
+			}else{
+				$("#editAdminForm [name='id']").val(data.id);
+				$("#editAdminForm [name='adminNameInput']").val(data.name);
+				$("#editAdminForm [name='adminSurnameInput']").val(data.surname);
+				$("#editAdminForm [name='adminCityInput']").val(data.city);
+				$("#editAdminForm [name='adminPhoneInput']").val(data.phoneNumber);
+				$("#editAdminForm [name='adminEmailInput']").val(data.email);
 			}
+				
 		},
 		error : function(error){
 			window.location.href='index.html';
-			alert(error);
+			alert(error.message);
 			
 		}
 	});
-}
+}*/
 function getPlaces(){
 	$("#cinemaOption").children().remove();
 	$("#theatreOption").children().remove();
@@ -97,6 +134,62 @@ function getUserItems(){
 		}
 	});
 }
+function approveUserItem(event){
+	loggedUser = sessionStorage.loggedId;
+	$.ajax({
+		method : 'POST',
+		url : urlBase + "FanZone/approve/"+event.id+"/"+loggedUserId,
+		success : function(data){
+			$("#userItemsNotApproved").find("#"+data.id+"").remove();
+			appendUserItem(data);
+			console.log(data)
+		},
+		error : function(error){
+			
+			
+		}
+	});
+}
+function disapproveUserItem(event){
+	loggedUserId = sessionStorage.loggedId;
+	$.ajax({
+		method : 'POST',
+		url : urlBase + "FanZone/disapprove/"+event.id+"/"+loggedUserId,
+		success : function(data){
+			$("#userItemsApproved").find("#"+data.id+"").remove();
+			appendUserItem(data);
+			console.log(data)
+		},
+		error : function(error){
+			
+			
+		}
+	});
+}
+function removeUserItem(event){
+	console.log(event.id);
+	var confirmed = confirm("Da li ste sigurni da zelite da obrišete?");
+	if(confirmed){
+		$.ajax({
+			method : 'DELETE',
+			url : urlBase + "FanZone/deleteUserItem/"+event.id,
+			
+			success : function(data){
+				console.log("Obrisan "+data);
+				alert("Obrisali ste " + data.name);
+				if (data.approved) {
+					$("#userItemsApproved").find("#"+data.id+"").remove();
+				} else {
+					$("#userItemsNotApproved").find("#"+data.id+"").remove();
+				}
+			},
+			error: function(error){
+				alert("Greska");
+			}
+		});
+		
+	}
+}
 function removeAdminItem(event){
 	console.log(event.id);
 	var confirmed = confirm("Da li ste sigurni da zelite da obrišete?");
@@ -109,7 +202,7 @@ function removeAdminItem(event){
 				console.log("Obrisan "+data);
 				alert("Obrisali ste " + data.name);
 				$("#adminItemsAll").find("#"+data.id+"").remove();
-				$('#inputModal').modal('toggle');
+				
 			},
 			error: function(error){
 				alert("Greska");
@@ -124,7 +217,7 @@ function sendEditAdminItem(){
 	var theatrePlace = $(document).find(".theatreOption option:selected").val();
 	var cinemaPlace = $(document).find(".cinemaOption option:selected").val();
 	formData = JSON.stringify({
-        id:$(document).find("#inputForm [name='id']").val(),
+        id:$(document).find("#inputForm [name='itemId']").val(),
 		name:$(document).find("#inputForm [name='nameInput']").val(),
         description:$("#inputForm [name='descriptionInput']").val(),
         price:$("#inputForm [name='priceInput']").val(),
@@ -175,7 +268,7 @@ function editAdminItemClicked(event){
 		url : urlBase + "FanZone/adminItem/"+event.id,
 		success : function(data){
 			console.log(data);
-			$("#inputForm [name='id']").val(data.id);
+			$("#inputForm [name='itemId']").val(data.id);
 			$("#inputForm [name='nameInput']").val(data.name);
 			$("#inputForm [name='descriptionInput']").val(data.description);
 			$("#inputForm [name='priceInput']").val(data.price);
@@ -270,19 +363,20 @@ function appendUserItem(data){
 					+	      "</tr>"
 					+	    "</tbody>"
 					+	  "</table>"     
-					+    "<div id=\"userItemButtons\" style=\"float : right\">"
-					+        "<a id=\""+data.id+"\" class=\"btn btn-warning\" >Zabrani</a>"
-					+        "<a id=\""+data.id+"\" class=\"btn btn-success\" >Odobri</a>"
-					+        "<a id=\""+data.id+"\" class=\"btn btn-danger\" >Ukloni</a>"
+					+      "<div id=\"userItemButtons"+data.id+"\" style=\"float : right\">"   
+					+        "<a id=\""+data.id+"\" class=\"btn btn-danger\" onclick=\"removeUserItem(this)\">Ukloni</a>"
 					+      "</div>"
 					+    "</div>"
 					+  "</div>";
 		if (data.approved && (data.approvedById == sessionStorage.loggedId)) {
 			
 			$("#userItemsApproved").append(newUserItem);
+			$("#userItemButtons"+data.id).append("<a id=\""+data.id+"\" class=\"btn btn-warning\" onclick=\"disapproveUserItem(this)\" >Zabrani</a>");
+			
 		} else {
 			
 			$("#userItemsNotApproved").append(newUserItem);
+			$("#userItemButtons"+data.id).append("<a id=\""+data.id+"\" class=\"btn btn-success\" onclick=\"approveUserItem(this)\" >Odobri</a>");
 		}		
 		
 }

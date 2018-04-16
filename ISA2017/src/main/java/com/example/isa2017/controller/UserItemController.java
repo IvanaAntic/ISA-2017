@@ -53,10 +53,9 @@ private Logger logger = LoggerFactory.getLogger(this.getClass());
 		logger.info("> getUserItems");
 		
 		List<UserItem> userItems = userItemService.findAll();
-		System.out.println("Samo get date iz baze " + userItems.get(0).getEndDate());
 		List<UserItemDTO> userItemsDTO = userItemService.convertToDTOs(userItems);
-		System.out.println("Samo get date konvertovanog u DTO " + userItemsDTO.get(0).getEndDate());
 		logger.info("< getUserItems");
+		
 		return new ResponseEntity<List<UserItemDTO>>(userItemsDTO,
 				HttpStatus.OK);
 	}
@@ -68,14 +67,10 @@ private Logger logger = LoggerFactory.getLogger(this.getClass());
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<UserItemDTO> addUserItem(@RequestBody UserItemDTO userItemDTO){
 		logger.info("> addUserItem");
-		System.out.println("Samo get date DTOa " + userItemDTO.getEndDate());
-		System.out.println("Konvertovan iz DTO "+ userItemService.convertFromDTO(userItemDTO).getEndDate());
+		
 		UserItem newItem = userItemService.addNewItem(userItemService.convertFromDTO(userItemDTO));
-		System.out.println("Samo get date vracenog " + newItem.getEndDate());
-		System.out.println("Samo get date to String vracenog " + newItem.getEndDate().toString());
-		System.out.println("To locale date vracenog " + newItem.getEndDate().toLocaleString());
 		UserItemDTO konvertovan = userItemService.convertToDTO(newItem);
-		System.out.println("Konvertovan u DTO " + konvertovan.getEndDate() );
+		
 		logger.info("< addUserItem");
 		return new ResponseEntity<UserItemDTO>(userItemService.convertToDTO(newItem), HttpStatus.CREATED);
 	}

@@ -101,15 +101,20 @@ public class TestData {
 		Date datum;
 		try {
 			datum = dateFormat.parse("20/4/2018 20:00");
-			//UserItem userItem = new UserItem("Viking slem", "Vikinski slem iz predstave...", 2000, 2000, datum , null, pera, new User(), new User(), AuctionStatus.CEKA_ODOBRENJE, false);
 			UserItem userItem = new UserItem();
+			UserItem userItem2 = new UserItem();
 			userItem.setName("Viking slem");
-			userItem.setDescription("Vikinski slem i neke predstave...");
+			userItem.setDescription("Vikinski slem iz neke predstave...");
 			userItem.setStartPrice(1000);
 			userItem.setEndDate(datum);
 			userItem.setPostedBy(pera);
-			userItem.setStatus(AuctionStatus.Ceka_odobrenje);
 			userItemService.addNewItem(userItem);
+			userItem2.setName("Viking slem22");
+			userItem2.setDescription("Sablja iz neke predstave...");
+			userItem2.setStartPrice(1000);
+			userItem2.setEndDate(datum);
+			userItem2.setPostedBy(pera);
+			userItemService.addNewItem(userItem2);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
