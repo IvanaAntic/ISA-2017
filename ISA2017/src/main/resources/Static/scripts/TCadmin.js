@@ -40,7 +40,10 @@ $(document).ready(function(){
 											"<p><label>Opis: </label>" + data[i].movies[j].description + "</p>" +
 											"<p><label>Vreme projekcije: </label>" + data[i].movies[j].projectionTimes + "</p>" +
 											"<p><label>Cena: </label>" + data[i].movies[j].price + "</p>" +
+											"<p><label>Slika: </label><img src='data:image/png;base64, "+data[i].movies[j].image+"' id='ItemPreview' width='50' height='50' ></p>" +
 										"</div>";
+								
+								
 								
 								moviesList = moviesList + movie;
 							}
