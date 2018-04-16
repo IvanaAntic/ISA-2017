@@ -14,6 +14,8 @@ public interface UserItemService {
 	UserItem delete(Long id);
 	List<UserItem> findAll();
 	UserItem addNewItem(UserItem userItem);
+	UserItem approve(Long itemId, Long adminId);
+	UserItem disapprove(Long itemId, Long adminId);
 	List<UserItem> getNotApproved();
 	List<UserItem> getApproved();
 	List<UserItem> getApprovedBy(Long id);

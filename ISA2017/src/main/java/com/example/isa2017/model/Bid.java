@@ -20,9 +20,9 @@ public class Bid {
 	private Long id;
 	private Date date;
 	private Time time;
-	@ManyToOne()
+	@ManyToOne
 	private User buyer;
-	@ManyToOne()
+	@ManyToOne
 	private UserItem item;
 	private int price;
 	

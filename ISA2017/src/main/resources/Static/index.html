@@ -11,6 +11,8 @@
 
 <!-- Latest compiled JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.5/validator.min.js"></script>
+
 
 <script type="text/javascript" src="scripts/indexButtonActions.js"></script>
 <link rel="stylesheet" href="css/pocetna.css">
@@ -70,8 +72,8 @@
 				datatype: 'json',
 				success: function(data) {
 					
-						//sessionStorage.setItem('loggedId',data.email);
-						//window.location.href='userHomePage.html';
+						sessionStorage.setItem('loggedId',data.id);
+						window.location.href='userHomePage.html';
 						 $('#inputModal').modal('toggle');
 				  },
 				error : function(error) {
@@ -129,15 +131,20 @@
 		          <span aria-hidden="true">&times;</span>
 		        </button>
 		      </div>
-		      <form id="inputFormLogin" role="form">
+		      <form id="inputFormLogin" data-toggle="validator" role="form" data-disable="true">
 		      <div class="modal-body">
 					<input type="hidden" name="id" id="id" />
-				<p>
-					<label for="email">Email:</label> <input type="email" class="form-control" name="email" id="email" placeholder="Enter email" >
-				</p>
-				<p>
-					<label for="password">Password:</label> <input type="password" class="form-control" name="password" id="password" placeholder="Password">
-				</p>		
+					
+				<div class="form-group ">
+					<label for="email"  class="control-label">Email:</label> <input type="email" class="form-control" name="email" id="email" placeholder="Enter email" data-error="Unesite email" required/>
+					<div class="help-block with-errors"></div>
+				</div>
+				
+				<div class="form-group ">
+					<label for="password"  class="control-label">Password:</label> <input type="password" class="form-control" name="password" id="password" placeholder="Password" data-error="Unesite sifru" required/>
+					<div class="help-block with-errors"></div>
+				</div>	
+				
 		      </div>
 		      <div class="row">
        			 <div class="col-xs-6 col-sm-6 col-md-6">
@@ -170,37 +177,47 @@
 		      <div class="modal-header">
 		        <h5 class="modal-title" id="exampleModalLabelReg">Registration</h5>
 		       </div>
-		       <form id="inputForm" role="form">
+		       <form id="inputForm" data-toggle="validator" role="form" data-disable="true">
 		       <div class="modal-body">
 		       	<input type="hidden" id="idr" name="idr">
-		       	<p>
+		       	
+		       <div class="form-group ">
 		       		<label for="inputEmail1">Email address</label>
-    				<input type="email" name="emailRegistration" class="form-control" id="emailRegistration" aria-describedby="emailHelp" placeholder="Enter email">
-		       	</p>
-		       	<p>
+    				<input type="email" name="emailRegistration" class="form-control" id="emailRegistration" aria-describedby="emailHelp" placeholder="Enter email" data-error="Unesite email" required/>
+		       		<div class="help-block with-errors"></div>
+		       </div>
+		       <div class="form-group ">
 		       		<label for="passregistration">Password</label>
-		       		<input type="password"  name="passwordRegistration" class="form-control" id="passwordR" aria-describedby="passHelp" placeholder="Password">
-		       	</p>
-		       	<p>
+		       		<input type="password"  name="passwordRegistration" class="form-control" id="passwordR" aria-describedby="passHelp" placeholder="Password" data-error="Unesite sifru" required/>
+		       		<div class="help-block with-errors"></div>
+		       	</div>
+		       <div class="form-group ">
 		       		<label for="confirmpass">Confirm password</label>
-		       		<input type="password" name="confirmPasswordRegistration"class="form-control" id="confirmPasswordRegistration" aria-describedby="passHelp" placeholder="Confirm password">
-		       	</p>
-		       	<p>
+		       		<input type="password" name="confirmPasswordRegistration"class="form-control" id="confirmPasswordRegistration" aria-describedby="passHelp" placeholder="Confirm password" data-error="Ponovite sifru" required/>
+		       		<div class="help-block with-errors"></div>
+		       	</div>
+		       	<div class="form-group ">
 		       		<label for="ime">Name</label>
-		       		<input type="text" name="nameRegistration" class="form-control" id="nameRegistration" aria-describedby="nameHelp" placeholder="Name">
-		       	</p>
-		       	<p>
+		       		<input type="text" name="nameRegistration" class="form-control" id="nameRegistration" aria-describedby="nameHelp" placeholder="Name" data-error="Unesite ime" required/>
+		       		<div class="help-block with-errors"></div>
+		       	</div>
+		       	<div class="form-group ">
 		       		<label for="surname">Surname</label>
-		       		<input type="text" name="surnameRegistration" class="form-control" id="surnameRegistration" aria-describedby="nameHelp" placeholder="Surname">
-		       	</p>
-		       	<p>
+		       		<input type="text" name="surnameRegistration" class="form-control" id="surnameRegistration" aria-describedby="nameHelp" placeholder="Surname" data-error="Unesite prezime" required/>
+		       		<div class="help-block with-errors"></div>
+		       	</div>
+		       	
+		       	<div class="form-group ">
 		       		<label for="grad">Town</label>
-		       		<input type="text" name="cityRegistration" class="form-control" id="cityRegistration" aria-describedby="townHelp" placeholder="Town">
-		       	</p>
-		  		<p>
+		       		<input type="text" name="cityRegistration" class="form-control" id="cityRegistration" aria-describedby="townHelp" placeholder="Town" data-error="Unesite naziv grada" required/>
+		       		<div class="help-block with-errors"></div>
+		       	</div>
+		       	
+		  		<div class="form-group ">
 		       		<label for="grad">Phone number</label>
-		       		<input type="text" name="phoneNumberRegistration" class="form-control" id="phoneNumberRegistration" aria-describedby="numberHelp" placeholder="Phone number">
-		       	</p>
+		       		<input type="text" name="phoneNumberRegistration" class="form-control" id="phoneNumberRegistration" aria-describedby="numberHelp" placeholder="Phone number" data-error="Unesite broj telefona" required/>
+		       		<div class="help-block with-errors"></div>
+		       	</div>
 		       </div>
 		       <div class="modal-footer">
 		        	<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

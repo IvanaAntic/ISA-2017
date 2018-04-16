@@ -2,7 +2,11 @@ package com.example.isa2017;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -10,17 +14,23 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.example.isa2017.model.Bid;
 import com.example.isa2017.model.Cinema;
 import com.example.isa2017.model.Movie;
 import com.example.isa2017.model.Play;
 import com.example.isa2017.model.Role;
 import com.example.isa2017.model.Theatre;
 import com.example.isa2017.model.User;
+import com.example.isa2017.model.UserItem;
+import com.example.isa2017.modelDTO.AuctionStatus;
 import com.example.isa2017.repository.UserRepository;
 import com.example.isa2017.service.CinemaService;
 import com.example.isa2017.service.MovieService;
 import com.example.isa2017.service.PlayService;
 import com.example.isa2017.service.TheatreService;
+import com.example.isa2017.service.UserItemService;
+
+
 
 @Component
 public class TestData {
@@ -39,7 +49,8 @@ public class TestData {
 	
 	@Autowired
 	private UserRepository userRepository;
-	
+	@Autowired
+	private UserItemService userItemService;
 	@PostConstruct
 	private void init(){
 		
@@ -78,8 +89,32 @@ public class TestData {
 		
 		Theatre theatre5 = new Theatre("Narodno pozorište „Toša Jovanović“", "Zrenjanin, Trg slobode 7", "Najstarija pozorišna zgrada u današnjoj Srbiji.", 4, generatedPlays.get(4));
 		theatreService.save(theatre5);
+		User pera = new User("pera@pera", "pera", "Petar", "Petrovic", "064123123", "Petrovac", Role.USER, true);
+		
 		User gema = new User("gema@gema", "gema", "Sasa", "Gemovic", "064123123", "Uzvece", Role.FANZONEADMIN, true);
 		userRepository.save(gema);
+		userRepository.save(pera);
+		User adminFZ = new User("adminFZ@adminFZ", "admin", "AdminFZ", "AdminFZ", "064123123", "Uzvece", Role.FANZONEADMIN, true);
+		userRepository.save(gema);
+		userRepository.save(adminFZ);
+		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		Date datum;
+		try {
+			datum = dateFormat.parse("20/4/2018 20:00");
+			//UserItem userItem = new UserItem("Viking slem", "Vikinski slem iz predstave...", 2000, 2000, datum , null, pera, new User(), new User(), AuctionStatus.CEKA_ODOBRENJE, false);
+			UserItem userItem = new UserItem();
+			userItem.setName("Viking slem");
+			userItem.setDescription("Vikinski slem i neke predstave...");
+			userItem.setStartPrice(1000);
+			userItem.setEndDate(datum);
+			userItem.setPostedBy(pera);
+			userItem.setStatus(AuctionStatus.Ceka_odobrenje);
+			userItemService.addNewItem(userItem);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	
 	public List<List<Movie>> generateMovies(){

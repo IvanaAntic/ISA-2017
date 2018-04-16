@@ -11,6 +11,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import com.example.isa2017.modelDTO.AuctionStatus;
 
@@ -24,6 +26,7 @@ public class UserItem {
 	private String description;
 	private int startPrice;
 	private int currentPrice;
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date endDate;
 	@OneToMany(mappedBy = "item",cascade = CascadeType.ALL)
 	private List<Bid> bids;
@@ -38,11 +41,10 @@ public class UserItem {
 	public UserItem() {
 		super();
 	}
-	public UserItem(Long id, String name, String description, int startPrice, int currentPrice, Date endDate,
+	public UserItem( String name, String description, int startPrice, int currentPrice, Date endDate,
 			List<Bid> bids, User postedBy, User approvedBy, User buyer, AuctionStatus status,
 			boolean approved) {
-		super();
-		this.id = id;
+
 		this.name = name;
 		this.description = description;
 		this.startPrice = startPrice;

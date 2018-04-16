@@ -1,0 +1,162 @@
+<html>
+<head>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="css/userHomePage.css">
+<script type="text/javascript" src="scripts/homePage.js"></script>
+</head>
+<body>
+
+ <p><a href="#">Odjavi se</a></p>
+<div class="container">
+ 
+<!-------->
+<div id="content">
+    <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
+        <li class="active"><a href="#home" data-toggle="tab">Home</a></li>
+        <li><a href="#pozorista" data-toggle="tab">Pozorista</a></li>
+        <li><a href="#bioskopi" data-toggle="tab">Bioskopi</a></li>
+        <li><a href="#prijatelji" data-toggle="tab">Prijatelji</a></li>
+        <li><a href="#rezervacije" data-toggle="tab">Rezervacije</a></li>
+        <li><a href="#podesavanja" data-toggle="tab">Podesavanja</a></li>
+        
+    </ul>
+    <div id="my-tab-content" class="tab-content">
+    
+    	 <!-- HOME TAB -->
+        <div class="tab-pane active" id="home">
+            <div class="userData">
+            	<img src="images/slika.gif" alt="Userphoto" class="left" />
+            	<blockquote>
+            	 <p class="name" style="overflow: hidden;"> </p>
+            	 <p class="surname" style="overflow: hidden;" ></p>
+                 <i class="glyphicon glyphicon-envelope"></i><p class="email" style="overflow: hidden;display:inline;"></p><br>
+                 <i class="glyphicon glyphicon-phone-alt"></i><p class="phoneNumber" style="overflow: hidden;display:inline;"></p><br>
+                 <i class="glyphicon glyphicon-map-marker"></i><p class="city" style="overflow: hidden;display:inline;"></p><br>
+              </blockquote>
+            </div>     
+         
+            
+           
+            
+            
+            <div class="search">
+             <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search for...">
+                <span class="input-group-btn">
+                  <button class="btn btn-default" type="button">Go!</button>
+                </span>
+            </div><!-- /input-group -->
+            <p>Isporija poseta</p>
+            </div>
+            
+            
+            
+        </div>
+       
+       
+       
+       
+       <!-- POZORISTA TAB -->
+        <div class="tab-pane" id="pozorista">
+            <h1>Orange</h1>
+            <p>orange orange orange orange orange</p>
+        </div>
+        
+        
+        
+        <div class="tab-pane" id="bioskopi">
+            <h1>Yellow</h1>
+            <p>yellow yellow yellow yellow yellow</p>
+        </div>
+        
+        <div class="tab-pane" id="prijatelji">
+            <h1>Green</h1>
+            <p>green green green green green</p>
+        </div>
+        <div class="tab-pane" id="rezervacije">
+            <h1>Blue</h1>
+            <p>blue blue blue blue blue</p>
+        </div>
+        
+        
+        
+        <!-- PODESAVANJA TAB -->
+         <div class="tab-pane" id="podesavanja">
+            <h1>Podesavanja</h1>
+            <form class="izmena" role="form">
+            <p>
+            	<label for="name">Ime:</label>
+            	<input type="text" name="name" id="name"></input><br>
+            </p>
+            <p>
+            	<label for="surname">Prezime:</label>
+            	<input type="text"></input><br>
+            </p>
+            <p>
+            	<label for="password">Sifra:</label>
+            	<input type="text"></input><br>
+            </p>
+            <p>
+            	<label for="town">Grad:</label>
+            	<input type="text"></input><br>
+            </p>
+            <p>
+            	<label for="phoneNumber">Broj telefona:</label>
+            	<input type="text"></input><br>
+            </p>
+           
+            <p class="dugme">
+            	<input id="izmeni" type="submit" class="btn btn-primary" value="Izmeni" data-toggle="modal" data-target="#modalIzmeni"></input>
+            </p>
+            
+            </form>
+        </div>
+    </div>
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="modalIzmeni">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Da li ste sigurni da zelite da promenite podatke</h4>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" id="izmeniDa">DA</button>
+        <button type="button" class="btn btn-primary" id="izmeniNe" data-dismiss="modal">NE</button>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</body>
+</html>

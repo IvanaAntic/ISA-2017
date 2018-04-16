@@ -60,8 +60,16 @@ public class UserServiceImpl implements UserService{
 			
 			user1.setEmail(user.getEmail());
 			user1.setPassword(user.getPassword());
+			
         	System.out.println("Mapira");
-
+        	
+        	//Ovo sam uradio da bi mi vratio id usera na front
+        	user1.setId(findByEmail(user.getEmail()).getId());
+        	user1.setCity(findByEmail(user.getEmail()).getCity());
+        	user1.setName(findByEmail(user.getEmail()).getName());
+         	user1.setSurname(findByEmail(user.getEmail()).getSurname());
+         	user1.setPhoneNumber(findByEmail(user.getEmail()).getPhoneNumber());
+         	user1.setRole(findByEmail(user.getEmail()).getRole());
 			return user1;
 		
 		}
@@ -70,6 +78,30 @@ public class UserServiceImpl implements UserService{
 		return null;
 		
 		
+	}
+	@Override
+	public User convertFromDTO(UserDTO user){
+		User user1 = new User();
+		user1.setEmail(user.getEmail());
+		user1.setPassword(user.getPassword());
+		user1.setCity(user.getCity());
+		user1.setPhoneNumber(user.getPhoneNumber());
+		user1.setRole(user.getRole());
+		return user1;
+	}
+	@Override
+	public UserDTO convertToDTO(User user){
+		UserDTO user1DTO=new UserDTO();
+		user1DTO.setId(user.getId());
+		user1DTO.setEmail(user.getEmail());
+		user1DTO.setName(user.getName());
+		user1DTO.setPassword(user.getPassword());
+		user1DTO.setSurname(user.getSurname());
+		user1DTO.setCity(user.getCity());
+		user1DTO.setPhoneNumber(user.getPhoneNumber());
+		user1DTO.setRole(user.getRole());
+		
+		return user1DTO;
 	}
 	
 	private boolean emailExist(String email) {

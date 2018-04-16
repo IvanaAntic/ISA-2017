@@ -20,6 +20,9 @@ public interface AdminItemService {
 	List<AdminItemDTO> getNotReserved();
 	AdminItemDTO deleteAdminItem(Long id);
 	AdminItem delete(Long id);
-	
+	List<AdminItem> getMyAdminItems(Long id);
+	List<AdminItem> adminItemsFromDTO(List<AdminItemDTO> adminItemDTO);
+	List<AdminItemDTO> adminItemsToDTO(List<AdminItem> adminItem);
+
 
 }

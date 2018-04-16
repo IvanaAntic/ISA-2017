@@ -26,6 +26,7 @@ import com.example.isa2017.model.Cinema;
 import com.example.isa2017.model.Theatre;
 import com.example.isa2017.model.UserItem;
 import com.example.isa2017.modelDTO.AdminItemDTO;
+import com.example.isa2017.modelDTO.UserItemDTO;
 import com.example.isa2017.service.AdminItemService;
 import com.example.isa2017.service.BidService;
 import com.example.isa2017.service.CinemaService;
@@ -173,6 +174,26 @@ public class FanZoneController {
 		return new ResponseEntity<AdminItem>(newAdminItem, HttpStatus.CREATED);
 	}
 	@RequestMapping(
+			value = "/approve/{itemId}/{adminId}",
+			method = RequestMethod.POST,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<UserItemDTO> approveUserItem(@PathVariable Long itemId,@PathVariable Long adminId) {
+		logger.info("> getUserItem");
+		UserItem userItem = userItemService.approve(itemId, adminId);
+		logger.info("< getUserItem");
+		return new ResponseEntity<UserItemDTO>(userItemService.convertToDTO(userItem), HttpStatus.OK);
+	}
+	@RequestMapping(
+			value = "/disapprove/{itemId}/{adminId}",
+			method = RequestMethod.GET,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<UserItemDTO> disapproveUserItem(@PathVariable Long itemId,@PathVariable Long adminId) {
+		logger.info("> getUserItem");
+		UserItem userItem = userItemService.disapprove(itemId, adminId);
+		logger.info("< getUserItem");
+		return new ResponseEntity<UserItemDTO>(userItemService.convertToDTO(userItem), HttpStatus.OK);
+	}
+	@RequestMapping(
 			value = "/userItems",
 			method = RequestMethod.GET,
 			produces = MediaType.APPLICATION_JSON_VALUE)
@@ -183,6 +204,19 @@ public class FanZoneController {
 
 		logger.info("< getUserItems");
 		return new ResponseEntity<List<UserItem>>(userItems,
+				HttpStatus.OK);
+	}
+	@RequestMapping(
+			value = "/approvedItems/{adminId}",
+			method = RequestMethod.GET,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<UserItemDTO>> getApprovedItems(@PathVariable Long adminId) {
+		logger.info("> getApprovedItems");
+	
+		List<UserItem> userItems = userItemService.getApprovedBy(adminId);
+
+		logger.info("< getApprovedItems");
+		return new ResponseEntity<List<UserItemDTO>>(userItemService.convertToDTOs(userItems),
 				HttpStatus.OK);
 	}
 	
