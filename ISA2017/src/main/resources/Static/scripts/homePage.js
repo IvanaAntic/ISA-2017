@@ -9,9 +9,23 @@ $(document).ready(function(event){
 	});
 	
 	
-	
+	$("#navbar-right").on('click', function (e) {
+	    e.preventDefault();
+	    $.ajax({
+	    	type:'GET',
+	    	contentType: "application/json",
+			datatype: 'json',
+			url:"http://localhost:8080/user/loggoutUser",
+			 success: function(){
+				 sessionStorage.removeItem('logged');
+			 },
+				error:function(error){
+					console.log("e"+error);
+				}
+		});
+	    
+	});
 });
-
 
 function loadUser(){
 	$.ajax({
@@ -33,6 +47,5 @@ function loadUser(){
 		}
 		
 	})
-	
-	
 }
+

@@ -89,7 +89,7 @@ public class UserController {
 	@RequestMapping(value="/displayUser", method=RequestMethod.GET)
 	public ResponseEntity<UserDTO> displayUser(HttpServletRequest request){
 		User logged = (User) request.getSession().getAttribute("logged");
-		System.out.println("u:"+logged.getEmail());
+		System.out.println("user display User:"+logged.getEmail());
 		if(logged!=null) {
 			UserDTO log=userService.convertToDTO(logged);
 			return new ResponseEntity<UserDTO>(log,HttpStatus.OK);
@@ -98,8 +98,15 @@ public class UserController {
 		return new ResponseEntity<UserDTO>(log,HttpStatus.NOT_FOUND);
 		
 	}
-	
-	
+	@RequestMapping(value="/loggoutUser", method=RequestMethod.GET)
+	public ResponseEntity<String> logoutUser(HttpSession session,HttpServletRequest request){
+		request.getSession().invalidate();
+	 
+		
+		 
+		  return new ResponseEntity<String>("User logged out",HttpStatus.OK);
+		
+	}
 	
 	
 	
