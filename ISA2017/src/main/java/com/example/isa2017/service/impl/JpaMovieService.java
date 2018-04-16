@@ -28,5 +28,6 @@ public class JpaMovieService implements MovieService{
 		// TODO Auto-generated method stub
 		return movieRepository.save(movie);
 	}
+
 	
 }

@@ -30,7 +30,7 @@ $(document).ready(function(){
 							
 							for(j = 0; j < data[i].movies.length; j++){
 								
-								movie = "<div class='movieDiv'>" +
+								movie = "<div class='movieDiv' id='movieBox" + data[i].id + "_" + data[i].movies[j].id + "'>" +
 											"<h3 class='cinemaName'>" + data[i].movies[j].name + "</h3>" +
 											"<p><label>Zanr: </label>" + data[i].movies[j].genre + "</p>" +
 											"<p><label>Reditelj: </label>" + data[i].movies[j].director + "</p>" +
@@ -41,6 +41,7 @@ $(document).ready(function(){
 											"<p><label>Vreme projekcije: </label>" + data[i].movies[j].projectionTimes + "</p>" +
 											"<p><label>Cena: </label>" + data[i].movies[j].price + "</p>" +
 											"<p><label>Slika: </label><img src='data:image/png;base64, "+data[i].movies[j].image+"' id='ItemPreview' width='50' height='50' ></p>" +
+											"<p><a class='btn btn-info btn-md deleteMovieInCinema' href='/cinemas/deleteMovieInCinema/" + data[i].id + "/" + data[i].movies[j].id + "'>Obrisi</a></p>" +
 										"</div>";
 								
 								
@@ -93,6 +94,25 @@ $(document).ready(function(){
 		$("#goBackMovies").delay(500).show();
 	});
 	
+	$(document).on("click",".deleteMovieInCinema", function () {
+		
+		event.preventDefault();
+		
+		var url = $(this).attr("href")
+		var movieBoxToDelete = $(this).parent().parent().attr("id")
+		
+		$.ajax({
+			url: url,
+			type: "POST",
+			data: JSON.stringify({}),
+			contentType: "application/json",
+			success: function(){
+				$("#" + movieBoxToDelete).remove();
+			}
+		});
+		
+	});
+	
 	
 	/*
 	 * 		Akcije za Pozorista
@@ -124,7 +144,7 @@ $(document).ready(function(){
 							
 							for(j = 0; j < data[i].plays.length; j++){
 								
-								play = "<div class='movieDiv'>" +
+								play = "<div class='movieDiv' id='playBox" + data[i].id + "_" + data[i].plays[j].id + "'>" +
 											"<h3 class='cinemaName'>" + data[i].plays[j].name + "</h3>" +
 											"<p><label>Zanr: </label>" + data[i].plays[j].genre + "</p>" +
 											"<p><label>Reditelj: </label>" + data[i].plays[j].director + "</p>" +
@@ -134,6 +154,8 @@ $(document).ready(function(){
 											"<p><label>Opis: </label>" + data[i].plays[j].description + "</p>" +
 											"<p><label>Vreme projekcije: </label>" + data[i].plays[j].projectionTimes + "</p>" +
 											"<p><label>Cena: </label>" + data[i].plays[j].price + "</p>" +
+											"<p><label>Slika: </label><img src='data:image/png;base64, "+data[i].plays[j].image+"' id='ItemPreview' width='50' height='50' ></p>" +
+											"<p><a class='btn btn-info btn-md deletePlayInTheatre' href='/theatres/deletePlayInTheatre/" + data[i].id + "/" + data[i].plays[j].id + "'>Obrisi</a></p>" +
 										"</div>";
 								
 								playsList = playsList + play;
@@ -183,6 +205,25 @@ $(document).ready(function(){
 		$(".cinemaDiv").fadeOut();
 		$("#theatre" + $(this).attr("id")).delay(500).fadeIn();
 		$("#goBackPlays").delay(500).show();
+	});
+	
+	$(document).on("click",".deletePlayInTheatre", function () {
+		
+		event.preventDefault();
+		
+		var url = $(this).attr("href")
+		var playBoxToDelete = $(this).parent().parent().attr("id")
+		
+		$.ajax({
+			url: url,
+			type: "POST",
+			data: JSON.stringify({}),
+			contentType: "application/json",
+			success: function(){
+				$("#" + playBoxToDelete).remove();
+			}
+		});
+		
 	});
 	
 });

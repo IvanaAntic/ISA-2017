@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 
 @Entity(name="play")
 public class Play {
@@ -33,9 +34,9 @@ public class Play {
 	@Column(columnDefinition="VARCHAR(10)")
 	private String runtime;
 	
-/*	@Lob
-    @Column(name="MOVIE_IMAGE", nullable=false, columnDefinition="mediumblob")
-    private byte[] image;*/
+	@Lob
+    @Column(name="PLAY_IMAGE", columnDefinition="mediumblob")
+    private byte[] image;
 	
 	@Column
 	private int rating;
@@ -152,6 +153,15 @@ public class Play {
 	public void setId(Long id) {
 		Id = id;
 	}
+
+	public byte[] getImage() {
+		return image;
+	}
+
+	public void setImage(byte[] image) {
+		this.image = image;
+	}
+	
 	
 	
 }

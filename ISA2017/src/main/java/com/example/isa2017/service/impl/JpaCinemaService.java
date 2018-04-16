@@ -29,4 +29,10 @@ public class JpaCinemaService implements CinemaService{
 		return cinemaRepository.save(cinema);
 	}
 
+	@Override
+	public Cinema findOne(Long id) {
+		// TODO Auto-generated method stub
+		return cinemaRepository.findOne(id);
+	}
+
 }

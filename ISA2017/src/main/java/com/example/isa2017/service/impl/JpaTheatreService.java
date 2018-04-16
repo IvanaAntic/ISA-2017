@@ -29,4 +29,10 @@ public class JpaTheatreService implements TheatreService{
 		return theatreRepo.save(theatre);
 	}
 
+	@Override
+	public Theatre findOne(Long id) {
+		// TODO Auto-generated method stub
+		return theatreRepo.findOne(id);
+	}
+
 }

@@ -13,6 +13,14 @@ public interface TheatreService {
 	List<Theatre> findAll();
 	
 	/**
+	 * Returns a theatre with specified ID.
+	 * @param id ID of the theatre
+	 * @return Theatre, if theatre with such ID
+	 * exists, {@code null} if theatre is not found.
+	 */
+	Theatre findOne(Long id);
+	
+	/**
 	 * Persists a theatre. If theatre's id is null,
 	 * a new id will be assigned automatically.
 	 * @param theatre
