@@ -61,6 +61,21 @@ private Logger logger = LoggerFactory.getLogger(this.getClass());
 	}
 	
 	@RequestMapping(
+			value = "/getApproved",
+			method = RequestMethod.GET,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<UserItemDTO>> getApprovedUserItems() {
+		logger.info("> getApprovedUserItems");
+		
+		List<UserItem> userItems = userItemService.getApproved();
+		List<UserItemDTO> userItemsDTO = userItemService.convertToDTOs(userItems);
+		logger.info("< getUserItems");
+		
+		return new ResponseEntity<List<UserItemDTO>>(userItemsDTO,
+				HttpStatus.OK);
+	}
+	
+	@RequestMapping(
 			value = "/addUserItem",
 			method = RequestMethod.POST,
 			consumes = MediaType.APPLICATION_JSON_VALUE,
@@ -83,5 +98,15 @@ private Logger logger = LoggerFactory.getLogger(this.getClass());
 		UserItem userItem = userItemService.findOne(id);
 		logger.info("< getUserItem");
 		return new ResponseEntity<UserItemDTO>(userItemService.convertToDTO(userItem), HttpStatus.OK);
+	}
+	@RequestMapping(
+			value = "/postedBy/{id}",
+			method = RequestMethod.GET,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<UserItemDTO>> getPostedBy(@PathVariable Long id) {
+		logger.info("> getUserItem");
+		List<UserItem> userItem = userItemService.getPostedBy(id);
+		logger.info("< getUserItem");
+		return new ResponseEntity<List<UserItemDTO>>(userItemService.convertToDTOs(userItem), HttpStatus.OK);
 	}
 }

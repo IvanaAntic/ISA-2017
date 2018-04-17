@@ -19,7 +19,6 @@ public class Bid {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	private Date date;
-	private Time time;
 	@ManyToOne
 	private User buyer;
 	@ManyToOne
@@ -31,11 +30,10 @@ public class Bid {
 	}
 
 	
-	public Bid(Long id, Date date, Time time, User buyer, UserItem item, int price) {
+	public Bid(Long id, Date date, User buyer, UserItem item, int price) {
 		super();
 		this.id = id;
 		this.date = date;
-		this.time = time;
 		this.buyer = buyer;
 		this.item = item;
 		this.price = price;
@@ -57,15 +55,6 @@ public class Bid {
 	public void setDate(Date date) {
 		this.date = date;
 	}
-
-	public Time getTime() {
-		return time;
-	}
-
-	public void setTime(Time time) {
-		this.time = time;
-	}
-
 	public User getBuyer() {
 		return buyer;
 	}

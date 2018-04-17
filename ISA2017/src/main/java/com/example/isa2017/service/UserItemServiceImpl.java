@@ -20,6 +20,7 @@ import com.example.isa2017.modelDTO.BidDTO;
 import com.example.isa2017.modelDTO.UserItemDTO;
 import com.example.isa2017.repository.UserItemRepository;
 
+
 @Service
 public class UserItemServiceImpl implements UserItemService {
 
@@ -105,12 +106,16 @@ public class UserItemServiceImpl implements UserItemService {
 	@Override
 	public List<UserItem> getPostedBy(Long id) {
 		List<UserItem> items = findAll();
+		List<UserItem> retVal = new ArrayList<>();
+		if (items == null) {
+			throw new IllegalArgumentException("Proizvodi ne postoje.");
+		}
 		for (UserItem userItem : items) {
 			if (userItem.getPostedBy().getId() == id) {
-				items.add(userItem);
+				retVal.add(userItem);
 			}
 		}
-		return null;
+		return retVal;
 	}
 
 	@Override
@@ -137,9 +142,12 @@ public class UserItemServiceImpl implements UserItemService {
 		//ovakav datum saljem "2018-4-20 20:00:00"
 		List<BidDTO> bidsDTO = userItemDTO.getBids();
 		List<Bid> bids = new ArrayList<>();
-		for (BidDTO bidDTO : bidsDTO) {
-			bids.add(bidService.bidFromDTO(bidDTO));
+		if (bidsDTO != null) {
+			for (BidDTO bidDTO : bidsDTO) {
+				bids.add(bidService.bidFromDTO(bidDTO));
+			}
 		}
+		
 		try {
 			System.out.println("Za parsianje "+ userItemDTO.getEndDate());
 			Date endDate = dateFormat.parse(userItemDTO.getEndDate());
@@ -151,8 +159,13 @@ public class UserItemServiceImpl implements UserItemService {
 				e.printStackTrace();
 			}
 		//TODO  informacije od Useru koji je postavio, odobrio, kupio, 
-		userItem.setBuyer(userService.findById(userItemDTO.getBuyerId()));
-		userItem.setApprovedBy(userService.findById(userItemDTO.getApprovedById()));
+		if (userItemDTO.getBuyerId() != null) {
+			userItem.setBuyer(userService.findById(userItemDTO.getBuyerId()));
+		}
+		if (userItemDTO.isApproved()) {
+			userItem.setApprovedBy(userService.findById(userItemDTO.getApprovedById()));
+		}
+		
 		userItem.setPostedBy(userService.findById(userItemDTO.getPostedById()));
 		userItem.setStatus(userItemDTO.getStatus());
 		userItem.setApproved(userItemDTO.isApproved());
