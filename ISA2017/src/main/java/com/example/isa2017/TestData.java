@@ -14,6 +14,7 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.example.isa2017.model.AdminItem;
 import com.example.isa2017.model.Bid;
 import com.example.isa2017.model.Cinema;
 import com.example.isa2017.model.Movie;
@@ -22,8 +23,11 @@ import com.example.isa2017.model.Role;
 import com.example.isa2017.model.Theatre;
 import com.example.isa2017.model.User;
 import com.example.isa2017.model.UserItem;
+import com.example.isa2017.modelDTO.AdminItemDTO;
 import com.example.isa2017.modelDTO.AuctionStatus;
 import com.example.isa2017.repository.UserRepository;
+import com.example.isa2017.service.AdminItemService;
+import com.example.isa2017.service.BidService;
 import com.example.isa2017.service.CinemaService;
 import com.example.isa2017.service.MovieService;
 import com.example.isa2017.service.PlayService;
@@ -51,6 +55,10 @@ public class TestData {
 	private UserRepository userRepository;
 	@Autowired
 	private UserItemService userItemService;
+	@Autowired
+	private AdminItemService adminItemService;
+	@Autowired
+	private BidService bidService;
 	@PostConstruct
 	private void init(){
 		
@@ -89,36 +97,153 @@ public class TestData {
 		
 		Theatre theatre5 = new Theatre("Narodno pozorište „Toša Jovanović“", "Zrenjanin, Trg slobode 7", "Najstarija pozorišna zgrada u današnjoj Srbiji.", 4, generatedPlays.get(4));
 		theatreService.save(theatre5);
+		//Obican korisnik
 		User pera = new User("pera@pera", "pera", "Petar", "Petrovic", "064123123", "Petrovac", Role.USER, true);
-		
-		User gema = new User("gema@gema", "gema", "Sasa", "Gemovic", "064123123", "Uzvece", Role.FANZONEADMIN, true);
-		userRepository.save(gema);
-		userRepository.save(pera);
+		//Administrator fan zone
+		User gema = new User("gema@gema", "gema", "Gema", "Gema", "064123123", "Uzvece", Role.FANZONEADMIN, true);
+		//Obican user sa ispravnim mailom
+		User sasa = new User("gemovics@gmail.com","gemovics", "Sasa", "Gemovic", "064123123", "Uzvece", Role.USER, true);
+		//Admin fan zone
 		User adminFZ = new User("adminFZ@adminFZ", "admin", "AdminFZ", "AdminFZ", "064123123", "Uzvece", Role.FANZONEADMIN, true);
-		userRepository.save(gema);
-		userRepository.save(adminFZ);
+		User adminSYS = new User("adminSYS@adminSYS", "adminSYS", "AdminSYS", "AdminSYS", "064123123", "Uzvece", Role.SYSTEMADMIN, true);
+		
+		userRepository.save(adminSYS);//id=1 glavni predefinisani administrator
+		userRepository.save(adminFZ);//id=2
+		userRepository.save(gema);//id=3
+		userRepository.save(pera);//id=4
+		userRepository.save(adminFZ);//id=5
+		userRepository.save(sasa);//id=6
+		
 		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-		Date datum;
+		Date datum1 = null;
+		Date datum2 = null;
+		Date datum3 = null;
+		Date datum4 = null;
 		try {
-			datum = dateFormat.parse("20/4/2018 20:00");
-			UserItem userItem = new UserItem();
-			UserItem userItem2 = new UserItem();
-			userItem.setName("Viking slem");
-			userItem.setDescription("Vikinski slem iz neke predstave...");
-			userItem.setStartPrice(1000);
-			userItem.setEndDate(datum);
-			userItem.setPostedBy(pera);
-			userItemService.addNewItem(userItem);
-			userItem2.setName("Viking slem22");
-			userItem2.setDescription("Sablja iz neke predstave...");
-			userItem2.setStartPrice(1000);
-			userItem2.setEndDate(datum);
-			userItem2.setPostedBy(pera);
-			userItemService.addNewItem(userItem2);
+			datum1 = dateFormat.parse("25/4/2018 20:00");
+			datum2 = dateFormat.parse("28/5/2018 20:00");
+			datum3 = dateFormat.parse("26/4/2018 20:00");
+			datum4 = dateFormat.parse("23/4/2018 20:00");
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
+		
 			e.printStackTrace();
 		}
+		//Oglas 1
+		UserItem userItem1 = new UserItem();		
+		userItem1.setName("Viking slem");
+		userItem1.setDescription("Vikinski slem iz neke predstave...");
+		userItem1.setStartPrice(1000);
+		userItem1.setCurrentPrice(1000);
+		userItem1.setEndDate(datum1);
+		userItem1.setPostedBy(pera);
+		userItem1.setApproved(true);
+		userItem1.setApprovedBy(gema);
+		userItem1.setStatus(AuctionStatus.Aktuelan);
+		Date datumBid1 = null;
+		Date datumBid2 = null;
+		Date datumBid3 = null;
+		Date datumBid4 = null;
+		try {
+			datumBid1 = dateFormat.parse("22/4/2018 12:00");
+			datumBid2 = dateFormat.parse("22/4/2018 13:00");
+			datumBid3 = dateFormat.parse("22/4/2018 13:30");
+			datumBid4 = dateFormat.parse("22/4/2018 14:00");
+		} catch (ParseException e) {
+		
+			e.printStackTrace();
+		}
+		Bid bid1 = new Bid();
+		bid1.setItem(userItem1);
+		bid1.setPrice(1200);
+		bid1.setDate(datumBid1);
+		bid1.setBuyer(pera);
+		//bidService.save(bid1);
+		
+		Bid bid2 = new Bid();
+		bid2.setItem(userItem1);
+		bid2.setPrice(1300);
+		bid2.setDate(datumBid2);
+		bid2.setBuyer(sasa);
+		//bidService.save(bid2);
+		
+		Bid bid3 = new Bid();
+		bid3.setItem(userItem1);
+		bid3.setPrice(1350);
+		bid3.setDate(datumBid3);
+		bid3.setBuyer(pera);
+		//bidService.save(bid3);
+		
+		List<Bid> bids = new ArrayList<Bid>();
+		bids.add(bid1);
+		bids.add(bid2);
+		bids.add(bid3);
+		
+		userItem1.setBids(bids);
+		userItem1.setCurrentPrice(bid3.getPrice());;
+		userItemService.save(userItem1);
+		//userItemService.addNewItem(userItem1);
+		
+		
+		//Oglas 2
+		UserItem userItem2 = new UserItem();
+		userItem2.setName("Spajdermen maska");
+		userItem2.setDescription("Spajdermenova maska, ima tragova koriscenja...");
+		userItem2.setStartPrice(200);
+		userItem1.setCurrentPrice(200);
+		userItem2.setEndDate(datum2);
+		userItem2.setPostedBy(sasa);
+		userItem2.setStatus(AuctionStatus.Ceka_odobrenje);
+		userItemService.save(userItem2);
+		//Oglas 3
+		UserItem userItem3 = new UserItem();		
+		userItem3.setName("Torov cekic");
+		userItem3.setDescription("Cekic kao nov, nije koriscen. Stoji i skuplja prasinu.");
+		userItem3.setStartPrice(5000);
+		userItem3.setCurrentPrice(5000);
+		userItem3.setEndDate(datum3);
+		userItem3.setPostedBy(pera);
+		userItem3.setStatus(AuctionStatus.Ceka_odobrenje);
+		userItemService.save(userItem3);
+/*		//Oglas 4
+		UserItem userItem4 = new UserItem();		
+		userItem4.setName("Prsten moci iz filma gospodar prstenova-NOVO");
+		userItem4.setDescription("Nova varijanta prstena iz filma Gospodar prstenova. Napravljen od titanijuma \n" + 
+				"Pozlaćeni Prsten Moći Crni i Srebrni ! ! ! !  \n" + 
+				"Materijal: titanijum sa pozlatom od žutog zlata \n" + 
+				"Dimenzije prstena: raspoložive dimenzije:16mm,17mm,18mm,20mm,21mm unutrašnji prečnik.  \n" + 
+				"Tekst je laserski ugraviran tako da ga je ne moguce skinuti ili izbrisati.  \n" + 
+				"Ukoliko zelite i lancic(54cm) za prsten, on je 100din \n" + 
+				"Pre kupovine samo pitajte za velicinu da bih proverio da li imam na stanju.");
+		userItem4.setStartPrice(399);
+		userItem4.setEndDate(datum4);
+		userItem4.setPostedBy(sasa);
+		userItemService.addNewItem(userItem4);
+*/
+		
+		//Proizvod iz prodavnice 1
+		AdminItem adminItem1 = new AdminItem();
+		adminItem1.setName("Hulk igracka");
+		adminItem1.setDescription("Neverovatni Hulk, deo sage filmova Avengers(Osvetnici).  \n" + 
+				"Omiljeni superheroj!  \n" + 
+				"Verno prikazan kroz igračku.  \n" + 
+				"Na grudima ima taster za aktivaciju zvuka i efekata.");
+		adminItem1.setPostedBy(adminFZ);
+		adminItem1.setCinema(cinema1);
+		adminItem1.setPrice(1000);
+		adminItem1.setReserved(true);
+		adminItem1.setBuyer(pera);
+		adminItemService.save(adminItem1);
+		//Proizvod iz prodavnice 2
+		AdminItem adminItem2 = new AdminItem();
+		adminItem2.setName("Privezak ogrlica iz filma LOTR");
+		adminItem2.setDescription("Lanac sa priveskom iz filma Gospodar prstenova.");
+		adminItem2.setPostedBy(gema);
+		adminItem2.setCinema(cinema2);
+		adminItem2.setPrice(500);
+		adminItemService.save(adminItem2);
+		
+				
+		
 		
 	}
 	

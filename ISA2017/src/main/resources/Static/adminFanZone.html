@@ -39,7 +39,7 @@
 	
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
 	<script type="text/javascript" src="scripts/adminFanZone.js"></script>
-
+  	<link rel="stylesheet" href="css/fanzone.css">
   </head>
 
   <body onload="isFanZoneAdmin(); getAdminItems(); getPlaces(); getUserItems()">
@@ -92,23 +92,21 @@
         </div>
         <!-- /.col-lg-3 -->
 
-        <div class="col-lg-7">
-
-          <ul class="nav nav-tabs">
-            <li class="active"><a data-toggle="tab" href="#adminItemsAll">Tematski rekvizit</a></li>
+        <div class="col-lg-8">
+			
+          <ul class="nav nav-tabs" id="tabs">
+            <li class="active"><a data-toggle="tab" href="#adminItemsAll">Moji proizvodi</a></li>
             <li><a data-toggle="tab" href="#userItemsNotApproved">Oglasi na cekanju</a></li>
             <li><a data-toggle="tab" href="#userItemsApproved">Odobreni oglasi</a></li>
             <li><a data-toggle="tab" href="#editAdminData">Profil</a></li>
-            <li>
-              <!-- <div class="input-group">
-                <input type="text" class="form-control" placeholder="Search for...">
-                <span class="input-group-btn">
-                  <button class="btn btn-default" type="button">Go!</button>
-                </span>
-            	</div>/input-group -->
+			<li>         
             </li>
+            <form class="form-search form-inline">
+        		<input type="text" id="searchInput" onkeyup="searchItems()" class="form-control search-query" placeholder="Pronadji..." />
+    		</form>
+			
           </ul>
-
+          
           <div class="tab-content">
             <div id="adminItemsAll" class="tab-pane fade in active">              
 		

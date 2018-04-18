@@ -13,7 +13,6 @@ public class BidDTO {
 
 	private Long id;
 	private String date;
-	private String time;
 	private Long buyerId;
 	private String buyerName;
 	private Long itemId;
@@ -26,7 +25,6 @@ public class BidDTO {
 
 		this.id = bid.getId();
 		this.date = bid.getDate().toString();
-		this.time = bid.getTime().toString();
 		this.buyerId = bid.getBuyer().getId();
 		this.buyerName = bid.getBuyer().getEmail().split("@")[0];
 		this.itemId = bid.getBuyer().getId();
@@ -43,12 +41,6 @@ public class BidDTO {
 	}
 	public void setDate(String date) {
 		this.date = date;
-	}
-	public String getTime() {
-		return time;
-	}
-	public void setTime(String time) {
-		this.time = time;
 	}
 	public Long getBuyerId() {
 		return buyerId;

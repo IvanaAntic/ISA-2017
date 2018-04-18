@@ -1,7 +1,11 @@
 var urlBase = "http://localhost:8080/";
 
+function getUser(){
+	
+}
+
 function isFanZoneAdmin(){
-	loggedUserId = null;
+	var loggedUserId;
 	$.ajax({
 		method : 'GET',
 		url : urlBase + "user/displayUser",
@@ -135,7 +139,7 @@ function getUserItems(){
 	});
 }
 function approveUserItem(event){
-	loggedUser = sessionStorage.loggedId;
+	var loggedUserId = sessionStorage.loggedId;
 	$.ajax({
 		method : 'POST',
 		url : urlBase + "FanZone/approve/"+event.id+"/"+loggedUserId,
@@ -151,7 +155,7 @@ function approveUserItem(event){
 	});
 }
 function disapproveUserItem(event){
-	loggedUserId = sessionStorage.loggedId;
+	var loggedUserId = sessionStorage.loggedId;
 	$.ajax({
 		method : 'POST',
 		url : urlBase + "FanZone/disapprove/"+event.id+"/"+loggedUserId,
@@ -299,7 +303,7 @@ function addNewAdminItem(){
 	var theatrePlace = $(document).find(".theatreOption option:selected").val();
 	var cinemaPlace = $(document).find(".cinemaOption option:selected").val();
 	//Moramo iz sesije znati ko je trenutno ulogovan
-	var postedBy = 1
+	var postedBy = sessionStorage.loggedId;;
 	var formData;
 	
 	
@@ -331,11 +335,41 @@ function addNewAdminItem(){
 	});
 	
 }
+//Prikazuje samo one elementre koji se poklapaju sa pretragom
+function searchItems() {
+    
+	var input,divs, filter, activeTab, i;
+	activeTab = $("ul#tabs li.active").text();
+	if (activeTab == "Moji proizvodi") 
+		divs = $("#adminItemsAll").children();
+	
+	if(activeTab == "Oglasi na cekanju")
+		divs = $("#userItemsNotApproved").children();
+	
+	if(activeTab == "Odobreni oglasi")
+		divs = $("#userItemsApproved").children();
+			
+	
+    input = document.getElementById('searchInput');
+    filter = input.value.toUpperCase();
+    
+    for (i = 0; i < divs.length; i++) {
+    	name = divs.eq(i).find("h3").text();
+        if (name.toUpperCase().indexOf(filter) > -1) {
+        	divs.eq(i).show();
+        } else {
+        	divs.eq(i).hide();
+        }
+    }
+}
 function appendUserItem(data){
 	 
 	newUserItem =		"<div id=\""+data.id+"\" class=\"card mt-4\">"
-					+   "<img class=\"card-img-top img-fluid\" src=\"http://placehold.it/150x100\" >"
 					+	"<div class=\"card-body\">"
+					+"		<div class=\"col-lg-6\">"
+					+"			<img class=\"card-img img-fluid mt-3\" src=\"http://via.placeholder.com/250x250\" >"
+					+"		</div>"                 
+					+"		<div class=\"col-lg-6\">"
 				    +  	"<h3 class=\"card-title\" id=\"userItemName\">"+data.name+"</h3>"
 					+      "<p class=\"card-text\" id=\"userItemDescription\">"+data.description+"</p>"
 					+     	"<table class=\"table\">"
@@ -363,9 +397,10 @@ function appendUserItem(data){
 					+	      "</tr>"
 					+	    "</tbody>"
 					+	  "</table>"     
-					+      "<div id=\"userItemButtons"+data.id+"\" style=\"float : right\">"   
-					+        "<a id=\""+data.id+"\" class=\"btn btn-danger\" onclick=\"removeUserItem(this)\">Ukloni</a>"
+					+      "<div id=\"userItemButtons"+data.id+"\"  style=\"float : right\">"   
+					+        "<a id=\""+data.id+"\" class=\"btn btn-danger m-3\" onclick=\"removeUserItem(this)\">Ukloni</a>"
 					+      "</div>"
+					+    "</div>"
 					+    "</div>"
 					+  "</div>";
 		if (data.approved && (data.approvedById == sessionStorage.loggedId)) {
@@ -396,8 +431,11 @@ function appendItem(data){
 	}
 		
 	newItem = "<div id=\"" + data.id +  "\" class=\"card mt-4\">"
-			  + " <img class=\"card-img-top img-fluid\" src=\"http://placehold.it/150x100\" alt=\"\">"
 			  +  "<div class=\"card-body\">"
+			  +"		<div class=\"col-lg-6\">"
+			  +"			<img class=\"card-img img-fluid mt-3\" src=\"http://via.placeholder.com/250x250\" >"
+			  +"		</div>"
+			  +" 		<div class=\"col-lg-6\">"
 			  +  "  <h3 class=\"card-title\" id=\"adminItemName\">" + data.name + "</h3>"
 			  +    "<p class=\"card-text\" id=\"adminItemDescription\">" + data.description + "</p>"
 			  +    "<table class=\"table\">"
@@ -417,10 +455,11 @@ function appendItem(data){
 			  +	      	"</tr>"
 			  +	    	"</tbody>"
 			  +	  	"</table>"
-			  +     "<div style=\"float : right\">"
-			  +      "<a  id=\""+data.id+"\"class=\"btn btn-danger\" onclick=\"removeAdminItem(this)\" >Ukloni</a>"
-			  +      " <a  id=\""+data.id+"\"class=\"btn btn-warning\" onclick=\"editAdminItemClicked(this)\" >Izmeni</a>"
+			  +     "<div style=\"float : right\" >"
+			  +      "<a  id=\""+data.id+"\"class=\"btn btn-danger mb-3\" onclick=\"removeAdminItem(this)\" >Ukloni</a>"
+			  +      " <a  id=\""+data.id+"\"class=\"btn btn-warning mb-3\" onclick=\"editAdminItemClicked(this)\" >Izmeni</a>"
 			  +     "</div>"
+			  +  "</div>"
 			  +  "</div>"
 			  + "</div>"			
 			  +"</div>";
