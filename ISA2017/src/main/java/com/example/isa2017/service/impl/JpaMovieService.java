@@ -29,5 +29,11 @@ public class JpaMovieService implements MovieService{
 		return movieRepository.save(movie);
 	}
 
+	@Override
+	public Movie findOne(Long id) {
+		// TODO Auto-generated method stub
+		return movieRepository.findOne(id);
+	}
+
 	
 }

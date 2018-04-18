@@ -1,5 +1,6 @@
 package com.example.isa2017.controller;
 
+import java.util.Base64;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import com.example.isa2017.model.Cinema;
 import com.example.isa2017.model.Movie;
 import com.example.isa2017.modelDTO.CinemaDTO;
 import com.example.isa2017.service.CinemaService;
+import com.example.isa2017.service.MovieService;
 
 @RestController
 @RequestMapping(value = "/cinemas")
@@ -23,6 +25,9 @@ public class CinemaController {
 
 	@Autowired
 	private CinemaService cinemaService;
+	
+	@Autowired
+	private MovieService movieService;
 	
 	@Autowired
 	private CinemaToCinemaDTO toCinemaDTO;
@@ -46,8 +51,6 @@ public class CinemaController {
 	@RequestMapping(value = "deleteMovieInCinema/{cinemaId}/{movieId}", method=RequestMethod.POST, consumes="application/json")
 	public ResponseEntity<Cinema> deleteMovieInCinema(@PathVariable Long cinemaId, @PathVariable Long movieId){
 		
-		//String movieToDelete = Long.toString(cinemaId);
-		
 		Cinema cinema = cinemaService.findOne(cinemaId);
 		
 		for(int i = 0; i < cinema.getMovies().size(); i++){
@@ -55,9 +58,45 @@ public class CinemaController {
 				cinema.getMovies().remove(cinema.getMovies().get(i));
 		}
 		
-		Cinema cinemaToDeleteMovieFrom = cinemaService.save(cinema);
+		cinemaService.save(cinema);
 		
-	 return new ResponseEntity<>(cinemaToDeleteMovieFrom, HttpStatus.OK);
+	 return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "addMovieToCinema/{cinemaId}", method=RequestMethod.POST, consumes="application/json")
+	public ResponseEntity<Movie> addMovieToCinema(@RequestBody Movie movie, @PathVariable Long cinemaId){
+		
+		Cinema cinema = cinemaService.findOne(cinemaId);
+		
+		String s = new String(movie.getImage());
+		
+		String[] parts = s.split(",");
+		String firstPart = parts[1];
+		
+		System.out.println(s);
+		movie.setImage(Base64.getDecoder().decode(firstPart));
+		
+		Movie addedMovie = movieService.save(movie);
+		cinema.getMovies().add(addedMovie);
+		cinemaService.save(cinema);
+		
+	 return new ResponseEntity<>(addedMovie, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "editMovie/{movieId}", method=RequestMethod.POST, consumes="application/json")
+	public ResponseEntity<Movie> editMovie(@RequestBody Movie movie, @PathVariable Long movieId){
+		
+		movie.setId(movieId);
+		
+		String s = new String(movie.getImage());
+		
+		String[] parts = s.split(",");
+		String firstPart = parts[1];
+		movie.setImage(Base64.getDecoder().decode(firstPart));
+		
+		Movie editedMovie = movieService.save(movie);
+		
+	 return new ResponseEntity<>(editedMovie, HttpStatus.OK);
 	}
 	
 }

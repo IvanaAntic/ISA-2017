@@ -51,6 +51,125 @@
 <div class="cinemaHolder"></div>
 <div class="theatreHolder"></div>
 
+	<!-- ovo je modalni dijalog za dodavanje novog filma na repertoar bioskopa -->
+		
+<div class="modal fade" id="addMovieToCinemaModal" tabindex="-1" role="dialog">
+	 <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="exampleModalLabelReg">Novi film</h5>
+	       </div>
+	       <form id="inputForm" data-toggle="validator" role="form" data-disable="true">
+	       <div class="modal-body">
+	       
+	       <div class="form-group ">
+	       		<label for="name">Naziv</label>
+	       		<input type="text" class='form-control' name="name" id="nameAdd" />
+	       </div>
+	       <div class="form-group ">
+	       		<label for="name">Glumci</label>
+	       		<input type="text" class='form-control' name="actors" id="actorsAdd" />
+	       	</div>
+	       <div class="form-group ">
+	       		<label for="name">Zanr</label>
+	       		<input type="text" class='form-control' name="genre" id="genreAdd" />
+	       	</div>
+	       	<div class="form-group ">
+	       		<label for="name">Reditelj</label>
+	       		<input type="text" class='form-control' name="director" id="directorAdd" />
+	       	</div>
+	       	<div class="form-group ">
+	       		<label for="name">Trajanje</label>
+	       		<input type="text" class='form-control' name="runtime" id="runtimeAdd" />
+	       	</div>
+	       	
+	       	<div class="form-group ">
+	       		<label for="name">Poster</label>
+	       		<input type="file" class='form-control' name="image" id="imageAdd" />
+	       	</div>
+	       	
+	  		<div class="form-group ">
+	       		<label for="name">Opis</label>
+	       		<input type="text" class='form-control' name="description" id="descriptionAdd" />
+	       	</div>
+	       	<div class="form-group ">
+	       		<label for="name">Vreme projekcija</label>
+	       		<input type="text" class='form-control' name="projectionTimes" id="projectionTimesAdd" />
+	       	</div>
+	       	<div class="form-group ">
+	       		<label for="name">Cena</label>
+	       		<input type="text" class='form-control' name="price" id="priceAdd" />
+	       	</div>
+	       </div>
+	       <div class="modal-footer">
+	        	<button type="button" class="btn btn-secondary" data-dismiss="modal">Zatvori</button>
+	        	<button type="button" class="btn btn-primary" id="addMovieToCinema">Potvrda</button>
+			</div>
+			</form>
+	     </div>
+	</div>
+</div>
+
+	<!-- ovo je modalni dijalog za izmenu filma -->
+		
+
+<div class="modal fade" id="editMovieModal" tabindex="-1" role="dialog">
+	 <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="exampleModalLabelReg">Izmeni film</h5>
+	       </div>
+	       <form id="inputEditForm" data-toggle="validator" role="form" data-disable="true">
+	       <div class="modal-body">
+	       
+	       <div class="form-group ">
+	       		<label for="name">Naziv</label>
+	       		<input type="text" class='form-control' name="name" id="nameEdit" />
+	       </div>
+	       <div class="form-group ">
+	       		<label for="name">Glumci</label>
+	       		<input type="text" class='form-control' name="actors" id="actorsEdit" />
+	       	</div>
+	       <div class="form-group ">
+	       		<label for="name">Zanr</label>
+	       		<input type="text" class='form-control' name="genre" id="genreEdit" />
+	       	</div>
+	       	<div class="form-group ">
+	       		<label for="name">Reditelj</label>
+	       		<input type="text" class='form-control' name="director" id="directorEdit" />
+	       	</div>
+	       	<div class="form-group ">
+	       		<label for="name">Trajanje</label>
+	       		<input type="text" class='form-control' name="runtime" id="runtimeEdit" />
+	       	</div>
+	       	
+	       	<div class="form-group ">
+	       		<label for="name">Poster</label>
+	       		<input type="file" class='form-control' name="image" id="imageEdit" />
+	       	</div>
+	       	
+	  		<div class="form-group ">
+	       		<label for="name">Opis</label>
+	       		<input type="text" class='form-control' name="description" id="descriptionEdit" />
+	       	</div>
+	       	<div class="form-group ">
+	       		<label for="name">Vreme projekcija</label>
+	       		<input type="text" class='form-control' name="projectionTimes" id="projectionTimesEdit" />
+	       	</div>
+	       	<div class="form-group ">
+	       		<label for="name">Cena</label>
+	       		<input type="text" class='form-control' name="price" id="priceEdit" />
+	       	</div>
+	       </div>
+	       <div class="modal-footer">
+	        	<button type="button" class="btn btn-secondary" data-dismiss="modal">Zatvori</button>
+	        	<button type="button" class="btn btn-primary" id="editMovie">Potvrda</button>
+			</div>
+			</form>
+	     </div>
+	</div>
+</div>
+
 
 <!-- jQuery library -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>

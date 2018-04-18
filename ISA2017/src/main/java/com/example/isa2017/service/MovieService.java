@@ -20,4 +20,6 @@ public interface MovieService {
 	 */
 	Movie save(Movie movie);
 	
+	Movie findOne(Long id);
+	
 }
