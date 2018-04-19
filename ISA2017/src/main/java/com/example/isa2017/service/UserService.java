@@ -29,6 +29,8 @@ public interface UserService {
 	User convertFromDTO(UserDTO user);
 
 	UserDTO convertToDTO(User user);
+
+	User editUser(UserDTO user);
 	
 	
 	

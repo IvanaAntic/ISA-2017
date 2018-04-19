@@ -141,6 +141,24 @@ public class UserServiceImpl implements UserService{
 
 	}
 	
+	@Override
+	public User editUser(UserDTO user){
+		//ja ovde nikad ne prosledim email
+		System.out.println("ZASTOOOOOOO!");
+		User user1=new User();
+		//User user1= userRepository.findByEmail(user.getEmail());
+		//System.out.println("user1edit"+user1.getEmail());
+		user1.setName(user.getName());
+		user1.setSurname(user.getSurname());
+		user1.setCity(user.getCity());
+		user1.setPhoneNumber(user.getPhoneNumber());
+		System.out.println("ime je"+user1.getName());
+		userRepository.save(user1);
+			
+			return user1;
+		
+	}
+	
 	public User verifyEmail(Long id){
 		User user1=userRepository.findById(id);
 		user1.setActive(true);
