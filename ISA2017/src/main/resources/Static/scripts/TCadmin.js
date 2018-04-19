@@ -17,6 +17,10 @@ $(document).ready(function(){
 	 * 
 	 * */
 	
+	$("#nameAdd").datepicker({
+		
+	});
+	
 	$("#cinemaButton").click(function(){
 		
 		$(".buttonsHolder").fadeOut(function(){

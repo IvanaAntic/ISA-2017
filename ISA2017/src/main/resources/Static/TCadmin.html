@@ -6,6 +6,7 @@
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <link rel="stylesheet" href="css/pocetna.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.min.css"/>
 
 <title>Admin pozorista/bioskopa</title>
 </head>
@@ -47,6 +48,7 @@
 	
 <div class="cinemaHolder"></div>
 <div class="theatreHolder"></div>
+<div class="reportHolder"></div>
 
 	<!-- ovo je modalni dijalog za dodavanje novog filma na repertoar bioskopa -->
 		
@@ -216,6 +218,15 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 <script type="text/javascript" src="scripts/TCadmin.js"></script>
+
+<!-- Bootstrap Date-Picker Plugin -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.min.js">
+	$(document).ready(function(){
+	    var date_input=$("#nameAdd"); //our date input has the name "date"
+	    
+	    date_input.datepicker();
+	  })
+</script>
 
 </body>
 </html>
