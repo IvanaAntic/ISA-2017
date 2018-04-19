@@ -25,6 +25,7 @@ public class Projection {
 	@ManyToOne
 	private Hall hall;
 
+	@ManyToOne
 	private Movie movie;
 
 	public Projection(Date date, String price, Hall hall, Movie movie) {
