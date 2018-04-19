@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.OneToMany;
 
 /*
 svaka stranica predstave/filma sadrži:
@@ -69,6 +70,9 @@ public class Movie {
 	
 	@Column
 	private int price;
+	
+	@OneToMany
+	private List<Projection> projections;
 	
 	public Movie(){
 		
