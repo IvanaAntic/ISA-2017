@@ -7,7 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 
 @Entity(name="projection")
 public class Projection {
@@ -22,7 +22,7 @@ public class Projection {
 	@Column
 	private String price;
 	
-	@OneToMany
+	@ManyToOne
 	private Hall hall;
 
 	private Movie movie;
