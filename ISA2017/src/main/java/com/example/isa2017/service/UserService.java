@@ -30,7 +30,7 @@ public interface UserService {
 
 	UserDTO convertToDTO(User user);
 
-	User editUser(UserDTO user);
+	User editUser(UserDTO user,User use1);
 	
 	
 	

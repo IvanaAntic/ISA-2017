@@ -118,15 +118,12 @@ public class UserController {
 		
 			if(user1!=null){
 				
-				userService.editUser(user);
-				return new ResponseEntity<User>(user1,HttpStatus.OK);
+				userService.editUser(user,user1);
+				return new ResponseEntity<>(HttpStatus.OK);
 			}
 		
-		//log.info("> editUser");
-		//userService.editUser(user);
-		log.info("> editUserKraj");
-		//return new ResponseEntity<>(user1,HttpStatus.OK);	
-		return new ResponseEntity<User>(HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		
 	}
 
 	
