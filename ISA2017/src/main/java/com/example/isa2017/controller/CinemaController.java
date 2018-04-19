@@ -16,6 +16,7 @@ import com.example.isa2017.converters.CinemaToCinemaDTO;
 import com.example.isa2017.model.Cinema;
 import com.example.isa2017.model.Movie;
 import com.example.isa2017.modelDTO.CinemaDTO;
+import com.example.isa2017.repository.CinemaRepository;
 import com.example.isa2017.service.CinemaService;
 import com.example.isa2017.service.MovieService;
 
@@ -68,13 +69,14 @@ public class CinemaController {
 		
 		Cinema cinema = cinemaService.findOne(cinemaId);
 		
-		String s = new String(movie.getImage());
 		
-		String[] parts = s.split(",");
-		String firstPart = parts[1];
-		
-		System.out.println(s);
-		movie.setImage(Base64.getDecoder().decode(firstPart));
+		if(movie.getImage() != null){
+			String s = new String(movie.getImage());
+			
+			String[] parts = s.split(",");
+			String firstPart = parts[1];
+			movie.setImage(Base64.getDecoder().decode(firstPart));
+		}
 		
 		Movie addedMovie = movieService.save(movie);
 		cinema.getMovies().add(addedMovie);
@@ -88,15 +90,29 @@ public class CinemaController {
 		
 		movie.setId(movieId);
 		
-		String s = new String(movie.getImage());
-		
-		String[] parts = s.split(",");
-		String firstPart = parts[1];
-		movie.setImage(Base64.getDecoder().decode(firstPart));
+		if(movie.getImage() != null){
+			String s = new String(movie.getImage());
+			
+			String[] parts = s.split(",");
+			String firstPart = parts[1];
+			movie.setImage(Base64.getDecoder().decode(firstPart));
+		}else{
+			movie.setImage(movieService.findOne(movieId).getImage());
+		}
 		
 		Movie editedMovie = movieService.save(movie);
 		
 	 return new ResponseEntity<>(editedMovie, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "editCinema/{cinemaId}", method=RequestMethod.POST, consumes="application/json")
+	public ResponseEntity<Cinema> editMovie(@RequestBody Cinema cinema, @PathVariable Long cinemaId){
+		
+		cinema.setId(cinemaId);
+		cinema.setMovies(cinemaService.findOne(cinemaId).getMovies());
+		Cinema editedCinema = cinemaService.save(cinema);
+		
+	 return new ResponseEntity<>(editedCinema, HttpStatus.OK);
 	}
 	
 }

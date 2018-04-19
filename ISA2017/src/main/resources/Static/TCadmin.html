@@ -8,9 +8,6 @@
 <link rel="stylesheet" href="css/pocetna.css">
 
 <title>Admin pozorista/bioskopa</title>
-<script>
-	
-</script>
 </head>
 
 
@@ -68,7 +65,7 @@
 	       </div>
 	       <div class="form-group ">
 	       		<label for="name">Glumci</label>
-	       		<input type="text" class='form-control' name="actors" id="actorsAdd" />
+	       		<input type="text" class='form-control' name="actors" id="actorsAdd" data-role="tagsinput"/>
 	       	</div>
 	       <div class="form-group ">
 	       		<label for="name">Zanr</label>
@@ -99,6 +96,10 @@
 	       	<div class="form-group ">
 	       		<label for="name">Cena</label>
 	       		<input type="text" class='form-control' name="price" id="priceAdd" />
+	       	</div>
+	       	<div class="form-group ">
+	       		<label for="name">Prosecna ocena</label>
+	       		<input type="text" class='form-control' name="price" id="ratingAdd" />
 	       	</div>
 	       </div>
 	       <div class="modal-footer">
@@ -160,10 +161,47 @@
 	       		<label for="name">Cena</label>
 	       		<input type="text" class='form-control' name="price" id="priceEdit" />
 	       	</div>
+	       	<div class="form-group ">
+	       		<label for="name">Prosecna ocena</label>
+	       		<input type="text" class='form-control' name="price" id="ratingEdit" />
+	       	</div>
 	       </div>
 	       <div class="modal-footer">
 	        	<button type="button" class="btn btn-secondary" data-dismiss="modal">Zatvori</button>
 	        	<button type="button" class="btn btn-primary" id="editMovie">Potvrda</button>
+			</div>
+			</form>
+	     </div>
+	</div>
+</div>
+
+	<!-- ovo je modalni dijalog za izmenu bioskopa -->
+
+<div class="modal fade" id="editCinemaModal" tabindex="-1" role="dialog">
+	 <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="exampleModalLabelReg">Izmeni bioskop</h5>
+	       </div>
+	       <form id="inputEditCinemaForm" data-toggle="validator" role="form" data-disable="true">
+	       <div class="modal-body">
+	       
+	       <div class="form-group ">
+	       		<label for="name">Naziv</label>
+	       		<input type="text" class='form-control' name="name" id="cinemaNameEdit" />
+	       </div>
+	       <div class="form-group ">
+	       		<label for="name">Adresa</label>
+	       		<input type="text" class='form-control' name="actors" id="cinemaAddressEdit" />
+	       	</div>
+	       <div class="form-group ">
+	       		<label for="name">Opis</label>
+	       		<input type="text" class='form-control' name="genre" id="cinemaDescriptionEdit" />
+	       	</div>
+	       </div>
+	       <div class="modal-footer">
+	        	<button type="button" class="btn btn-secondary" data-dismiss="modal">Zatvori</button>
+	        	<button type="button" class="btn btn-primary" id="editCinema">Potvrda</button>
 			</div>
 			</form>
 	     </div>
