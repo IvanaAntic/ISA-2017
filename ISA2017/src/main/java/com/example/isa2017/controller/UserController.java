@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.isa2017.model.Role;
 import com.example.isa2017.model.User;
 import com.example.isa2017.modelDTO.UserDTO;
+import com.example.isa2017.repository.UserRepository;
 import com.example.isa2017.service.UserService;
 
 @RestController
@@ -28,6 +29,7 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
+	private UserRepository userRepository;
 	
 	@RequestMapping(value="/register" , method=RequestMethod.POST)
 	public ResponseEntity<User> registerUser(@RequestBody UserDTO user){
@@ -53,8 +55,11 @@ public class UserController {
 
 	@RequestMapping(value="/verify/{id}")
 	public ResponseEntity<String> verifyUser(@PathVariable Long id){
-		
-		userService.verifyEmail(id);
+		User user =  userService.verifyEmail(id);
+		if(user==null){
+			return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
+		}
+		//userService.verifyEmail(id);
 		
 		return new ResponseEntity<String>("verifikovan",HttpStatus.ACCEPTED);
 	}
@@ -98,16 +103,31 @@ public class UserController {
 		return new ResponseEntity<UserDTO>(log,HttpStatus.NOT_FOUND);
 		
 	}
+	
 	@RequestMapping(value="/loggoutUser", method=RequestMethod.GET)
 	public ResponseEntity<String> logoutUser(HttpSession session,HttpServletRequest request){
-		request.getSession().invalidate();
-	 
-		
-		 
-		  return new ResponseEntity<String>("User logged out",HttpStatus.OK);
-		
+			request.getSession().invalidate();
+	
+			return new ResponseEntity<String>("User logged out",HttpStatus.OK);	
 	}
 	
-	
+	@RequestMapping(value="/editUser",method=RequestMethod.POST)
+	public ResponseEntity<User> editUser(@RequestBody UserDTO user,HttpServletRequest request){
+		User user1 = (User)request.getSession().getAttribute("logged");
+		System.out.println("Email"+user1.getEmail());
+		
+			if(user1!=null){
+				
+				userService.editUser(user);
+				return new ResponseEntity<User>(user1,HttpStatus.OK);
+			}
+		
+		//log.info("> editUser");
+		//userService.editUser(user);
+		log.info("> editUserKraj");
+		//return new ResponseEntity<>(user1,HttpStatus.OK);	
+		return new ResponseEntity<User>(HttpStatus.OK);
+	}
+
 	
 }

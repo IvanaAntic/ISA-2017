@@ -92,30 +92,27 @@
         <!-- PODESAVANJA TAB -->
          <div class="tab-pane" id="podesavanja">
             <h1>Podesavanja</h1>
-            <form class="izmena" role="form">
+            <form id="inputForm" class="izmena" role="form">
             <p>
             	<label for="name">Ime:</label>
-            	<input type="text" name="name" id="name"></input><br>
+            	<input class="nameEdit" type="text" name="nameEdit" id="name"></input><br>
             </p>
             <p>
             	<label for="surname">Prezime:</label>
-            	<input type="text"></input><br>
+            	<input type="text" class="surnameEdit" name="surnameEdit"></input><br>
             </p>
-            <p>
-            	<label for="password">Sifra:</label>
-            	<input type="text"></input><br>
-            </p>
+          
             <p>
             	<label for="town">Grad:</label>
-            	<input type="text"></input><br>
+            	<input type="text" class="townEdit" name="townEdit"></input><br>
             </p>
             <p>
             	<label for="phoneNumber">Broj telefona:</label>
-            	<input type="text"></input><br>
+            	<input type="text" class="phoneNumberEdit" name="phoneNumberEdit"></input><br>
             </p>
            
             <p class="dugme">
-            	<input id="izmeni" type="submit" class="btn btn-primary" value="Izmeni" data-toggle="modal" data-target="#modalIzmeni"></input>
+            	<input id="izmeni" type="submit" class="btn btn-primary" value="Izmeni" ></input>
             </p>
             
             </form>
@@ -129,20 +126,7 @@
     
     
     
-    <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="modalIzmeni">
-  <div class="modal-dialog modal-sm">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Da li ste sigurni da zelite da promenite podatke</h4>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" id="izmeniDa">DA</button>
-        <button type="button" class="btn btn-primary" id="izmeniNe" data-dismiss="modal">NE</button>
-      </div>
-    </div>
-  </div>
-</div>
+   
     
     
     
