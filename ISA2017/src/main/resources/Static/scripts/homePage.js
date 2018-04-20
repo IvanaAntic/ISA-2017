@@ -11,8 +11,8 @@ $(document).ready(function(event){
 	});
 	
 	
-	$("#navbar-right").on('click', function (e) {
-	    e.preventDefault();
+	$(".navbar-right").on('click', function (e) {
+	    
 	    $.ajax({
 	    	type:'GET',
 	    	contentType: "application/json",
@@ -20,6 +20,7 @@ $(document).ready(function(event){
 			url:"http://localhost:8080/user/loggoutUser",
 			success: function(){
 				 sessionStorage.removeItem('logged');
+				 window.location.href='/';
 			 },
 				error:function(error){
 					console.log("e"+error);
