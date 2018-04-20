@@ -24,6 +24,18 @@ body {
 	float: right;
 }
 
+.searchPozoriste{
+	
+	width:250px;
+	float: left;
+}
+
+.searchBioskop{
+	
+	width:250px;
+	float: left;
+}
+
 label {
 	
 	width:100px;

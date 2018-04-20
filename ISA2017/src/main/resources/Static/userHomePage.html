@@ -12,6 +12,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.5/validator.min.js"></script>
 <link rel="stylesheet" href="css/userHomePage.css">
 <script type="text/javascript" src="scripts/homePage.js"></script>
+<script type="text/javascript" src="scripts/pozorista.js"></script>
+<script type="text/javascript" src="scripts/bioskopi.js"></script>
 </head>
 <body>
 
@@ -67,16 +69,46 @@
        
        <!-- POZORISTA TAB -->
         <div class="tab-pane" id="pozorista">
-            <h1>Orange</h1>
-            <p>orange orange orange orange orange</p>
+          
+            <p>Pregled POZORISTA</p>
+            <div class="searchPozoriste">
+             <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search for...">
+                <span class="input-group-btn">
+                  <button class="btn btn-default" type="button">Go!</button>
+                </span>
+            </div><!-- /input-group -->
+            </div>
+            <!-- /table -->
+            <br>
+          <div class="theatreHolder"></div>
+          
+            
+            
+            
         </div>
         
         
         
         <div class="tab-pane" id="bioskopi">
-            <h1>Yellow</h1>
-            <p>yellow yellow yellow yellow yellow</p>
+            <p>Pregled BIOSKOPA</p>
+            <div class="searchBioskop">
+             <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search for...">
+                <span class="input-group-btn">
+                  <button class="btn btn-default" type="button">Go!</button>
+                </span>
+            </div><!-- /input-group -->
+            </div>
+            <br>
+            <div class="cinemaHolder"></div>
         </div>
+        
+        
+        
+        
+        
+        
         
         <div class="tab-pane" id="prijatelji">
             <h1>Green</h1>
