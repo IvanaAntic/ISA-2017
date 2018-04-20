@@ -79,7 +79,12 @@
 				success: function(data) {
 					
 						sessionStorage.setItem('loggedId',data.id);
-						window.location.href='userHomePage.html';
+						
+						if(data.role === "ADMIN"){
+							window.location.href='TCadmin.html';
+							sessionStorage.setItem('loggedName', data.name + " " + data.surname);
+						}else
+							window.location.href='userHomePage.html';
 						
 						 $('#inputModal').modal('toggle');
 				  },

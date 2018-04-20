@@ -1,5 +1,30 @@
 $(document).ready(function(){
 	
+	$(".loggedName").append(sessionStorage.getItem('loggedName'))
+	
+	if(sessionStorage.loggedId === undefined){
+		window.location.href='/';
+	}
+	
+	$("#logoutTCadmin").on('click', function (e) {
+	    e.preventDefault();
+	    $.ajax({
+	    	type:'GET',
+	    	contentType: "application/json",
+			datatype: 'json',
+			url:"http://localhost:8080/user/loggoutUser",
+			success: function(){
+				 sessionStorage.removeItem('loggedId');
+				 sessionStorage.removeItem('loggedName')
+				 window.location.href='/';
+			 },
+				error:function(error){
+					console.log("e"+error);
+				}
+		});
+	    
+	});
+	
 	/*
 	 * 
 	 * 

@@ -107,12 +107,16 @@ public class TestData {
 		User adminFZ = new User("adminFZ@adminFZ", "admin", "AdminFZ", "AdminFZ", "064123123", "Uzvece", Role.FANZONEADMIN, true);
 		User adminSYS = new User("adminSYS@adminSYS", "adminSYS", "AdminSYS", "AdminSYS", "064123123", "Uzvece", Role.SYSTEMADMIN, true);
 		
+		User TCadmin = new User("tcadmin@tcadmin", "tcadmin", "Igor", "Zeljkovic", "066555548", "Novi Sad", Role.ADMIN, true);
+
+		
 		userRepository.save(adminSYS);//id=1 glavni predefinisani administrator
 		userRepository.save(adminFZ);//id=2
 		userRepository.save(gema);//id=3
 		userRepository.save(pera);//id=4
 		userRepository.save(adminFZ);//id=5
 		userRepository.save(sasa);//id=6
+		userRepository.save(TCadmin);
 		
 		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 		Date datum1 = null;

@@ -23,13 +23,13 @@
     <ul class="nav navbar-nav navbar-right">
     	<li class="dropdown">
     		<a class="dropdown-toggle" data-toggle="dropdown" href="#">
-    		Prijavljen
+    		<span class="loggedName"></span>
         	<span class="caret"></span>
     		</a>
     		<ul class="dropdown-menu">
     			<li><a href="#">Profil</a></li>
     			<li><a href="#" id="getReportsButton">Izvestaji</a></li>
-    			<li><a href="#">Odjava</a></li>
+    			<li><a href="/" id="logoutTCadmin"><span class="glyphicon glyphicon-log-out"></span> Odjava</a></li>
     		</ul>
     	</li>
     </ul>
@@ -64,6 +64,20 @@
 	  <div id="tab4" class="tab-pane fade"></div>
 	</div>
 
+</div>
+
+<div class="profileHolder container-fluid" style="display: none">
+
+	<ul class="nav nav-tabs">
+	  <li class="active"><a data-toggle="tab" href="#profileTab1">Podaci o profilu</a></li>
+	  <li><a data-toggle="tab" href="#profileTab2">Izmeni profil</a></li>
+	</ul>
+	
+	<div class="tab-content">
+	  <div id="profileTab1" class="tab-pane fade in active"></div>
+	  <div id="profileTab2" class="tab-pane fade"></div>
+	</div>
+	
 </div>
 
 	<!-- ovo je modalni dijalog za dodavanje novog filma na repertoar bioskopa -->

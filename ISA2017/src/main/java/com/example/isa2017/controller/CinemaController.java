@@ -3,6 +3,8 @@ package com.example.isa2017.controller;
 import java.util.Base64;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.isa2017.converters.CinemaToCinemaDTO;
 import com.example.isa2017.model.Cinema;
 import com.example.isa2017.model.Movie;
+import com.example.isa2017.model.User;
 import com.example.isa2017.modelDTO.CinemaDTO;
 import com.example.isa2017.repository.CinemaRepository;
 import com.example.isa2017.service.CinemaService;
@@ -33,6 +36,10 @@ public class CinemaController {
 	@Autowired
 	private CinemaToCinemaDTO toCinemaDTO;
 	
+	/*
+	 *          za neregistrovane korisnike
+	 * */
+	
 	@RequestMapping(value="getCinemas", method = RequestMethod.GET)
 	public ResponseEntity<List<CinemaDTO>> getCinemas() {
 		
@@ -41,8 +48,17 @@ public class CinemaController {
 		return new ResponseEntity<>(toCinemaDTO.convert(cinemas), HttpStatus.OK);
 	}
 	
+	/*
+	 *          za TCadmine
+	 * */
+	
 	@RequestMapping(value="getTCadminCinemas", method = RequestMethod.GET)
-	public ResponseEntity<List<Cinema>> getTCadminCinemas() {
+	public ResponseEntity<List<Cinema>> getTCadminCinemas(HttpServletRequest request) {
+		
+		User logged = (User) request.getSession().getAttribute("logged");
+		if(logged==null)
+			return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);
+		
 		
 		List<Cinema> cinemas = cinemaService.findAll();
 		 
@@ -50,7 +66,12 @@ public class CinemaController {
 	}
 	
 	@RequestMapping(value="getTCadminMovies", method = RequestMethod.GET)
-	public ResponseEntity<List<Movie>> getTCadminMovies() {
+	public ResponseEntity<List<Movie>> getTCadminMovies(HttpServletRequest request) {
+		
+		User logged = (User) request.getSession().getAttribute("logged");
+		if(logged==null)
+			return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);
+		
 		
 		List<Movie> movies = movieService.findAll();
 		 
@@ -58,7 +79,12 @@ public class CinemaController {
 	}
 	
 	@RequestMapping(value = "deleteMovieInCinema/{cinemaId}/{movieId}", method=RequestMethod.POST, consumes="application/json")
-	public ResponseEntity<Cinema> deleteMovieInCinema(@PathVariable Long cinemaId, @PathVariable Long movieId){
+	public ResponseEntity<Cinema> deleteMovieInCinema(HttpServletRequest request, @PathVariable Long cinemaId, @PathVariable Long movieId){
+		
+		User logged = (User) request.getSession().getAttribute("logged");
+		if(logged==null)
+			return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);
+		
 		
 		Cinema cinema = cinemaService.findOne(cinemaId);
 		
@@ -73,7 +99,12 @@ public class CinemaController {
 	}
 	
 	@RequestMapping(value = "addMovieToCinema/{cinemaId}", method=RequestMethod.POST, consumes="application/json")
-	public ResponseEntity<Movie> addMovieToCinema(@RequestBody Movie movie, @PathVariable Long cinemaId){
+	public ResponseEntity<Movie> addMovieToCinema(HttpServletRequest request, @RequestBody Movie movie, @PathVariable Long cinemaId){
+		
+		User logged = (User) request.getSession().getAttribute("logged");
+		if(logged==null)
+			return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);
+		
 		
 		Cinema cinema = cinemaService.findOne(cinemaId);
 		
@@ -94,7 +125,12 @@ public class CinemaController {
 	}
 	
 	@RequestMapping(value = "editMovie/{movieId}", method=RequestMethod.POST, consumes="application/json")
-	public ResponseEntity<Movie> editMovie(@RequestBody Movie movie, @PathVariable Long movieId){
+	public ResponseEntity<Movie> editMovie(HttpServletRequest request, @RequestBody Movie movie, @PathVariable Long movieId){
+		
+		User logged = (User) request.getSession().getAttribute("logged");
+		if(logged==null)
+			return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);
+		
 		
 		movie.setId(movieId);
 		
@@ -114,7 +150,12 @@ public class CinemaController {
 	}
 	
 	@RequestMapping(value = "editCinema/{cinemaId}", method=RequestMethod.POST, consumes="application/json")
-	public ResponseEntity<Cinema> editMovie(@RequestBody Cinema cinema, @PathVariable Long cinemaId){
+	public ResponseEntity<Cinema> editMovie(HttpServletRequest request, @RequestBody Cinema cinema, @PathVariable Long cinemaId){
+		
+		User logged = (User) request.getSession().getAttribute("logged");
+		if(logged==null)
+			return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);
+		
 		
 		cinema.setId(cinemaId);
 		cinema.setMovies(cinemaService.findOne(cinemaId).getMovies());
