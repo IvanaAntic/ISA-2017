@@ -20,7 +20,6 @@ $(document).ready(function(event){
 							"<button type='button'>Pogledaj</button>"
 							"</div>"
 						
-					
 					$(".cinemaHolder").append(prikaz)
 				}
 	        	}
