@@ -154,7 +154,7 @@ public class UserServiceImpl implements UserService{
 		System.out.println("ime je"+userEdit.getName());
 		userRepository.save(userEdit);
 			
-			return userEdit;
+		return userEdit;
 		
 	}
 	

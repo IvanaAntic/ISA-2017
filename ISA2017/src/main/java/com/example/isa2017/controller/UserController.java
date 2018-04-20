@@ -29,7 +29,7 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
-	private UserRepository userRepository;
+	
 	
 	@RequestMapping(value="/register" , method=RequestMethod.POST)
 	public ResponseEntity<User> registerUser(@RequestBody UserDTO user){

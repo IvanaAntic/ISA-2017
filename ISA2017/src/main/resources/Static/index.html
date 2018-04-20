@@ -40,13 +40,13 @@
 			 { 
 	
 					 $.ajax({
-						url: "/user/register",
+						url: "http://localhost:8080/user/register",
 						type: "POST",
 						data: formData,
 						contentType: "application/json",
-						datatype: 'json',
+						datatype: "json",
 						success: function(data) {
-							alert("Go to your email to confirm registration.");
+								alert("Go to your email to confirm registration.");
 						  },
 						 error: function(error) {
 					            alert("Email is already used!");
@@ -75,7 +75,7 @@
 				type: "POST",
 				data: formData,
 				contentType: "application/json",
-				datatype: 'json',
+				datatype: "json",
 				success: function(data) {
 					
 						sessionStorage.setItem('loggedId',data.id);
@@ -230,7 +230,7 @@
 		       </div>
 		       <div class="modal-footer">
 		        	<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-		        	<button type="submit" class="btn btn-primary" id="register">Submit</button>
+		        	<button type="button" class="btn btn-primary" id="register">Submit</button>
 				</div>
 				</form>
 		     </div>

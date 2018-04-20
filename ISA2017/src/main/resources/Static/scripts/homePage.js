@@ -69,10 +69,10 @@ function userEdit(){
 		phoneNumber: $("#inputForm [name='phoneNumberEdit']").val(),
           });
 	$.ajax({
-		type:'POST',
+		type:"POST",
 		url:"http://localhost:8080/user/editUser",
 		contentType: "application/json",
-		datatype: 'json',
+		datatype: "json",
 		data:formData,
 		success:function(data){
 			 alert("Profile data changed successfully! ");
