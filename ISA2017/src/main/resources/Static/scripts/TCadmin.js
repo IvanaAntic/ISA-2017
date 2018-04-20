@@ -17,10 +17,6 @@ $(document).ready(function(){
 	 * 
 	 * */
 	
-	$("#nameAdd").datepicker({
-		
-	});
-	
 	$("#cinemaButton").click(function(){
 		
 		$(".buttonsHolder").fadeOut(function(){
@@ -75,7 +71,7 @@ $(document).ready(function(){
 						}
 						
 
-						$("#goBackCinema").fadeIn()
+						$("#goHome").fadeIn()
 						$(".cinemaHolder").fadeIn()
 						
 						
@@ -86,32 +82,35 @@ $(document).ready(function(){
 		
 	});
 	
-	$("#goBackCinema").click(function(){
-		
-		$(".cinemaHolder").fadeOut(function(){
-			$(".buttonsHolder").fadeIn()
-		})
-		
-		$("#goBackCinema").fadeOut()
-		
-	});
-	
 	$("#goBackMovies").click(function(){
 		
 		$(".movieListDiv").fadeOut()
 		$(".cinemaDiv").delay(500).fadeIn()
 		
-		$("#goBackMovies").hide()
-		$("#goBackCinema").delay(500).show()
+		$("#goBackMovies").fadeOut()
+		$("#goHome").delay(500).fadeIn()
 		
 	});
 	
+	$("#goHome").click(function(){
+		
+		$("#goBackTheatre").fadeOut()
+		$("#goBackPlays").fadeOut()
+		$("#goBackMovies").fadeOut()
+		$("#goBackCinema").fadeOut()
+		$("#goHome").fadeOut()
+		$(".reportHolder").fadeOut();
+		$(".cinemaHolder").fadeOut();
+		$(".theatreHolder").fadeOut();
+		$(".buttonsHolder").delay(500).fadeIn();
+		
+	});
+
 	$(document).on("click",".moviesListButton", function () {
 		
-		$("#goBackCinema").hide();
 		$(".cinemaDiv").fadeOut();
 		$("#cinema" + $(this).attr("id")).delay(500).fadeIn();
-		$("#goBackMovies").delay(500).show();
+		$("#goBackMovies").delay(500).fadeIn();
 	});
 	
 	$(document).on("click",".deleteMovieInCinema", function () {

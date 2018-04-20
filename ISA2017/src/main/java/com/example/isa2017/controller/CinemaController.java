@@ -49,6 +49,14 @@ public class CinemaController {
 		return new ResponseEntity<>(cinemas, HttpStatus.OK);
 	}
 	
+	@RequestMapping(value="getTCadminMovies", method = RequestMethod.GET)
+	public ResponseEntity<List<Movie>> getTCadminMovies() {
+		
+		List<Movie> movies = movieService.findAll();
+		 
+		return new ResponseEntity<>(movies, HttpStatus.OK);
+	}
+	
 	@RequestMapping(value = "deleteMovieInCinema/{cinemaId}/{movieId}", method=RequestMethod.POST, consumes="application/json")
 	public ResponseEntity<Cinema> deleteMovieInCinema(@PathVariable Long cinemaId, @PathVariable Long movieId){
 		

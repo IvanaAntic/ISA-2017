@@ -6,7 +6,6 @@
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <link rel="stylesheet" href="css/pocetna.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.min.css"/>
 
 <title>Admin pozorista/bioskopa</title>
 </head>
@@ -16,6 +15,7 @@
 
 <nav class="navbar">
   <div class="container-fluid">
+  	<a href="#" style="display: none; color: rgba(0, 0, 255, 0.4);" class="navbar-brand" data-target="#navbar7" id="goHome">Pocetna</a>
   	<a href="#" style="display: none; color: rgba(0, 0, 255, 0.4);" class="navbar-brand" data-target="#navbar7" id="goBackTheatre">&lt; Nazad</a>
   	<a href="#" style="display: none; color: rgba(0, 0, 255, 0.4);" class="navbar-brand" data-target="#navbar7" id="goBackMovies">&lt; Nazad</a>
   	<a href="#" style="display: none; color: rgba(0, 0, 255, 0.4);" class="navbar-brand" data-target="#navbar7" id="goBackPlays">&lt; Nazad</a>
@@ -28,7 +28,7 @@
     		</a>
     		<ul class="dropdown-menu">
     			<li><a href="#">Profil</a></li>
-    			<li><a href="#">Izvestaji</a></li>
+    			<li><a href="#" id="getReportsButton">Izvestaji</a></li>
     			<li><a href="#">Odjava</a></li>
     		</ul>
     	</li>
@@ -48,7 +48,23 @@
 	
 <div class="cinemaHolder"></div>
 <div class="theatreHolder"></div>
-<div class="reportHolder"></div>
+<div class="reportHolder container-fluid" style="display: none">
+
+	<ul class="nav nav-tabs">
+	  <li class="active"><a data-toggle="tab" href="#tab1">Ambijenti</a></li>
+	  <li><a data-toggle="tab" href="#tab2">Filmovi/Pozorista</a></li>
+	  <li><a data-toggle="tab" href="#tab3">Posecenost</a></li>
+	  <li><a data-toggle="tab" href="#tab4">Prihodi</a></li>
+	</ul>
+	
+	<div class="tab-content">
+	  <div id="tab1" class="tab-pane fade in active"></div>
+	  <div id="tab2" class="tab-pane fade"></div>
+	  <div id="tab3" class="tab-pane fade"></div>
+	  <div id="tab4" class="tab-pane fade"></div>
+	</div>
+
+</div>
 
 	<!-- ovo je modalni dijalog za dodavanje novog filma na repertoar bioskopa -->
 		
@@ -217,16 +233,8 @@
 <!-- Latest compiled JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
+<script type="text/javascript" src="scripts/TCadminReports.js"></script>
 <script type="text/javascript" src="scripts/TCadmin.js"></script>
-
-<!-- Bootstrap Date-Picker Plugin -->
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.min.js">
-	$(document).ready(function(){
-	    var date_input=$("#nameAdd"); //our date input has the name "date"
-	    
-	    date_input.datepicker();
-	  })
-</script>
 
 </body>
 </html>
