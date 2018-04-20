@@ -3,6 +3,7 @@ package com.example.isa2017.controller;
 import java.util.List;
 
 import javax.security.auth.message.callback.PrivateKeyCallback.IssuerSerialNumRequest;
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.isa2017.model.AdminItem;
+import com.example.isa2017.model.User;
 import com.example.isa2017.model.UserItem;
 import com.example.isa2017.modelDTO.AdminItemDTO;
 import com.example.isa2017.modelDTO.UserItemDTO;
@@ -70,6 +72,20 @@ private Logger logger = LoggerFactory.getLogger(this.getClass());
 		List<UserItem> userItems = userItemService.getApproved();
 		List<UserItemDTO> userItemsDTO = userItemService.convertToDTOs(userItems);
 		logger.info("< getUserItems");
+		
+		return new ResponseEntity<List<UserItemDTO>>(userItemsDTO,
+				HttpStatus.OK);
+	}
+	@RequestMapping(
+			value = "/myOrders",
+			method = RequestMethod.GET,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<UserItemDTO>> getMyLicitations(HttpServletRequest request) {
+		logger.info("> getMylicitations");
+		User user = (User) request.getSession().getAttribute("logged");
+		List<UserItem> userItems = userItemService.getBuyer(user.getId());
+		List<UserItemDTO> userItemsDTO = userItemService.convertToDTOs(userItems);
+		logger.info("< getMylicitations");
 		
 		return new ResponseEntity<List<UserItemDTO>>(userItemsDTO,
 				HttpStatus.OK);

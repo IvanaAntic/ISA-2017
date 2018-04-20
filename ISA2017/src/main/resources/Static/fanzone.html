@@ -44,7 +44,7 @@
     
   </head>
 
-  <body onload="getUserItems(); getAdminItems();getMyUserItems();loggedUser()">
+  <body onload="getUserItems(); getAdminItems();getMyUserItems();loggedUser();getReservedByUser();getMyOrders()">
 
     <!-- Navigation
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
@@ -94,7 +94,7 @@
           <ul class="nav nav-tabs" id="tabs">
             <li class="active"><a data-toggle="tab" href="#adminItems">Zvanicna prodavnica</a></li>
             <li><a data-toggle="tab" href="#userItems">Oglasi</a></li>
-            <li><a data-toggle="tab" href="#myUserItems">Moji oglasi</a></li>
+            <li><a data-toggle="tab" href="#myFanZone">Moja Fan Zona</a></li>
             <li>         
             </li>
             <form class="form-search form-inline">
@@ -111,9 +111,50 @@
               	<!-- Oglas korisnika:  -->            		
               	</div><!-- /oglas korisnika -->
               	<!-- Tab sa oglasima korisnika -->
-            	<div id="myUserItems" class="tab-pane fade">
-              	<!-- Oglas korisnika:  -->            		
+            	<div id="myFanZone" class="tab-pane fade">
+              	<!-- Oglas korisnika:  -->
+              		<ul class="nav nav-tabs" id="myZoneTabs">
+			            <li class="active"><a data-toggle="tab" href="#myItems">Moji Oglasi</a></li>
+			            <li><a data-toggle="tab" href="#myReservations">Rezervacije</a></li>
+			            <li><a data-toggle="tab" href="#myOrders">Licitacije</a></li>	            
+		          	</ul>            		
+              		<div class="tab-content">
+            			<div id="myItems" class="tab-pane fade in active">
+            			
+            			</div>
+            			<div id="myReservations" class="tab-pane fade">
+            			<table class="table" id="myReservationsTable">
+            				<tr>
+            					<th>Sifra</th>
+            					<th>Naziv</th>
+            					<th>Cena</th>
+            					<th>Datum</th>
+            					<th>Mesto</th>
+            					<th>Status</th>
+            				</tr>
+            				           					
+            			</table>
+            			
+            			</div>
+            			<div id="myOrders" class="tab-pane fade">
+            				<table class="table" id="myOrdersTable">
+            				<tr>
+            					<th>Sifra</th>
+            					<th>Datum</th>
+            					<th>Naziv</th>
+            					<th>Pocetna Cena</th>
+            					<th>Krajnja cena</th>
+            					<th>Prodavac</th>
+            					<th>Status</th>
+            				</tr>
+            				           					
+            			</table>
+            			
+            			</div>
+            		</div><!-- Tab content -->
+              	
               	</div><!-- /oglas korisnika -->
+              
               
             </div><!-- /userItems -->
           </div><!-- /tab content -->
@@ -223,8 +264,8 @@
 			  	</table>
 		      </div>
 		      <div class="modal-footer">
-		        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-		        <button type="button" class="btn btn-default" data-dismiss="modal">Prihvati</button>
+		        <button type="button" class="btn btn-default" data-dismiss="modal">Zatvori</button>
+		        <button type="button" class="btn btn-default" onclick="acceptBid()" >Prihvati</button>
 		      </div>
 		    </div>
 		    
@@ -240,11 +281,45 @@
 		       <h4 class="modal-title"></h4>
 		     </div>
 		     	<div class="modal-body">
-		     	 <h3 id="alert">Nema ponuda</h3>
+		     	 <h5 id="alert">Nema ponuda</h3>
 		      	</div>
 		      <div class="modal-footer">
 		        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 
+		      </div>
+		    </div>
+		    
+		  </div>
+		</div>
+		<!-- Accept Rezervation Modal -->
+		<div class="modal fade" id="acceptReservation" role="dialog">
+		  <div class="modal-dialog">
+		  
+		    <!-- Modal content-->
+		   <div class="modal-content">
+		     <div class="modal-header">
+		       <h4 class="modal-title">Potvrda rezervacije</h4>
+		     </div>
+		     	<div class="modal-body">
+		     	 <table id="acceptReservationTable" class="table">
+		     	 	<tr>
+		     	 		<th>Sifra</th>
+            			<th>Naziv</th>
+            			<th>Cena</th>
+            			<th>Mesto</th>
+            		<tr>
+            		<tr>
+		     	 		<td id="reserId">Sifra</td>
+            			<td id="reserName">Naziv</td>
+            			<td id="reserPrice">Cena</td>
+            			<td id="reserPlace">Mesto</td>
+            		<tr>
+		     	 </table>
+		      	</div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<div></div>
+				<button  type="button" class="btn btn-success" onclick="makeReservation(this)" data-dismiss="modal">Rezervisi</button>
 		      </div>
 		    </div>
 		    

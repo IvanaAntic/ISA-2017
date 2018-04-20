@@ -7,6 +7,8 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,15 +25,19 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.isa2017.model.AdminItem;
 import com.example.isa2017.model.Bid;
 import com.example.isa2017.model.Cinema;
+import com.example.isa2017.model.Role;
 import com.example.isa2017.model.Theatre;
+import com.example.isa2017.model.User;
 import com.example.isa2017.model.UserItem;
 import com.example.isa2017.modelDTO.AdminItemDTO;
 import com.example.isa2017.modelDTO.UserItemDTO;
 import com.example.isa2017.service.AdminItemService;
 import com.example.isa2017.service.BidService;
 import com.example.isa2017.service.CinemaService;
+import com.example.isa2017.service.EmailService;
 import com.example.isa2017.service.TheatreService;
 import com.example.isa2017.service.UserItemService;
+import com.example.isa2017.service.UserService;
 
 
 
@@ -60,6 +66,10 @@ public class FanZoneController {
 	private TheatreService theatreService;
 	@Autowired
 	private CinemaService cinemaService;
+	@Autowired
+	private EmailService emailService;
+	@Autowired
+	private UserService userService;
 	//Za Zvanicnu prodavnicu
 	
 	@RequestMapping(
@@ -163,6 +173,42 @@ public class FanZoneController {
 		return new ResponseEntity<AdminItemDTO>(new AdminItemDTO(adminItem), HttpStatus.OK);
 	}
 	@RequestMapping(
+			value = "/reservation/{id}",
+			method = RequestMethod.GET,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<AdminItemDTO> reservationAdminItem(@PathVariable Long id, HttpServletRequest request) throws Exception {
+		logger.info("> reservation");
+		
+		System.out.println("Stiglo  je :" + request.getAttributeNames() );
+		
+		User user = (User) request.getSession().getAttribute("logged");
+		
+		
+		if (user == null) {
+		
+			return new ResponseEntity<AdminItemDTO>( HttpStatus.BAD_REQUEST);
+		
+		}else if (user.getRole() != Role.USER) {
+				
+			return new ResponseEntity<AdminItemDTO>( HttpStatus.METHOD_NOT_ALLOWED);
+		}
+		AdminItem reserved = adminItemService.makeReservation(user.getId(), id);
+		System.out.println("User koji bi da rezervise je :" + user.getEmail() );
+		
+		if (reserved == null) {
+			return new ResponseEntity<AdminItemDTO>( HttpStatus.BAD_REQUEST);
+		}
+		try {
+			emailService.sendReservSucc(user, reserved);
+		}catch( Exception e ){
+			logger.info("Greska prilikom slanja emaila: " + e.getMessage());
+		}
+		
+		logger.info("< reservation");
+		return new ResponseEntity<AdminItemDTO>(new AdminItemDTO(reserved), HttpStatus.OK);
+	}
+	
+	@RequestMapping(
 			value = "/adminItem",
 			method = RequestMethod.POST,
 			consumes = MediaType.APPLICATION_JSON_VALUE,
@@ -173,26 +219,50 @@ public class FanZoneController {
 		logger.info("< addAdminItem");
 		return new ResponseEntity<AdminItem>(newAdminItem, HttpStatus.CREATED);
 	}
+	
 	@RequestMapping(
-			value = "/approve/{itemId}/{adminId}",
+			value = "/approve/{itemId}",
 			method = RequestMethod.POST,
 			produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<UserItemDTO> approveUserItem(@PathVariable Long itemId,@PathVariable Long adminId) {
+	public ResponseEntity<UserItemDTO> approveUserItem(@PathVariable Long itemId, HttpServletRequest request) {
 		logger.info("> getUserItem");
-		UserItem userItem = userItemService.approve(itemId, adminId);
+		User user = (User) request.getSession().getAttribute("logged");
+		UserItem userItem = userItemService.approve(itemId, user.getId());
+		if (userItem == null) {
+			return new ResponseEntity<UserItemDTO>( HttpStatus.BAD_REQUEST);
+		}
+		try {
+			emailService.sendApproved(user, userItem);
+		}catch( Exception e ){
+			logger.info("Greska prilikom slanja emaila: " + e.getMessage());
+		}
+		
 		logger.info("< getUserItem");
 		return new ResponseEntity<UserItemDTO>(userItemService.convertToDTO(userItem), HttpStatus.OK);
 	}
+	
 	@RequestMapping(
-			value = "/disapprove/{itemId}/{adminId}",
+			value = "/disapprove/{itemId}",
 			method = RequestMethod.POST,
 			produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<UserItemDTO> disapproveUserItem(@PathVariable Long itemId,@PathVariable Long adminId) {
+	public ResponseEntity<UserItemDTO> disapproveUserItem(@PathVariable Long itemId, HttpServletRequest request) {
 		logger.info("> getUserItem");
-		UserItem userItem = userItemService.disapprove(itemId, adminId);
+		User user = (User) request.getSession().getAttribute("logged");
+		UserItem userItem = userItemService.disapprove(itemId, user.getId());
+		
+		if (userItem == null) {
+			return new ResponseEntity<UserItemDTO>( HttpStatus.BAD_REQUEST);
+		}
+		try {
+			emailService.sendDispproved(user, userItem);
+		}catch( Exception e ){
+			logger.info("Greska prilikom slanja emaila: " + e.getMessage());
+		}
+		
 		logger.info("< getUserItem");
 		return new ResponseEntity<UserItemDTO>(userItemService.convertToDTO(userItem), HttpStatus.OK);
 	}
+	
 	@RequestMapping(
 			value = "/userItems",
 			method = RequestMethod.GET,
@@ -219,6 +289,21 @@ public class FanZoneController {
 		return new ResponseEntity<List<UserItemDTO>>(userItemService.convertToDTOs(userItems),
 				HttpStatus.OK);
 	}
+	@RequestMapping(
+			value = "/reservedItems",
+			method = RequestMethod.GET,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<AdminItemDTO>> getReservedItems(HttpServletRequest request) {
+		logger.info("> getApprovedItems");
+		User user = (User) request.getSession().getAttribute("logged");
+		if (user == null) {
+			return new ResponseEntity<List<AdminItemDTO>>(HttpStatus.UNAUTHORIZED);
+		}
+		List<AdminItem> adminItems = adminItemService.getByBuyer(user.getId());
+
+		logger.info("< getApprovedItems");
+		return new ResponseEntity<List<AdminItemDTO>>(adminItemService.adminItemsToDTO(adminItems), HttpStatus.OK);
+	}
 	
 	@RequestMapping(value = "/deleteUserItem/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<UserItemDTO> deleteUserItem(@PathVariable Long id) {
@@ -244,8 +329,9 @@ public class FanZoneController {
 			method = RequestMethod.POST,
 			consumes = MediaType.APPLICATION_JSON_VALUE,
 			produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Bid> addBid(@RequestBody Bid bid) throws Exception {
+	public ResponseEntity<Bid> addBid(@RequestBody Bid bid, HttpServletRequest request) throws Exception {
 		logger.info("> addBid");
+		User user = (User) request.getAttribute("logged");
 		Bid newBid = bidService.save(bid);
 		logger.info("< addBid");
 		return new ResponseEntity<Bid>(newBid, HttpStatus.CREATED);

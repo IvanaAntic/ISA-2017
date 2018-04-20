@@ -3,7 +3,10 @@ package com.example.isa2017.service;
 import java.util.List;
 
 import com.example.isa2017.model.AdminItem;
+import com.example.isa2017.model.Bid;
+import com.example.isa2017.model.User;
 import com.example.isa2017.model.UserItem;
+import com.example.isa2017.modelDTO.BidDTO;
 import com.example.isa2017.modelDTO.UserItemDTO;
 
 
@@ -25,6 +28,9 @@ public interface UserItemService {
 	UserItemDTO convertToDTO(UserItem userItem);
 	List<UserItem> convertFromDTOs(List<UserItemDTO> userItemDTOs);
 	List<UserItemDTO> convertToDTOs(List<UserItem> userItems);
-
-	
+	UserItem createBid(User user, Bid bid) throws Exception; 
+	UserItem acceptBid(User owner,BidDTO bidDTO);
+	UserItem rejectLicitation(User owner, Long itemId);
+	List<User> getBidders(UserItem userItem);
+	void checkStatus();
 }

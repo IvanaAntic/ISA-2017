@@ -4,21 +4,32 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.datasource.init.DatabasePopulatorUtils;
+import org.springframework.mail.MailException;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-
-
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import com.example.isa2017.model.Bid;
+import com.example.isa2017.model.Message;
+import com.example.isa2017.model.MessageType;
 import com.example.isa2017.model.Role;
 import com.example.isa2017.model.User;
 import com.example.isa2017.model.UserItem;
 import com.example.isa2017.modelDTO.AuctionStatus;
 import com.example.isa2017.modelDTO.BidDTO;
 import com.example.isa2017.modelDTO.UserItemDTO;
+import com.example.isa2017.repository.MessageRepository;
 import com.example.isa2017.repository.UserItemRepository;
+import com.example.isa2017.repository.UserRepository;
 
 
 @Service
@@ -30,7 +41,12 @@ public class UserItemServiceImpl implements UserItemService {
 	private UserService userService;
 	@Autowired
 	private BidService bidService;
-	
+	@Autowired
+	private UserRepository ur;
+	@Autowired
+	private EmailService emailService;
+	@Autowired
+	private MessageRepository messageRepository;
 	@Override
 	public UserItem findOne(Long id) {
 		
@@ -121,13 +137,15 @@ public class UserItemServiceImpl implements UserItemService {
 	@Override
 	public List<UserItem> getBuyer(Long id) {
 		List<UserItem> items = findAll();
+		List<UserItem> retVal = new ArrayList<>();
 		for (UserItem userItem : items) {
-			if (userItem.getBuyer().getId() == id) {
-				items.add(userItem);
+			if ( userItem.getBuyer() != null && userItem.getBuyer().getId() == id) {
+				retVal.add(userItem);
 			}
 		}
-		return items;
+		return retVal;
 	}
+	
 
 	@Override
 	public UserItem convertFromDTO(UserItemDTO userItemDTO) {
@@ -155,7 +173,7 @@ public class UserItemServiceImpl implements UserItemService {
 			System.out.println("Nakon parsiranja i formatiran "+ dateFormat.format(endDate));
 			userItem.setEndDate(endDate);
 			} catch (ParseException e) {
-				// TODO Auto-generated catch block
+				
 				e.printStackTrace();
 			}
 		//TODO  informacije od Useru koji je postavio, odobrio, kupio, 
@@ -190,7 +208,7 @@ public class UserItemServiceImpl implements UserItemService {
 		if (bids != null) {
 			List<BidDTO> bidsDTO = new ArrayList<>();
 			for (Bid bid : bids) {
-				bidsDTO.add(new BidDTO(bid));
+				bidsDTO.add(bidService.bidToDTO(bid));
 			}
 			userItemDTO.setBids(bidsDTO);
 		}
@@ -262,6 +280,157 @@ public class UserItemServiceImpl implements UserItemService {
 		userItemRepository.save(userItem);
 		return userItem;
 	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED, isolation=Isolation.REPEATABLE_READ, rollbackFor = Exception.class)
+	public UserItem createBid(User user, Bid bid)throws Exception  {
+		UserItem userItem = userItemRepository.findOne(bid.getItem().getId());
+		/*System.out.println("USER  "+user.getName());
+		user.setName("PROBA");
+		ur.save(user);
+		System.out.println("USER  "+user.getName());
+*/		Bid newBid;
+		//da li je licitacija istekla
+		
+		if (bid.getDate().compareTo(userItem.getEndDate()) > 0) 
+			throw new IllegalArgumentException("Licitacija je istekla.");
+		
+			
+			if (userItem.getBids() == null) {
+				ArrayList<Bid> bids = new ArrayList<>();
+				bids.add(bid);
+				userItem.setBids(bids);
+				userItem.setCurrentPrice(bid.getPrice());
+				
+			}else {
+				
+				List<Bid> bids = userItem.getBids();
+				for (Bid bid2 : bids) {
+					if (bid2.getPrice() >= bid.getPrice()) {
+						
+						throw new IllegalArgumentException("Ponuda mora biti veca od trenutne ponude.");
+					}				
+				}
+				userItem.getBids().add(bid);
+				userItem.setCurrentPrice(bid.getPrice());
+			}
+			
+			UserItem newUserItem = userItemRepository.save(userItem);
+		
 	
+		
+		return newUserItem;
+	}
+	
+	@Override
+	public UserItem rejectLicitation(User owner, Long id) {
+		
+		UserItem userItem = userItemRepository.findOne(id);
+		if(owner.getId() != userItem.getPostedBy().getId()) {
+			throw new IllegalArgumentException("Nemate prava.");
+		}
+		userItem.setStatus(AuctionStatus.Odbijen);
+		List<Bid> bids = userItem.getBids();
+		List<Bid> forDelete = new ArrayList<>();
+		
+		/*for (Bid bid : bids) {
+			forDelete.add(bid);
+			bidService.delete(bid.getId());
+		}
+		userItem.getBids().removeAll(forDelete);*/
+		
+		UserItem rejected =  userItemRepository.save(userItem);
+		
+		return rejected;
+	}
+
+	@Override
+	public UserItem acceptBid(User owner, BidDTO bidDTO) {
+		
+		Bid acceptedBid = bidService.findOne(bidDTO.getId());
+		UserItem userItem = findOne(bidDTO.getItemId());
+		User buyer = acceptedBid.getBuyer();
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		Date date;
+		try {
+			date = dateFormat.parse(bidDTO.getDate());
+			if (date.compareTo(userItem.getEndDate()) > 0 || userItem.getBuyer() != null) {
+				throw new IllegalArgumentException("Licitacija je zavrsena "+userItem.getEndDate()+".");
+			}
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+		if(owner.getId() != userItem.getPostedBy().getId()) {
+			throw new IllegalArgumentException("Nemate prava.");
+		}
+		userItem.setBuyer(buyer);
+		userItem.setStatus(AuctionStatus.Zavrsen);
+		
+		return userItemRepository.save(userItem);
+	}
+
+	@Override
+	public List<User> getBidders(UserItem userItem) {
+		Set<User> users = new HashSet<>();
+		
+		List<Bid> bids = userItem.getBids();
+		for (Bid bid : bids) {
+			users.add(bid.getBuyer());
+		}
+		return new ArrayList<>(users);
+	}
+
+	@Override
+	@Scheduled(cron = "0 */15 * * * *" )
+	public void checkStatus() {
+		
+		System.out.println("Proveri da li ima licitacija koje uskoro isticu!");
+		List<UserItem> approvedItems = getApproved();
+		List<Message> messages = messageRepository.findAll();
+		Date nowDate = new Date();
+		Calendar cal = Calendar.getInstance();
+		Date date = new Date();
+		boolean notified = false;
+		for (UserItem userItem : approvedItems) {		
+			
+			cal.setTime(userItem.getEndDate());
+			cal.add(Calendar.HOUR, -1);
+			date = cal.getTime();
+			System.out.println("Now " +nowDate);
+			System.out.println("date " +date);
+			System.out.println(nowDate.compareTo(date));
+			System.out.println(date.compareTo(nowDate));
+			int res = nowDate.compareTo(date);
+			System.out.println("res "+ res);
+			if (res > 0 ) {
+				for (Message message : messages) {
+					System.out.println("Da li postoji poruka? "+ message.getItemId()+"=="+userItem.getId());
+					System.out.println("Da li postoji poruka? "+message.getType()+"=="+MessageType.USKORO_ISTICE);
+					if (message.getItemId() == userItem.getId() && (message.getType() == MessageType.USKORO_ISTICE)) {
+						notified = true;
+						break;
+					}
+				}
+				if (!notified) {
+					try {
+						notified = false;
+						emailService.sendLicitationEnd(userItem);
+						
+					} catch (MailException e) {
+
+						e.printStackTrace();
+					} catch (InterruptedException e) {
+
+						e.printStackTrace();
+					}
+				}	
+			}
+			
+			
+		}
+	}
+	
+
 
 }

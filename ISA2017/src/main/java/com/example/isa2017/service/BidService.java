@@ -8,7 +8,9 @@ import com.example.isa2017.modelDTO.BidDTO;
 public interface BidService {
 
 	Bid save(Bid bid);
+	Bid delete(Long id);
 	Bid findOne(Long id);
 	List<Bid> findAll();
 	Bid bidFromDTO(BidDTO bidDTO);
+	BidDTO bidToDTO(Bid bid);
 }

@@ -1,5 +1,7 @@
 package com.example.isa2017.model;
 
+import java.util.Date;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
@@ -22,9 +24,30 @@ public class AdminItem {
 	private Cinema cinema;
 	@ManyToOne
 	private User buyer;
+	private Date reservationDate;
 	@ManyToOne
 	private User postedBy;
+	@NotNull
+	private Date postedDate;
 	
+
+	
+	public Date getReservationDate() {
+		return reservationDate;
+	}
+
+	public void setReservationDate(Date reservationDate) {
+		this.reservationDate = reservationDate;
+	}
+
+	public Date getPostedDate() {
+		return postedDate;
+	}
+
+	public void setPostedDate(Date postedDate) {
+		this.postedDate = postedDate;
+	}
+
 	public AdminItem() {
 		super();
 	}

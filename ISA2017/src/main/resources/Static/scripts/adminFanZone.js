@@ -14,6 +14,7 @@ function isFanZoneAdmin(){
 				alert("Nemate prava pristupa!");
 				window.location.href='index.html';
 			}else{
+				sessionStorage.setItem('loggedId',data.id);
 				$("#editAdminForm [name='editAdminId']").val(data.id);
 				$("#editAdminForm [name='adminNameInput']").val(data.name);
 				$("#editAdminForm [name='adminSurnameInput']").val(data.surname);
@@ -142,7 +143,7 @@ function approveUserItem(event){
 	var loggedUserId = sessionStorage.loggedId;
 	$.ajax({
 		method : 'POST',
-		url : urlBase + "FanZone/approve/"+event.id+"/"+loggedUserId,
+		url : urlBase + "FanZone/approve/"+event.id,
 		success : function(data){
 			$("#userItemsNotApproved").find("#"+data.id+"").remove();
 			appendUserItem(data);
@@ -158,7 +159,7 @@ function disapproveUserItem(event){
 	var loggedUserId = sessionStorage.loggedId;
 	$.ajax({
 		method : 'POST',
-		url : urlBase + "FanZone/disapprove/"+event.id+"/"+loggedUserId,
+		url : urlBase + "FanZone/disapprove/"+event.id,
 		success : function(data){
 			$("#userItemsApproved").find("#"+data.id+"").remove();
 			appendUserItem(data);
@@ -393,7 +394,7 @@ function appendUserItem(data){
 					+	      "</tr>"
 					+	      "<tr>"
 					+	        "<td >Status:</td>"
-					+	        "<td id=\"status\">"+data.status+"</td>"
+					+	        "<td id=\"status\">"+data.status.replace('_', ' ')+"</td>"
 					+	      "</tr>"
 					+	    "</tbody>"
 					+	  "</table>"     
@@ -424,7 +425,7 @@ function appendItem(data){
 		placeName = data.cinemaName;
 		placeId = data.cinemaId;
 	}
-	if (data.isReserved) {
+	if (data.reserved) {
 		status = "Rezervisan";
 	}else{
 		status = "Slobodan";

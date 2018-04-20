@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Version;
 
 import com.example.isa2017.modelDTO.AuctionStatus;
 
@@ -38,6 +39,8 @@ public class UserItem {
 	private User buyer;
 	private AuctionStatus status;
 	private boolean approved;
+	@Version
+	private int version;
 	public UserItem() {
 		super();
 	}

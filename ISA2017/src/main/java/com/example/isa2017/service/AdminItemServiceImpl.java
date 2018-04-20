@@ -1,13 +1,19 @@
 package com.example.isa2017.service;
 
+import static org.assertj.core.api.Assertions.registerCustomDateFormat;
+
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import org.dom4j.IllegalAddException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.IllegalTransactionStateException;
 
 import com.example.isa2017.model.AdminItem;
 import com.example.isa2017.model.Cinema;
+import com.example.isa2017.model.Role;
 import com.example.isa2017.model.Theatre;
 import com.example.isa2017.model.User;
 import com.example.isa2017.modelDTO.AdminItemDTO;
@@ -76,20 +82,33 @@ public class AdminItemServiceImpl implements AdminItemService {
 		adminItem.setDescription(adminItemDTO.getDescription());
 		adminItem.setPrice(Integer.parseInt(adminItemDTO.getPrice()));
 		adminItem.setPostedBy(postedBy);
-		
-		
+		adminItem.setPostedDate(new Date());		
 		adminItem.setReserved(false);
+		
 		return adminItemRepository.save(adminItem);
 	}
 
 	@Override
-	public AdminItem makeReservation(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+	public AdminItem makeReservation(Long buyerId, Long itemId) throws Exception {
+		
+		User buyer = userRepository.findById(buyerId);
+		AdminItem item = findOne(itemId);
+		if ( buyer.getRole() != Role.USER) {
+			throw new IllegalAccessError("Nemate prava pristupa!");
+		}
+		if (item.isReserved()) {
+			throw new IllegalAddException("Proizvod je vec rezervisan!");
+		}
+		item.setBuyer(buyer);
+		item.setReserved(true);
+		item.setReservationDate(new Date());
+		AdminItem reserved = adminItemRepository.save(item);
+		
+		return reserved;
 	}
 
 	@Override
-	public AdminItem cancelReservation(Long id) {
+	public AdminItem cancelReservation(Long buyerId, Long itemId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -105,6 +124,7 @@ public class AdminItemServiceImpl implements AdminItemService {
 		}
 		return retVal;
 	}
+	
 
 	@Override
 	public List<AdminItemDTO> getAll() {
@@ -161,6 +181,25 @@ public class AdminItemServiceImpl implements AdminItemService {
 			retVal.add(new AdminItemDTO(adminItem));
 		}
 		return retVal;
+	}
+
+	@Override
+	public List<AdminItem> getByBuyer(Long id) {
+		List<AdminItem> adminItems = adminItemRepository.findAll();
+		List<AdminItem> retVal = new ArrayList<>();
+	
+		for (AdminItem adminItem : adminItems) {
+			if (adminItem.getBuyer() != null && adminItem.getBuyer().getId() == id) {
+				retVal.add(adminItem);
+			}
+		}
+		return retVal;
+	}
+
+	@Override
+	public List<AdminItem> getReserved() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	
