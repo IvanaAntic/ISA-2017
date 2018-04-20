@@ -36,6 +36,8 @@ import com.example.isa2017.service.UserItemService;
 
 
 
+
+
 @Component
 public class TestData {
 
@@ -103,6 +105,8 @@ public class TestData {
 		User gema = new User("gema@gema", "gema", "Gema", "Gema", "064123123", "Uzvece", Role.FANZONEADMIN, true);
 		//Obican user sa ispravnim mailom
 		User sasa = new User("gemovics@gmail.com","gemovics", "Sasa", "Gemovic", "064123123", "Uzvece", Role.USER, true);
+		//Obican user sa ispravnim mailom
+		User sasa2 = new User("gemin.mail.za.testiranje@gmail.com","gema", "Sasa2", "Gemovic2", "064123123", "Uzvece2", Role.USER, true);
 		//Admin fan zone
 		User adminFZ = new User("adminFZ@adminFZ", "admin", "AdminFZ", "AdminFZ", "064123123", "Uzvece", Role.FANZONEADMIN, true);
 		User adminSYS = new User("adminSYS@adminSYS", "adminSYS", "AdminSYS", "AdminSYS", "064123123", "Uzvece", Role.SYSTEMADMIN, true);
@@ -117,6 +121,7 @@ public class TestData {
 		userRepository.save(adminFZ);//id=5
 		userRepository.save(sasa);//id=6
 		userRepository.save(TCadmin);
+		userRepository.save(sasa2);//id=6
 		
 		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 		Date datum1 = null;
@@ -124,7 +129,7 @@ public class TestData {
 		Date datum3 = null;
 		Date datum4 = null;
 		try {
-			datum1 = dateFormat.parse("25/4/2018 20:00");
+			datum1 = dateFormat.parse("20/4/2018 19:40");
 			datum2 = dateFormat.parse("28/5/2018 20:00");
 			datum3 = dateFormat.parse("26/4/2018 20:00");
 			datum4 = dateFormat.parse("23/4/2018 20:00");
@@ -232,18 +237,22 @@ public class TestData {
 				"Verno prikazan kroz igračku.  \n" + 
 				"Na grudima ima taster za aktivaciju zvuka i efekata.");
 		adminItem1.setPostedBy(adminFZ);
+		adminItem1.setPostedDate(datum1);
 		adminItem1.setCinema(cinema1);
 		adminItem1.setPrice(1000);
 		adminItem1.setReserved(true);
 		adminItem1.setBuyer(pera);
+		adminItem1.setReservationDate(datum2);
 		adminItemService.save(adminItem1);
 		//Proizvod iz prodavnice 2
 		AdminItem adminItem2 = new AdminItem();
 		adminItem2.setName("Privezak ogrlica iz filma LOTR");
 		adminItem2.setDescription("Lanac sa priveskom iz filma Gospodar prstenova.");
 		adminItem2.setPostedBy(gema);
+		adminItem2.setPostedDate(datum3);
 		adminItem2.setCinema(cinema2);
 		adminItem2.setPrice(500);
+		adminItem2.setReserved(false);
 		adminItemService.save(adminItem2);
 		
 				

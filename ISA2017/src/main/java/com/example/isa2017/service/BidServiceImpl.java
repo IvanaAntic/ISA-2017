@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.isa2017.model.Bid;
+import com.example.isa2017.model.UserItem;
 import com.example.isa2017.modelDTO.BidDTO;
 import com.example.isa2017.repository.BidRepository;
 
@@ -49,9 +50,11 @@ public class BidServiceImpl implements BidService {
 	@Override
 	public Bid bidFromDTO(BidDTO bidDTO) {
 		Bid bid = new Bid();
-		bid.setId(bidDTO.getId());
+		if (bidDTO.getItemId() != null) {
+			bid.setId(bidDTO.getId());
+		}		
 		bid.setPrice(Integer.parseInt(bidDTO.getPrice()));
-		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		try {
 			Date date = dateFormat.parse(bidDTO.getDate());
 			System.out.println(date);
@@ -61,8 +64,35 @@ public class BidServiceImpl implements BidService {
 				e.printStackTrace();
 			}
 		bid.setItem(userItemService.findOne(bidDTO.getItemId()));
-		bid.setBuyer(userService.findById(bidDTO.getBuyerId()));
+		if (bidDTO.getBuyerId() != null) {
+			bid.setBuyer(userService.findById(bidDTO.getBuyerId()));
+		}
 		
+		return bid;
+	}
+
+	@Override
+	public BidDTO bidToDTO(Bid bid) {
+		BidDTO bidDTO = new BidDTO();
+		bidDTO.setId(bid.getId());
+		bidDTO.setBuyerId(bid.getBuyer().getId());
+		bidDTO.setBuyerName(bid.getBuyer().getName());
+		bidDTO.setItemId(bid.getItem().getId());
+		bidDTO.setPrice(Integer.toString(bid.getPrice()));
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		bidDTO.setDate(dateFormat.format(bid.getDate()));
+
+		return bidDTO;
+	}
+
+	@Override
+	public Bid delete(Long id) {
+		Bid bid = bidRepository.findOne(id);
+		if (bid == null) {
+			throw new IllegalArgumentException("Ponuda ne postoji.");
+		}else
+			bidRepository.delete(bid.getId());
+			
 		return bid;
 	}
 

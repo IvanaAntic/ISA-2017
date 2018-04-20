@@ -1,5 +1,8 @@
 package com.example.isa2017.modelDTO;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
@@ -24,9 +27,10 @@ public class AdminItemDTO {
 	private String cinemaName;
 	private Long buyerId;
 	private String buyerName;
+	private String reservationDate;
 	private Long postedById;
 	private String postedByName;
-	
+	private String postedDate;
 	
 	public AdminItemDTO() {
 		super();
@@ -34,6 +38,7 @@ public class AdminItemDTO {
 
 
 	public AdminItemDTO(AdminItem adminItem) {
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		this.id = adminItem.getId();
 		this.name = adminItem.getName();
 		this.description = adminItem.getDescription();
@@ -50,10 +55,12 @@ public class AdminItemDTO {
 		if (adminItem.getBuyer() != null) {
 			this.buyerId = adminItem.getBuyer().getId();
 			this.buyerName = adminItem.getBuyer().getName();
+			this.reservationDate = dateFormat.format(adminItem.getReservationDate());
 		}
 		
 		this.postedById = adminItem.getPostedBy().getId();
-		this.postedByName = adminItem.getPostedBy().getName();
+		this.postedByName = adminItem.getPostedBy().getName();		
+		this.postedDate = dateFormat.format(adminItem.getPostedDate());
 	}
 
 
@@ -200,6 +207,23 @@ public class AdminItemDTO {
 	public void setPostedByName(String postedByName) {
 		this.postedByName = postedByName;
 	}
-	
+	public String getReservationDate() {
+		return reservationDate;
+	}
+
+
+	public void setReservationDate(String reservationDate) {
+		this.reservationDate = reservationDate;
+	}
+
+
+	public String getPostedDate() {
+		return postedDate;
+	}
+
+
+	public void setPostedDate(String postedDate) {
+		this.postedDate = postedDate;
+	}
 	
 }
