@@ -382,7 +382,7 @@ public class UserItemServiceImpl implements UserItemService {
 	}
 
 	@Override
-	@Scheduled(cron = "0 */15 * * * *" )
+	//@Scheduled(cron = "0 */15 * * * *" )
 	public void checkStatus() {
 		
 		System.out.println("Proveri da li ima licitacija koje uskoro isticu!");

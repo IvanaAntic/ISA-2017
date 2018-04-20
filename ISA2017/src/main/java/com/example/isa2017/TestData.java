@@ -140,7 +140,7 @@ public class TestData {
 		userItem1.setStartPrice(1000);
 		userItem1.setCurrentPrice(1000);
 		userItem1.setEndDate(datum1);
-		userItem1.setPostedBy(sasa);
+		userItem1.setPostedBy(pera);
 		userItem1.setApproved(true);
 		userItem1.setApprovedBy(gema);
 		userItem1.setStatus(AuctionStatus.Aktuelan);
