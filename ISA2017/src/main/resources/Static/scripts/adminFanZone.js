@@ -3,9 +3,18 @@ var urlBase = "http://localhost:8080/";
 function getUser(){
 	
 }
-
-function isFanZoneAdmin(){
+function proba(){
+	userName = "a";
+	isFanZoneAdmin(function(output){
+		//ovde dobijem data iz pozvanog ajax
+		userName =  output.id;
+	});
+	//vrati a
+	return userName;
+}
+function isFanZoneAdmin(handleData){
 	var loggedUserId;
+	var pera = "pera";
 	$.ajax({
 		method : 'GET',
 		url : urlBase + "user/displayUser",
@@ -22,7 +31,7 @@ function isFanZoneAdmin(){
 				$("#editAdminForm [name='adminPhoneInput']").val(data.phoneNumber);
 				$("#editAdminForm [name='adminEmailInput']").val(data.email);
 				loggedUserId = data.id;
-				
+				handleData(data);
 			}
 				
 		},
@@ -32,7 +41,8 @@ function isFanZoneAdmin(){
 			  window.location.href='index.html';
 			}
 	});
-	return loggedUserId;
+	
+	
 }
 /*function isFanZoneAdmin(){
 	loggedUserId = sessionStorage.loggedId;

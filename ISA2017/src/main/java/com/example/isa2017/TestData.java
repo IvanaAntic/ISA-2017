@@ -17,9 +17,11 @@ import org.springframework.stereotype.Component;
 import com.example.isa2017.model.AdminItem;
 import com.example.isa2017.model.Bid;
 import com.example.isa2017.model.Cinema;
+import com.example.isa2017.model.Hall;
 import com.example.isa2017.model.Movie;
 import com.example.isa2017.model.Play;
 import com.example.isa2017.model.Role;
+import com.example.isa2017.model.Seat;
 import com.example.isa2017.model.Theatre;
 import com.example.isa2017.model.User;
 import com.example.isa2017.model.UserItem;
@@ -29,8 +31,10 @@ import com.example.isa2017.repository.UserRepository;
 import com.example.isa2017.service.AdminItemService;
 import com.example.isa2017.service.BidService;
 import com.example.isa2017.service.CinemaService;
+import com.example.isa2017.service.HallService;
 import com.example.isa2017.service.MovieService;
 import com.example.isa2017.service.PlayService;
+import com.example.isa2017.service.SeatService;
 import com.example.isa2017.service.TheatreService;
 import com.example.isa2017.service.UserItemService;
 
@@ -61,13 +65,31 @@ public class TestData {
 	private AdminItemService adminItemService;
 	@Autowired
 	private BidService bidService;
+	@Autowired
+	private HallService hallService;
+	@Autowired
+	private SeatService seatService;
 	@PostConstruct
 	private void init(){
 		
 		List<List<Movie>> generatedMovies = generateMovies();
 		List<List<Play>> generatedPlays = generatePlays();
+		//Seat seat = new Seat();
+		//int row = 1;
+		//int col = 1;
+		//seat.setRow(row);
+		//seat.setColumn(col);
+		//seat.setReserved(false);
+		//seatService.save(seat);
+		//List<Seat> seats = new ArrayList<>();
+		//seats.add(seat);
+		
+		Hall hall1 = new Hall(5,5,"Sala 3");
 		
 		Cinema cinema1 = new Cinema("arena cineplexx1", "adresa1", "opis1", 3, generatedMovies.get(0));
+		List<Hall> halls = new ArrayList<>();
+		halls.add(hallService.save(hallService.save(hall1)));
+		cinema1.setHalls(halls);
 		cinemaService.save(cinema1);
 		Cinema cinema2 = new Cinema("arena cineplexx2", "adresa2", "opis2", 2, generatedMovies.get(1));
 		cinemaService.save(cinema2);
@@ -283,7 +305,7 @@ public class TestData {
 				 + "Rick Deckard (Harrison Ford).", projectionTimes, 750);
 		
 		
-		File file = new File("C:\\Users\\igor\\Downloads\\vivify.png");
+		File file = new File("C:\\Users\\Gema\\Desktop\\slika.png");
         byte[] bFile = new byte[(int) file.length()];
  
         try {

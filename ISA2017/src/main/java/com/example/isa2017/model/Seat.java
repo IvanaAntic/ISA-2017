@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 @Entity(name="seat")
 public class Seat {
@@ -13,13 +14,14 @@ public class Seat {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long Id;
 	
-	@Column
+
 	private int row;
 	
-	@Column
+
 	private int column;
-	
-	@Column
+	//@ManyToOne
+	//private Hall hall;
+
 	private boolean isReserved;
 	
 	public Seat() {}

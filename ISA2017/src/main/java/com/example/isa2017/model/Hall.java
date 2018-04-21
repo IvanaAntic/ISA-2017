@@ -25,19 +25,19 @@ public class Hall {
 	@Column
 	private String name;
 	
-	@OneToMany
-	private List<Seat> seats;
+	//@OneToMany
+	//private List<Seat> seats;
 
 	public Hall() {
 		super();
 	}
 
-	public Hall(int rows, int columns, String name, List<Seat> seats) {
+	public Hall(int rows, int columns, String name) {
 		super();
 		this.rows = rows;
 		this.columns = columns;
 		this.name = name;
-		this.seats = seats;
+
 	}
 
 	public Long getId() {
@@ -72,13 +72,13 @@ public class Hall {
 		this.name = name;
 	}
 
-	public List<Seat> getSeats() {
+	/*public List<Seat> getSeats() {
 		return seats;
 	}
 
 	public void setSeats(List<Seat> seats) {
 		this.seats = seats;
-	}
+	}*/
 	
 	
 	
