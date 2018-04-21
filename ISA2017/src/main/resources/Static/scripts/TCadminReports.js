@@ -7,14 +7,13 @@ $(document).ready(function(){
 		$("#tab3").empty()
 		$("#tab4").empty()
 		
-		$("#goBackTheatre").fadeOut()
 		$("#goBackPlay").fadeOut()
 		$("#goBackMovies").fadeOut()
-		$("#goBackCinema").fadeOut()
 		
 		$(".buttonsHolder").fadeOut();
 		$(".cinemaHolder").fadeOut();
 		$(".theatreHolder").fadeOut();
+		$(".profileHolder").fadeOut();
 		$(".reportHolder").delay(500).fadeIn();
 		$("#goHome").delay(500).fadeIn();
 		

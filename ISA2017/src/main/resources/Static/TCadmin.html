@@ -6,6 +6,7 @@
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <link rel="stylesheet" href="css/pocetna.css">
+<link rel="stylesheet" href="css/userHomePage.css">
 
 <title>Admin pozorista/bioskopa</title>
 </head>
@@ -16,10 +17,8 @@
 <nav class="navbar">
   <div class="container-fluid">
   	<a href="#" style="display: none; color: rgba(0, 0, 255, 0.4);" class="navbar-brand" data-target="#navbar7" id="goHome">Pocetna</a>
-  	<a href="#" style="display: none; color: rgba(0, 0, 255, 0.4);" class="navbar-brand" data-target="#navbar7" id="goBackTheatre">&lt; Nazad</a>
   	<a href="#" style="display: none; color: rgba(0, 0, 255, 0.4);" class="navbar-brand" data-target="#navbar7" id="goBackMovies">&lt; Nazad</a>
   	<a href="#" style="display: none; color: rgba(0, 0, 255, 0.4);" class="navbar-brand" data-target="#navbar7" id="goBackPlays">&lt; Nazad</a>
-  	<a href="#" style="display: none; color: rgba(0, 0, 255, 0.4);" class="navbar-brand" data-target="#navbar7" id="goBackCinema">&lt; Nazad</a>
     <ul class="nav navbar-nav navbar-right">
     	<li class="dropdown">
     		<a class="dropdown-toggle" data-toggle="dropdown" href="#">
@@ -27,7 +26,7 @@
         	<span class="caret"></span>
     		</a>
     		<ul class="dropdown-menu">
-    			<li><a href="#">Profil</a></li>
+    			<li><a href="#" id="getProfileData">Profil</a></li>
     			<li><a href="#" id="getReportsButton">Izvestaji</a></li>
     			<li><a href="/" id="logoutTCadmin"><span class="glyphicon glyphicon-log-out"></span> Odjava</a></li>
     		</ul>
@@ -39,10 +38,10 @@
 <div class="container-fluid text-center buttonsHolder">
 	
 	<div class="proba">
-		<div id="theatreButton" class="btn btn-info btn-lg dugme" role="button">Pozorista</div>
+		<div id="theatreButton" class="btn btn-info btn-lg dugmePocetna" role="button">Pozorista</div>
 	</div>
 	<div class="proba">
-		<div id="cinemaButton" class="btn btn-info btn-lg dugme" role="button">Bioskopi</div>
+		<div id="cinemaButton" class="btn btn-info btn-lg dugmePocetna" role="button">Bioskopi</div>
 	</div>
 </div>
 	
@@ -71,11 +70,20 @@
 	<ul class="nav nav-tabs">
 	  <li class="active"><a data-toggle="tab" href="#profileTab1">Podaci o profilu</a></li>
 	  <li><a data-toggle="tab" href="#profileTab2">Izmeni profil</a></li>
+	  <li><a data-toggle="tab" href="#profileTab3">Izmeni lozinku</a></li>
 	</ul>
 	
 	<div class="tab-content">
 	  <div id="profileTab1" class="tab-pane fade in active"></div>
 	  <div id="profileTab2" class="tab-pane fade"></div>
+	  <div id="profileTab3" class="tab-pane fade">
+	  	<form class='izmena'>
+		  	<p><label>Stara lozinka</label><input type='password' id='oldPasswordProfile'></p>
+		  	<p><label>Nova lozinka</label><input type='password' id='newPasswordProfile'></p>
+		  	<p><label>Potvrdite novu loziku</label><input type='password' id='newPasswordProfileConfirm'></p>
+		  	<p><input type='button' id='changePassButton' class='btn btn-primary' value='Izmeni'>
+	  	</form>
+	  </div>
 	</div>
 	
 </div>
@@ -248,6 +256,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 <script type="text/javascript" src="scripts/TCadminReports.js"></script>
+<script type="text/javascript" src="scripts/TCadminProfile.js"></script>
 <script type="text/javascript" src="scripts/TCadmin.js"></script>
 
 </body>

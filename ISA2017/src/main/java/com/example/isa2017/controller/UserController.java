@@ -125,6 +125,20 @@ public class UserController {
 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		
 	}
+	
+	@RequestMapping(value="/changePassword",method=RequestMethod.POST)
+	public ResponseEntity<User> changePassword(@RequestBody UserDTO frontUser,HttpServletRequest request){
+		User loggedUser = (User)request.getSession().getAttribute("logged");
+		
+			if(loggedUser!=null){
+				
+				userService.changePassword(frontUser,loggedUser);
+				return new ResponseEntity<>(HttpStatus.OK);
+			}
+		
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		
+	}
 
 	
 }

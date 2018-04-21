@@ -180,6 +180,13 @@ public class UserServiceImpl implements UserService{
 		// TODO Auto-generated method stub
 		return userRepository.findById(id);
 	}
+	@Override
+	public User changePassword(UserDTO frontUser, User loggedUser) {
+		
+		
+		
+		return null;
+	}
 	
 
 }

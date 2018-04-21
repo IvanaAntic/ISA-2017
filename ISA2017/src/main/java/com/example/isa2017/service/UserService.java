@@ -32,6 +32,6 @@ public interface UserService {
 
 	User editUser(UserDTO user,User use1);
 	
-	
+	User changePassword(UserDTO frontUser, User loggedUser);
 	
 }

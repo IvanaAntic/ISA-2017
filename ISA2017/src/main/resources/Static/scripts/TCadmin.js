@@ -119,14 +119,13 @@ $(document).ready(function(){
 	
 	$("#goHome").click(function(){
 		
-		$("#goBackTheatre").fadeOut()
 		$("#goBackPlays").fadeOut()
 		$("#goBackMovies").fadeOut()
-		$("#goBackCinema").fadeOut()
 		$("#goHome").fadeOut()
 		$(".reportHolder").fadeOut();
 		$(".cinemaHolder").fadeOut();
 		$(".theatreHolder").fadeOut();
+		$(".profileHolder").fadeOut();
 		$(".buttonsHolder").delay(500).fadeIn();
 		
 	});
