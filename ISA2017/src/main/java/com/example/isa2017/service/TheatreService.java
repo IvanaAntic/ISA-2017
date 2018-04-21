@@ -27,5 +27,7 @@ public interface TheatreService {
 	 * @return theatre state after persisting. 
 	 */
 	Theatre save(Theatre theatre);
+
+	List<Theatre> searchTheaters(String name, String address);
 	
 }

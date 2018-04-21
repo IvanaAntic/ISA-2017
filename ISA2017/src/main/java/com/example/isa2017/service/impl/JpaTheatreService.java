@@ -35,4 +35,18 @@ public class JpaTheatreService implements TheatreService{
 		return theatreRepo.findOne(id);
 	}
 
+	@Override
+	public List<Theatre> searchTheaters(String name, String address) {
+		// TODO Auto-generated method stub
+		if(!name.equals("") && !address.equals("")){
+			return theatreRepo.findByNameContainingAndAddressContaining(name,address);
+		}else if(name.equals("") && !address.equals("")){
+			return theatreRepo.findByAddressContaining(address);
+		}else {
+			return theatreRepo.findByNameContaining(name);
+		}
+		
+		
+	}
+
 }

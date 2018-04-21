@@ -2,7 +2,7 @@ $(document).ready(function(event){
 	
 	console.log("Ucitavanje bioskopa");
 	
-	
+	$(".bioskopPregled").click(function(){
 	  $.ajax({
 	        type: 'GET',
 	        url: "http://localhost:8080/cinemas/getCinemas",
@@ -17,11 +17,14 @@ $(document).ready(function(event){
 							"<p><label>Adresa: </label>" + data[i].address + "</p>" +
 							"<p><label>Opis: </label>" + data[i].description + "</p>" +
 							"<p><label>Prosecna ocena: </label>" + data[i].avgRating + "</p>" +
-							"<button type='button'>Pogledaj</button>"
+							"<p><div id='"+data[i].id+"' class='btn btn-info btn-md moviesListButton'>Repertoar</div>  " 
 							"</div>"
 						
 					$(".cinemaHolder").append(prikaz)
 				}
 	        	}
 	  });
+	});
+   
+	  
 });

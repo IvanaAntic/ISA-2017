@@ -7,7 +7,11 @@ $(document).ready(function(event){
 		console.log("desilo se");
 		userEdit();
 		
+	});
+	$(".searchPozoriste").click(function(){
 		
+		console.log("search");
+	
 	});
 	
 	
@@ -83,6 +87,5 @@ function userEdit(){
 	});
 	
 }
-
 
 

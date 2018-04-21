@@ -1,5 +1,6 @@
 package com.example.isa2017.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,9 +28,9 @@ public class TheatreController {
 	private TheatreToTheatreDTO toTheatreDTO;
 	
 	@RequestMapping(value="getTheatres", method = RequestMethod.GET)
-	public ResponseEntity<List<TheatreDTO>> getTheatres() {
+	public ResponseEntity<List<Theatre>> getTheatres() {
 		 List<Theatre> theatres = theatreService.findAll();
-		 return new ResponseEntity<>(toTheatreDTO.convert(theatres), HttpStatus.OK);
+		 return new ResponseEntity<>(theatres, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value="getTCadminTheatres", method = RequestMethod.GET)
@@ -52,4 +53,15 @@ public class TheatreController {
 		
 	 return new ResponseEntity<>(theatreToDeletePlayFrom, HttpStatus.OK);
 	}
+	
+	/*@RequestMapping(value="searchTheatre/{name}/{address}",method=RequestMethod.POST)
+	public ResponseEntity<List<Theatre>> searchTheatre(@PathVariable String name,@PathVariable String address){
+		 List<Theatre> theatres =new ArrayList<Theatre>();
+		 for(Theatre theathre:theatreService.searchTheaters(name, address)){
+			 theatres.add(theathre);
+		 }
+		 return new ResponseEntity<>(theatres, HttpStatus.OK);
+	}
+	*/
+	
 }
