@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 /*Neprijavljeni korisnici mogu videti osnovne informacije o
 svakom pozorištu/bioskopu kao što su naziv, adresa (dodatno lokacija korišćenjem
@@ -36,6 +37,8 @@ public class Cinema {
 	@ManyToMany
 	@JoinColumn(name="cinema_id")
 	private List<Movie> movies;
+	@OneToMany
+	private List<Hall> halls;
 	
 	public Cinema(){
 		
@@ -106,6 +109,14 @@ public class Cinema {
 
 	public void setMovies(List<Movie> movies) {
 		this.movies = movies;
+	}
+
+	public List<Hall> getHalls() {
+		return halls;
+	}
+
+	public void setHalls(List<Hall> halls) {
+		this.halls = halls;
 	}
 	
 	

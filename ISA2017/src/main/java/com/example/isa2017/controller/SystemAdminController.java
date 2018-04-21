@@ -65,7 +65,7 @@ public class SystemAdminController {
 		logger.info("> getUsers");
 		User admin = (User) request.getSession().getAttribute("logged");
 		
-		if (admin.getRole() != Role.SYSTEMADMIN ) {
+		if (admin == null || admin.getRole() != Role.SYSTEMADMIN ) {
 			return new ResponseEntity<List<UserDTO>>(HttpStatus.FORBIDDEN);
 		}
 				
@@ -90,7 +90,7 @@ public class SystemAdminController {
 		logger.info("> getcinemas");
 		User admin = (User) request.getSession().getAttribute("logged");
 		
-		if (admin.getRole() != Role.SYSTEMADMIN ) {
+		if (admin == null || admin.getRole() != Role.SYSTEMADMIN ) {
 			return new ResponseEntity<List<CinemaDTO>>(HttpStatus.FORBIDDEN);
 		}
 				
@@ -109,7 +109,7 @@ public class SystemAdminController {
 		logger.info("> gettheatres");
 		User admin = (User) request.getSession().getAttribute("logged");
 		
-		if (admin.getRole() != Role.SYSTEMADMIN ) {
+		if (admin == null || admin.getRole() != Role.SYSTEMADMIN ) {
 			return new ResponseEntity<List<TheatreDTO>>(HttpStatus.FORBIDDEN);
 		}
 				
@@ -128,7 +128,7 @@ public class SystemAdminController {
 		logger.info("> gethalls");
 		User admin = (User) request.getSession().getAttribute("logged");
 		
-		if (admin.getRole() != Role.SYSTEMADMIN ) {
+		if (admin == null || admin.getRole() != Role.SYSTEMADMIN ) {
 			return new ResponseEntity<List<HallDTO>>(HttpStatus.FORBIDDEN);
 		}
 				
