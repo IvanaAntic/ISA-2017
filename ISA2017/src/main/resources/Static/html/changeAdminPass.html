@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Prvo logovanje</title>
+		
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		
+		<!-- jQuery library -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		
+		<!-- Latest compiled JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.5/validator.min.js"></script>
+		
+		<script>
+		
+			$(document).ready(function(){
+				
+				$('#submit').click(function(){
+					
+					formData = JSON.stringify({
+						old: $("#oldPass").val(),
+						newPass: $("#newPass").val(),
+						newConfirmed: $("#passConfirm").val()
+					 });
+					
+					$.ajax({
+					
+						url: "/user/changePassword",
+						type: "POST",
+						data: formData,
+						contentType: "application/json",
+						datatype: "json",
+						success: function(data) {
+							sessionStorage.setItem('loggedName', data.name + " " + data.surname);
+							window.location.href='../TCadmin.html';
+						  },
+						error : function(error) {
+							alert("Neispravno ");
+						}
+					});
+					
+				})
+				
+			})
+		
+		</script>
+		
+		<style>
+			.container{
+				width: 600px;
+				margin-left: auto;
+				margin-right: auto;
+				margin-top: 50px;
+				border: 1px solid #aaa;
+				border-radius: 10px;
+				padding: 15px;
+				background-color: #d4cccc;
+			}
+			h1,h2{
+				text-align: center;
+				color: #555
+			}
+			body{
+				background-color: #D4B894;
+			}
+		</style>
+		
+	</head>
+	<body>
+	
+	
+	<div class="container">
+		
+		<div class="row">
+	    	<div class="col-xs-12">
+	    		<h1>Ovo je vase prvo logovanje</h1><hr>
+				<h2>Promenite lozinku</h2>
+	    		<form class="form-horizontal">
+			    	<div class="form-group">
+			    		<div class="col-xs-12">
+			    			<input type="password" class="form-control" id="oldPass" placeholder="Stara lozinka" />
+			    		</div>
+			    	</div>
+			    
+			    	<div class="form-group">
+			    		<div class="col-xs-12">
+			    			<input type="password" class="form-control" id="newPass" placeholder="Nova lozinka" />
+			    		</div>
+			    	</div>
+			    
+			    	<div class="form-group">
+			    		<div class="col-xs-12">
+			    			<input type="password" class="form-control" id="passConfirm" placeholder="Potvrda lozinke" />
+			    		</div>
+			    	</div>
+			    	
+			    	<div class="col-xs-10 col-xs-offset-2">
+			    		<button class="btn btn-primary" id="submit">Promeni</button> <button type="reset" class="btn btn-default">Reset</button>
+			    	</div>
+			    	
+			    </form>
+	    	</div>
+	    </div>
+	    
+	  </div>
+	    
+	</body>
+</html>
