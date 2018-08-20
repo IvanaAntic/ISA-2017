@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.example.isa2017.model.User;
+import com.example.isa2017.modelDTO.ChangePassDTO;
 import com.example.isa2017.modelDTO.UserDTO;
 
 
@@ -32,6 +33,6 @@ public interface UserService {
 
 	User editUser(UserDTO user,User use1);
 	
-	User changePassword(UserDTO frontUser, User loggedUser);
+	void changePassword(ChangePassDTO frontUser, User loggedUser);
 	
 }

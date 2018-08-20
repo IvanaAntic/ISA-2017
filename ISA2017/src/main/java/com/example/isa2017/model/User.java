@@ -45,7 +45,8 @@ public class User {
 	@Column(name="is_verified")
 	private boolean active;
 	
-	
+	@Column(name="first_login")
+	private boolean firstLogin = true;
 
 
 	public User(){}
@@ -106,27 +107,28 @@ public class User {
 		this.city = city;
 	}
 
-
 	public Role getRole() {
 		return role;
 	}
 
-
 	public void setRole(Role role) {
 		this.role = role;
 	}
-
-	
 	
 	public boolean isActive() {
 		return active;
 	}
 
-
 	public void setActive(boolean active) {
 		this.active = active;
 	}
-	
-	
+
+	public boolean isFirstLogin() {
+		return firstLogin;
+	}
+
+	public void setFirstLogin(boolean firstLogin) {
+		this.firstLogin = firstLogin;
+	}
 	
 }

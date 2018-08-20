@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.isa2017.model.Role;
 import com.example.isa2017.model.User;
+import com.example.isa2017.modelDTO.ChangePassDTO;
 import com.example.isa2017.modelDTO.UserDTO;
-import com.example.isa2017.repository.UserRepository;
 import com.example.isa2017.service.UserService;
 
 @RestController
@@ -127,13 +127,12 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="/changePassword",method=RequestMethod.POST)
-	public ResponseEntity<User> changePassword(@RequestBody UserDTO frontUser,HttpServletRequest request){
+	public ResponseEntity<User> changePassword(@RequestBody ChangePassDTO front,HttpServletRequest request){
 		User loggedUser = (User)request.getSession().getAttribute("logged");
 		
-			if(loggedUser!=null){
-				
-				userService.changePassword(frontUser,loggedUser);
-				return new ResponseEntity<>(HttpStatus.OK);
+			if(loggedUser!=null && loggedUser.getPassword().equals(front.getOld())){
+					userService.changePassword(front,loggedUser);
+					return new ResponseEntity<>(HttpStatus.OK);
 			}
 		
 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);

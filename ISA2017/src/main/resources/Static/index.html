@@ -81,8 +81,12 @@
 						sessionStorage.setItem('loggedId',data.id);
 						
 						if(data.role === "ADMIN"){
-							window.location.href='TCadmin.html';
 							sessionStorage.setItem('loggedName', data.name + " " + data.surname);
+							if(data.firstLogin === true){
+								window.location.href='html/changeAdminPass.html';
+							}else{
+								window.location.href='TCadmin.html';
+							}
 						}else
 							window.location.href='userHomePage.html';
 						

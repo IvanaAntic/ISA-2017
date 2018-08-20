@@ -11,6 +11,7 @@ public class UserDTO {
 	private String password;
 	private String city;
 	private String phoneNumber;
+	private boolean firstLogin;
 	private Role role;
 	
 	public UserDTO(){}
@@ -89,6 +90,15 @@ public class UserDTO {
 	public void setRole(Role role) {
 		this.role = role;
 	}
+
+	public boolean isFirstLogin() {
+		return firstLogin;
+	}
+
+	public void setFirstLogin(boolean firstLogin) {
+		this.firstLogin = firstLogin;
+	}
+	
 	
 	
 }

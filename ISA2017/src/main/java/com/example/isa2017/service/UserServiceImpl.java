@@ -9,7 +9,9 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import com.example.isa2017.model.Role;
 import com.example.isa2017.model.User;
+import com.example.isa2017.modelDTO.ChangePassDTO;
 import com.example.isa2017.modelDTO.UserDTO;
 import com.example.isa2017.repository.UserRepository;
 
@@ -70,6 +72,7 @@ public class UserServiceImpl implements UserService{
          	user1.setSurname(findByEmail(user.getEmail()).getSurname());
          	user1.setPhoneNumber(findByEmail(user.getEmail()).getPhoneNumber());
          	user1.setRole(findByEmail(user.getEmail()).getRole());
+         	user1.setFirstLogin(findByEmail(user.getEmail()).isFirstLogin());
 			return user1;
 		
 		}
@@ -181,11 +184,22 @@ public class UserServiceImpl implements UserService{
 		return userRepository.findById(id);
 	}
 	@Override
-	public User changePassword(UserDTO frontUser, User loggedUser) {
+	public void changePassword(ChangePassDTO front, User loggedUser) {
 		
+		User user = loggedUser;
 		
-		
-		return null;
+		if(user.getRole() == Role.ADMIN){
+			
+			user.setFirstLogin(false);
+			
+			if(front.getNewPass().equals(front.getNewConfirmed())){
+				
+				user.setPassword(front.getNewPass());
+				userRepository.save(user);
+				
+			}
+			
+		}
 	}
 	
 

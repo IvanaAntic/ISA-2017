@@ -69,4 +69,29 @@ $(document).ready(function(){
 		
 	});
 	
+	$("#changePassButton").click(function(){
+		
+		formData = JSON.stringify({
+			old: $("#oldPasswordProfile").val(),
+			newPass: $("#newPasswordProfile").val(),
+			newConfirmed: $("#newPasswordProfileConfirm").val()
+		 });
+		
+		$.ajax({
+		
+			url: "/user/changePassword",
+			type: "POST",
+			data: formData,
+			contentType: "application/json",
+			datatype: "json",
+			success: function(data) {
+				alert("Uspesno promenjena lozinka!");
+			},
+			error : function(error) {
+				alert("Neispravno ");
+			}
+		});
+		
+	});
+	
 });
