@@ -25,15 +25,11 @@ public class Projection {
 	@ManyToOne
 	private Hall hall;
 
-	@ManyToOne
-	private Movie movie;
-
-	public Projection(Date date, String price, Hall hall, Movie movie) {
+	public Projection(Date date, String price, Hall hall) {
 		super();
 		this.date = date;
 		this.price = price;
 		this.hall = hall;
-		this.movie = movie;
 	}
 
 	public Projection() {
@@ -70,14 +66,6 @@ public class Projection {
 
 	public void setHall(Hall hall) {
 		this.hall = hall;
-	}
-
-	public Movie getMovie() {
-		return movie;
-	}
-
-	public void setMovie(Movie movie) {
-		this.movie = movie;
 	}
 	
 }

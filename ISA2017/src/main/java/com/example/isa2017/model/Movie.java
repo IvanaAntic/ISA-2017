@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 
+
 /*
 svaka stranica predstave/filma sadrži:
 	• naziv
@@ -54,22 +55,18 @@ public class Movie {
     @Column(name="MOVIE_IMAGE", columnDefinition="mediumblob")
     private byte[] image;
 	
+	@Column(name="averageRating")
+	private double avgRating;
+	
 	@Column
 	private int rating;
 	
+	@ElementCollection
+	@Column
+	private List<Integer> ratingList;
+	
 	@Column(columnDefinition="VARCHAR(500)")
 	private String description;
-	
-	@ElementCollection
-	@Column
-	private List<String> arenas;
-	
-	@ElementCollection
-	@Column
-	private List<String> projectionTimes;
-	
-	@Column
-	private int price;
 	
 	@OneToMany
 	private List<Projection> projections;
@@ -79,7 +76,7 @@ public class Movie {
 	}
 	
 	public Movie(String name, List<String> actors, String genre, String director, String runtime, int rating,
-			String description, List<String> projectionTimes, int price) {
+			String description) {
 		super();
 		this.name = name;
 		this.actors = actors;
@@ -88,12 +85,10 @@ public class Movie {
 		this.runtime = runtime;
 		this.rating = rating;
 		this.description = description;
-		this.projectionTimes = projectionTimes;
-		this.price = price;
 	}
 	
 	public Movie(String name, List<String> actors, String genre, String director, String runtime, int rating,
-			String description, List<String> projectionTimes, int price, byte[] image) {
+			String description, byte[] image) {
 		super();
 		this.name = name;
 		this.actors = actors;
@@ -102,8 +97,6 @@ public class Movie {
 		this.runtime = runtime;
 		this.rating = rating;
 		this.description = description;
-		this.projectionTimes = projectionTimes;
-		this.price = price;
 		this.image = image;
 	}
 
@@ -163,23 +156,6 @@ public class Movie {
 		this.description = description;
 	}
 
-	public List<String> getProjectionTimes() {
-		return projectionTimes;
-	}
-
-	public void setProjectionTimes(List<String> projectionTimes) {
-		this.projectionTimes = projectionTimes;
-	}
-
-	public int getPrice() {
-		return price;
-	}
-
-	public void setPrice(int price) {
-		this.price = price;
-	}
-
-
 	public Long getId() {
 		return Id;
 	}
@@ -195,7 +171,40 @@ public class Movie {
 	public void setImage(byte[] image) {
 		this.image = image;
 	}
+
+	public List<Projection> getProjections() {
+		return projections;
+	}
+
+	public void setProjections(List<Projection> projections) {
+		this.projections = projections;
+	}
+
+	public double getAvgRating() {
+		return avgRating;
+	}
+
+	public void setAvgRating(double avgRating) {
+		this.avgRating = avgRating;
+	}
+
+	public List<Integer> getRatingList() {
+		return ratingList;
+	}
+
+	public void setRatingList(List<Integer> ratingList) {
+		this.ratingList = ratingList;
+	}
 	
-	
+	public double calculateAverage(List <Integer> marks) {
+		  Integer sum = 0;
+		  if(!marks.isEmpty()) {
+		    for (Integer mark : marks) {
+		        sum += mark;
+		    }
+		    return sum.doubleValue() / marks.size();
+		  }
+		  return sum;
+	}
 	
 }

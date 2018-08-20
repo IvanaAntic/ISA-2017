@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -65,89 +66,6 @@ public class CinemaController {
 		return new ResponseEntity<>(cinemas, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value="getTCadminMovies", method = RequestMethod.GET)
-	public ResponseEntity<List<Movie>> getTCadminMovies(HttpServletRequest request) {
-		
-		User logged = (User) request.getSession().getAttribute("logged");
-		if(logged==null)
-			return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);
-		
-		
-		List<Movie> movies = movieService.findAll();
-		 
-		return new ResponseEntity<>(movies, HttpStatus.OK);
-	}
-	
-	@RequestMapping(value = "deleteMovieInCinema/{cinemaId}/{movieId}", method=RequestMethod.POST, consumes="application/json")
-	public ResponseEntity<Cinema> deleteMovieInCinema(HttpServletRequest request, @PathVariable Long cinemaId, @PathVariable Long movieId){
-		
-		User logged = (User) request.getSession().getAttribute("logged");
-		if(logged==null)
-			return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);
-		
-		
-		Cinema cinema = cinemaService.findOne(cinemaId);
-		
-		for(int i = 0; i < cinema.getMovies().size(); i++){
-			if(cinema.getMovies().get(i).getId() == movieId)
-				cinema.getMovies().remove(cinema.getMovies().get(i));
-		}
-		
-		cinemaService.save(cinema);
-		
-	 return new ResponseEntity<>(HttpStatus.OK);
-	}
-	
-	@RequestMapping(value = "addMovieToCinema/{cinemaId}", method=RequestMethod.POST, consumes="application/json")
-	public ResponseEntity<Movie> addMovieToCinema(HttpServletRequest request, @RequestBody Movie movie, @PathVariable Long cinemaId){
-		
-		User logged = (User) request.getSession().getAttribute("logged");
-		if(logged==null)
-			return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);
-		
-		
-		Cinema cinema = cinemaService.findOne(cinemaId);
-		
-		
-		if(movie.getImage() != null){
-			String s = new String(movie.getImage());
-			
-			String[] parts = s.split(",");
-			String firstPart = parts[1];
-			movie.setImage(Base64.getDecoder().decode(firstPart));
-		}
-		
-		Movie addedMovie = movieService.save(movie);
-		cinema.getMovies().add(addedMovie);
-		cinemaService.save(cinema);
-		
-	 return new ResponseEntity<>(addedMovie, HttpStatus.OK);
-	}
-	
-	@RequestMapping(value = "editMovie/{movieId}", method=RequestMethod.POST, consumes="application/json")
-	public ResponseEntity<Movie> editMovie(HttpServletRequest request, @RequestBody Movie movie, @PathVariable Long movieId){
-		
-		User logged = (User) request.getSession().getAttribute("logged");
-		if(logged==null)
-			return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);
-		
-		
-		movie.setId(movieId);
-		
-		if(movie.getImage() != null){
-			String s = new String(movie.getImage());
-			
-			String[] parts = s.split(",");
-			String firstPart = parts[1];
-			movie.setImage(Base64.getDecoder().decode(firstPart));
-		}else{
-			movie.setImage(movieService.findOne(movieId).getImage());
-		}
-		
-		Movie editedMovie = movieService.save(movie);
-		
-	 return new ResponseEntity<>(editedMovie, HttpStatus.OK);
-	}
 	
 	@RequestMapping(value = "editCinema/{cinemaId}", method=RequestMethod.POST, consumes="application/json")
 	public ResponseEntity<Cinema> editMovie(HttpServletRequest request, @RequestBody Cinema cinema, @PathVariable Long cinemaId){
@@ -162,6 +80,25 @@ public class CinemaController {
 		Cinema editedCinema = cinemaService.save(cinema);
 		
 	 return new ResponseEntity<>(editedCinema, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "rateCinema/{cinemaId}", method=RequestMethod.POST, consumes=MediaType.ALL_VALUE)
+	public ResponseEntity<Cinema> rateCinema(@PathVariable Long cinemaId, @RequestBody Cinema rating){
+		
+		Cinema cinema = cinemaService.findOne(cinemaId);
+		
+		cinema.getRatingList().add(rating.getRating());
+		
+		System.out.println("integers in the rating list: ");
+		for(int i : cinema.getRatingList()){
+			System.out.println(i + ", ");
+		}
+		
+		cinema.setAvgRating(cinema.calculateAverage(cinema.getRatingList()));
+		
+		cinemaService.save(cinema);
+		
+		return new ResponseEntity<>(cinema, HttpStatus.OK);
 	}
 	
 }

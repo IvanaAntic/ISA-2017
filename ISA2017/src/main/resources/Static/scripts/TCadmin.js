@@ -59,7 +59,7 @@ $(document).ready(function(){
 										"<p><label>Adresa: </label><span id='cinemaAddress" + data[i].id + "'>" + data[i].address + "</span></p>" +
 										"<p><label>Opis: </label><span id='cinemaDesc" + data[i].id + "'>" + data[i].description + "</span></p>" +
 										"<p><div id='"+data[i].id+"' class='btn btn-info btn-md moviesListButton'>Repertoar</div>  " +
-										"<a class='btn btn-info btn-md addMovieToCinema' href='/cinemas/addMovieToCinema/" + data[i].id + "'>Dodaj</a>  " +
+										"<a class='btn btn-info btn-md addMovieToCinema' href='/movies/addMovieToCinema/" + data[i].id + "'>Dodaj</a>  " +
 										"<a id='editButton"+data[i].id+"'  class='btn btn-info btn-md editCinema' href='/cinemas/editCinema/" + data[i].id + "'>Izmeni</a></p>" +
 									"</div>";
 							
@@ -80,8 +80,8 @@ $(document).ready(function(){
 											"<p><label>Cena: </label><span>" + data[i].movies[j].price + "din</span></p>" +
 											"<p><label>Prosecna ocena: </label><span>" + data[i].movies[j].rating + "</span></p>" +
 											"<p><label>Slika: </label><img src='data:image/(png|jpg|jpeg|gif|bmp|tiff);base64, "+data[i].movies[j].image+"' id='ItemPreview' width='50' height='50' ></p>" +
-											"<p><a class='btn btn-info btn-md deleteMovieInCinema' href='/cinemas/deleteMovieInCinema/" + data[i].id + "/" + data[i].movies[j].id + "'>Obrisi</a></p>" +
-											"<p><a class='btn btn-info btn-md editMovie' href='/cinemas/editMovie/" + data[i].movies[j].id + "'>Izmeni</a></p>" +
+											"<p><a class='btn btn-info btn-md deleteMovieInCinema' href='/movies/deleteMovieInCinema/" + data[i].id + "/" + data[i].movies[j].id + "'>Obrisi</a></p>" +
+											"<p><a class='btn btn-info btn-md editMovie' href='/movies/editMovie/" + data[i].movies[j].id + "'>Izmeni</a></p>" +
 											
 										"</div>";
 								
@@ -217,8 +217,8 @@ $(document).ready(function(){
 									"<p><label>Cena: </label><span>" + data.price + "din</span></p>" +
 									"<p><label>Prosecna ocena: </label><span>" + data.rating + "</span></p>" +
 									"<p><label>Slika: </label><img src='data:image/(png|jpg|jpeg|gif|bmp|tiff);base64, "+data.image+"' id='ItemPreview' width='50' height='50' ></p>" +
-									"<p><a class='btn btn-info btn-md deleteMovieInCinema' href='/cinemas/deleteMovieInCinema/" + str[3] + "/" + data.id + "'>Obrisi</a></p>" +
-									"<p><a class='btn btn-info btn-md editMovie' href='/cinemas/editMovie/" + data.id + "'>Izmeni</a></p>" +
+									"<p><a class='btn btn-info btn-md deleteMovieInCinema' href='/movies/deleteMovieInCinema/" + str[3] + "/" + data.id + "'>Obrisi</a></p>" +
+									"<p><a class='btn btn-info btn-md editMovie' href='/movies/editMovie/" + data.id + "'>Izmeni</a></p>" +
 								"</div>";
 						
 						$(movieBoxList).append(movie)
@@ -261,8 +261,8 @@ $(document).ready(function(){
 									"<p><label>Cena: </label><span>" + data.price + "din</span></p>" +
 									"<p><label>Prosecna ocena: </label><span>" + data.rating + "</span></p>" +
 									"<p><label>Slika: </label><img src='data:image/(png|jpg|jpeg|gif|bmp|tiff);base64, "+data.image+"' id='ItemPreview' width='50' height='50' ></p>" +
-									"<p><a class='btn btn-info btn-md deleteMovieInCinema' href='/cinemas/deleteMovieInCinema/" + str[3] + "/" + data.id + "'>Obrisi</a></p>" +
-									"<p><a class='btn btn-info btn-md editMovie' href='/cinemas/editMovie/" + data.id + "'>Izmeni</a></p>" +
+									"<p><a class='btn btn-info btn-md deleteMovieInCinema' href='/movies/deleteMovieInCinema/" + str[3] + "/" + data.id + "'>Obrisi</a></p>" +
+									"<p><a class='btn btn-info btn-md editMovie' href='/movies/editMovie/" + data.id + "'>Izmeni</a></p>" +
 								"</div>";
 						
 						$(movieBoxList).append(movie)
@@ -365,8 +365,8 @@ $(document).ready(function(){
 									"<p><label>Cena: </label><span>" + data.price + "din</span></p>" +
 									"<p><label>Prosecna ocena: </label><span>" + data.rating + "</span></p>" +
 									"<p><label>Slika: </label><img src='data:image/(png|jpg|jpeg|gif|bmp|tiff);base64, "+data.image+"' id='ItemPreview' width='50' height='50' ></p>" +
-									"<p><a class='btn btn-info btn-md deleteMovieInCinema' href='/cinemas/deleteMovieInCinema/" + cinemaId + "/" + data.id + "'>Obrisi</a></p>" +
-									"<p><a class='btn btn-info btn-md editMovie' href='/cinemas/editMovie/" + data.id + "'>Izmeni</a></p>" +
+									"<p><a class='btn btn-info btn-md deleteMovieInCinema' href='/movies/deleteMovieInCinema/" + cinemaId + "/" + data.id + "'>Obrisi</a></p>" +
+									"<p><a class='btn btn-info btn-md editMovie' href='/movies/editMovie/" + data.id + "'>Izmeni</a></p>" +
 								"</div>";
 						
 						$("."+movieClass).replaceWith(movie)
@@ -408,8 +408,8 @@ $(document).ready(function(){
 									"<p><label>Cena: </label><span>" + data.price + "din</span></p>" +
 									"<p><label>Prosecna ocena: </label><span>" + data.rating + "</span></p>" +
 									"<p><label>Slika: </label><img src='data:image/(png|jpg|jpeg|gif|bmp|tiff);base64, "+data.image+"' id='ItemPreview' width='50' height='50' ></p>" +
-									"<p><a class='btn btn-info btn-md deleteMovieInCinema' href='/cinemas/deleteMovieInCinema/" + cinemaId + "/" + data.id + "'>Obrisi</a></p>" +
-									"<p><a class='btn btn-info btn-md editMovie' href='/cinemas/editMovie/" + data.id + "'>Izmeni</a></p>" +
+									"<p><a class='btn btn-info btn-md deleteMovieInCinema' href='/movies/deleteMovieInCinema/" + cinemaId + "/" + data.id + "'>Obrisi</a></p>" +
+									"<p><a class='btn btn-info btn-md editMovie' href='/movies/editMovie/" + data.id + "'>Izmeni</a></p>" +
 								"</div>";
 						
 						$("."+movieClass).replaceWith(movie)

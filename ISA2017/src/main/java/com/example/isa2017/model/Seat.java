@@ -14,22 +14,23 @@ public class Seat {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long Id;
 	
-
-	private int row;
+	@Column
+	private int seatRow;
 	
-
-	private int column;
+	@Column
+	private int seatColumn;
 	//@ManyToOne
 	//private Hall hall;
 
+	@Column
 	private boolean isReserved;
 	
 	public Seat() {}
 
-	public Seat(int row, int column, boolean isReserved) {
+	public Seat(int seatRow, int seatColumn, boolean isReserved) {
 		super();
-		this.row = row;
-		this.column = column;
+		this.seatRow = seatRow;
+		this.seatColumn = seatColumn;
 		this.isReserved = isReserved;
 	}
 
@@ -41,20 +42,20 @@ public class Seat {
 		Id = id;
 	}
 
-	public int getRow() {
-		return row;
+	public int getseatRow() {
+		return seatRow;
 	}
 
-	public void setRow(int row) {
-		this.row = row;
+	public void setseatRow(int seatRow) {
+		this.seatRow = seatRow;
 	}
 
-	public int getColumn() {
-		return column;
+	public int getseatColumn() {
+		return seatColumn;
 	}
 
-	public void setColumn(int column) {
-		this.column = column;
+	public void setseatColumn(int seatColumn) {
+		this.seatColumn = seatColumn;
 	}
 
 	public boolean isReserved() {

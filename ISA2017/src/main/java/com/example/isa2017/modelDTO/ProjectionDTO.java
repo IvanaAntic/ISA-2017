@@ -9,19 +9,21 @@ public class ProjectionDTO {
 	private Long Id;
 	private String date;	
 	private String price;	
-	private HallDTO hall;
-	private MovieDTO movie;
+	private Long hallId;
+	private Long movieId;
 	public ProjectionDTO() {
 		super();
 	}
-	public ProjectionDTO(Long id, String date, String price, HallDTO hall, MovieDTO movie) {
+	
+	public ProjectionDTO(Long id, String date, String price, Long hallId, Long movieId) {
 		super();
 		Id = id;
 		this.date = date;
 		this.price = price;
-		this.hall = hall;
-		this.movie = movie;
+		this.hallId = hallId;
+		this.movieId = movieId;
 	}
+	
 	public Long getId() {
 		return Id;
 	}
@@ -40,18 +42,21 @@ public class ProjectionDTO {
 	public void setPrice(String price) {
 		this.price = price;
 	}
-	public HallDTO getHall() {
-		return hall;
+
+	public Long getHallId() {
+		return hallId;
 	}
-	public void setHall(HallDTO hall) {
-		this.hall = hall;
+
+	public void setHallId(Long hallId) {
+		this.hallId = hallId;
 	}
-	public MovieDTO getMovie() {
-		return movie;
+
+	public Long getMovieId() {
+		return movieId;
 	}
-	public void setMovie(MovieDTO movie) {
-		this.movie = movie;
+
+	public void setMovieId(Long movieId) {
+		this.movieId = movieId;
 	}
-	
 	
 }

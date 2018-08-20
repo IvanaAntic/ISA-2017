@@ -1,15 +1,17 @@
 package com.example.isa2017.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.CascadeType;
+
 
 /*Neprijavljeni korisnici mogu videti osnovne informacije o
 svakom pozorištu/bioskopu kao što su naziv, adresa (dodatno lokacija korišćenjem
@@ -32,16 +34,23 @@ public class Cinema {
 	private String description;
 	
 	@Column(name="averageRating")
-	private int avgRating;
+	private double avgRating;
 	
-	@ManyToMany
-	@JoinColumn(name="cinema_id")
-	private List<Movie> movies;
 	@OneToMany
+	private List<Movie> movies;
+	
+	@OneToMany(cascade = CascadeType.ALL)
 	private List<Hall> halls;
 	
+	@ElementCollection
+	@Column
+	private List<Integer> ratingList;
+	
+	@Column
+	private int rating;
+	
 	public Cinema(){
-		
+		ratingList = new ArrayList<>();
 	}
 
 	public Cinema(String name, String address, String description, int avgRating) {
@@ -50,6 +59,7 @@ public class Cinema {
 		this.address = address;
 		this.description = description;
 		this.avgRating = avgRating;
+		ratingList = new ArrayList<>();
 	}
 	
 	
@@ -61,6 +71,7 @@ public class Cinema {
 		this.description = description;
 		this.avgRating = avgRating;
 		this.movies = movies;
+		ratingList = new ArrayList<>();
 	}
 
 	public Long getId() {
@@ -95,11 +106,11 @@ public class Cinema {
 		this.description = description;
 	}
 
-	public int getAvgRating() {
+	public double getAvgRating() {
 		return avgRating;
 	}
 
-	public void setAvgRating(int avgRating) {
+	public void setAvgRating(double avgRating) {
 		this.avgRating = avgRating;
 	}
 
@@ -118,6 +129,34 @@ public class Cinema {
 	public void setHalls(List<Hall> halls) {
 		this.halls = halls;
 	}
+	
+	public double calculateAverage(List <Integer> marks) {
+		  Integer sum = 0;
+		  if(!marks.isEmpty()) {
+		    for (Integer mark : marks) {
+		        sum += mark;
+		    }
+		    return sum.doubleValue() / marks.size();
+		  }
+		  return sum;
+	}
+
+	public int getRating() {
+		return rating;
+	}
+
+	public void setRating(int rating) {
+		this.rating = rating;
+	}
+
+	public List<Integer> getRatingList() {
+		return ratingList;
+	}
+
+	public void setRatingList(List<Integer> ratingList) {
+		this.ratingList = ratingList;
+	}
+	
 	
 	
 
