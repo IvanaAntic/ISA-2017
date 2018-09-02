@@ -1,5 +1,8 @@
 package com.example.isa2017.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.isa2017.model.Cinema;
 import com.example.isa2017.model.Hall;
 import com.example.isa2017.model.Movie;
 import com.example.isa2017.model.Projection;
@@ -36,7 +38,7 @@ public class ProjectionController {
 	private HallService hallService;
 
 	@RequestMapping(value = "addProjection", method=RequestMethod.POST, consumes="application/json")
-	public ResponseEntity<Projection> addProjection(HttpServletRequest request, @RequestBody ProjectionDTO projDTO){
+	public ResponseEntity<Projection> addProjection(HttpServletRequest request, @RequestBody ProjectionDTO projDTO) throws ParseException{
 		
 		/*User logged = (User) request.getSession().getAttribute("logged");
 		if(logged==null)
@@ -48,6 +50,11 @@ public class ProjectionController {
 		Projection proj = new Projection();
 		proj.setPrice(projDTO.getPrice());
 		proj.setHall(hall);
+		
+		SimpleDateFormat df = new SimpleDateFormat("DD/mm/yyyy");
+		Date date = df.parse(projDTO.getDate());
+		proj.setDate(date);
+		
 		projectionService.save(proj);
 		
 		movie.getProjections().add(proj);

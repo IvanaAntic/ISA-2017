@@ -17,7 +17,9 @@
 		
 			$(document).ready(function(){
 				
-				$('#submit').click(function(){
+				$('#submit').click(function(e){
+					
+					e.preventDefault();
 					
 					formData = JSON.stringify({
 						old: $("#oldPass").val(),
@@ -32,8 +34,7 @@
 						data: formData,
 						contentType: "application/json",
 						datatype: "json",
-						success: function(data) {
-							sessionStorage.setItem('loggedName', data.name + " " + data.surname);
+						success: function() {
 							window.location.href='../TCadmin.html';
 						  },
 						error : function(error) {

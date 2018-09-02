@@ -186,16 +186,16 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public void changePassword(ChangePassDTO front, User loggedUser) {
 		
-		User user = loggedUser;
+		//User user = loggedUser;
 		
-		if(user.getRole() == Role.ADMIN){
+		if(loggedUser.getRole() == Role.ADMIN){
 			
-			user.setFirstLogin(false);
+			loggedUser.setFirstLogin(false);
 			
 			if(front.getNewPass().equals(front.getNewConfirmed())){
 				
-				user.setPassword(front.getNewPass());
-				userRepository.save(user);
+				loggedUser.setPassword(front.getNewPass());
+				userRepository.save(loggedUser);
 				
 			}
 			

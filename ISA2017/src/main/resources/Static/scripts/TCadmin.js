@@ -1,3 +1,5 @@
+
+
 $(document).ready(function(){
 	
 	$(".loggedName").append(sessionStorage.getItem('loggedName'))
@@ -61,6 +63,7 @@ $(document).ready(function(){
 										"<p><div id='"+data[i].id+"' class='btn btn-info btn-md moviesListButton'>Repertoar</div>  " +
 										"<a class='btn btn-info btn-md addMovieToCinema' href='/movies/addMovieToCinema/" + data[i].id + "'>Dodaj</a>  " +
 										"<a id='editButton"+data[i].id+"'  class='btn btn-info btn-md editCinema' href='/cinemas/editCinema/" + data[i].id + "'>Izmeni</a></p>" +
+										"<div id='quickList_"+data[i].id+"' class='btn btn-info btn-md quickList'>Karte sa popustima</div>" +
 									"</div>";
 							
 							moviesList = "<div style='display: none' class='movieListDiv container-fluid' id='cinema"+data[i].id+"'>";
@@ -104,6 +107,20 @@ $(document).ready(function(){
 		});
 		
 		
+		
+	});
+	
+	
+	$(document).on("click", ".quickList", function(){
+		cinemaId = ($(this).attr('id')).split('_')[1]
+		getQuicks(cinemaId);
+	});
+	
+	$(document).on("click", ".createQuick", function(){
+		
+		event.preventDefault();
+		
+		createQuick($(this).attr("href"));
 		
 	});
 	

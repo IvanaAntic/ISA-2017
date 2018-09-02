@@ -1,6 +1,6 @@
 package com.example.isa2017.service;
 
-import static org.assertj.core.api.Assertions.registerCustomDateFormat;
+//import static org.assertj.core.api.Assertions.registerCustomDateFormat;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -21,7 +21,7 @@ import com.example.isa2017.repository.AdminItemReposotory;
 import com.example.isa2017.repository.CinemaRepository;
 import com.example.isa2017.repository.TheatreRepository;
 import com.example.isa2017.repository.UserRepository;
-
+import com.example.isa2017.service.AdminItemService;;
 
 
 

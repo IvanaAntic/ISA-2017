@@ -8,6 +8,22 @@
 <link rel="stylesheet" href="css/pocetna.css">
 <link rel="stylesheet" href="css/userHomePage.css">
 
+		<style>
+			#addQuickForm{
+				width: 600px;
+				margin-left: auto;
+				margin-right: auto;
+				margin-top: 50px;
+				border: 1px solid #aaa;
+				border-radius: 10px;
+				padding: 15px;
+				background-color: #d4cccc;
+			}
+			#addQuickForm h1,h2{
+				text-align: center;
+			}
+		</style>
+
 <title>Admin pozorista/bioskopa</title>
 </head>
 
@@ -45,7 +61,7 @@
 	</div>
 </div>
 	
-<div class="cinemaHolder"></div>
+<div class="cinemaHolder row"></div>
 <div class="theatreHolder"></div>
 <div class="reportHolder container-fluid" style="display: none">
 
@@ -63,6 +79,34 @@
 	  <div id="tab4" class="tab-pane fade"></div>
 	</div>
 
+</div>
+
+<div class="container" id="addQuickForm" style="display: none">
+	<div class="row">
+    	<div class="col-xs-12">
+    		<h1>Nova karta</h1><hr>
+    		<form class="form-horizontal">
+		    	<div class="form-group">
+		    		<div class="col-xs-12">
+		    			<input type="password" class="form-control" id="oldPass" placeholder="Stara lozinka" />
+		    		</div>
+		    	</div>
+		    	<div class="form-group">
+		    		<div class="col-xs-12">
+		    			<input type="password" class="form-control" id="newPass" placeholder="Nova lozinka" />
+		    		</div>
+		    	</div>
+		    	<div class="form-group">
+		    		<div class="col-xs-12">
+		    			<input type="password" class="form-control" id="passConfirm" placeholder="Potvrda lozinke" />
+		    		</div>
+		    	</div>
+		    	<div class="col-xs-10 col-xs-offset-2">
+		    		<button class="btn btn-primary" id="submit">Promeni</button> <button type="reset" class="btn btn-default">Reset</button>
+		    	</div>
+		    </form>
+    	</div>
+    </div>
 </div>
 
 <div class="profileHolder container-fluid" style="display: none">
@@ -87,6 +131,9 @@
 	</div>
 	
 </div>
+
+
+
 
 	<!-- ovo je modalni dijalog za dodavanje novog filma na repertoar bioskopa -->
 		
@@ -255,9 +302,11 @@
 <!-- Latest compiled JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
+<script type="text/javascript" src="scripts/TCadminFunctions.js"></script>
 <script type="text/javascript" src="scripts/TCadminReports.js"></script>
 <script type="text/javascript" src="scripts/TCadminProfile.js"></script>
 <script type="text/javascript" src="scripts/TCadmin.js"></script>
+
 
 </body>
 </html>

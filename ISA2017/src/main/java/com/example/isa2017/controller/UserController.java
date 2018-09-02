@@ -130,10 +130,10 @@ public class UserController {
 	public ResponseEntity<User> changePassword(@RequestBody ChangePassDTO front,HttpServletRequest request){
 		User loggedUser = (User)request.getSession().getAttribute("logged");
 		
-			if(loggedUser!=null && loggedUser.getPassword().equals(front.getOld())){
-					userService.changePassword(front,loggedUser);
-					return new ResponseEntity<>(HttpStatus.OK);
-			}
+		if(loggedUser!=null && loggedUser.getPassword().equals(front.getOld())){
+			userService.changePassword(front,loggedUser);
+			return new ResponseEntity<>(HttpStatus.OK);
+		}
 		
 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		
