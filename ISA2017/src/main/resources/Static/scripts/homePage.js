@@ -1,7 +1,7 @@
 $(document).ready(function(event){
 	console.log("ovde")
 	loadUser();
-
+	loadFriendRequests();
 	
 	$("#izmeni").click(function(){
 		console.log("desilo se");
@@ -13,6 +13,7 @@ $(document).ready(function(event){
 		console.log("search");
 	
 	});
+	
 	
 	
 	$(".navbar-right").on('click', function (e) {
@@ -88,4 +89,12 @@ function userEdit(){
 	
 }
 
-
+function loadFriendRequests(){
+	
+	$.ajax({
+			url:"http://localhost:8080/friendship/displayFriendRequests",
+			method:"GET",
+			contentType: "application/json",
+			datatype: 'json',
+	});
+}
