@@ -1,5 +1,6 @@
 package com.example.isa2017.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -43,19 +44,35 @@ public class FriendshipServiceImpl implements FriendshipService {
 		
 	}
 
-	@Override
-	public List<UserDTO> getFriendshipRequests(User logged) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
-	/*@Override
-	public List<UserDTO> getFriendshipRequests(User logged) {
+
+	@Override
+	public List<User> getFriendshipRequests(User logged) {
 		// TODO Auto-generated method stub
-		User user=userRepository.findByEmail(logged.getEmail());
-		return friendshipRepository.getFriendshipRequests(user.getId());
+		System.out.println("USLI U FRENDSHIPSERVICE");
 		
-	}*/
+		User user=userRepository.findByEmail(logged.getEmail());
+		System.out.println("Logovan je:"+user.getId() );
+		List<Friendship> allTableFrindsip=friendshipRepository.findAll();
+		List<User> usersAll=userRepository.findAll();
+		List<User> returnList=new ArrayList<User>();
+		for(Friendship f:allTableFrindsip){
+			if(f.getStatus().equals("waiting")){
+				
+				if(f.getReciver().getId().equals(user.getId())){
+				//lista recivera
+				returnList.add(f.getSender());
+			System.out.println("oni koji su u tabeli"+f.getStatus());
+				}
+			}
+		}
+		for(User u:returnList){
+			System.out.println("Oni koji su mi poslali zahtev"+u.getName());
+		}
+		
+		return returnList;
+		
+	}
 	
 	
 

@@ -18,5 +18,5 @@ public interface FriendshipService {
 
 	void addFriend(User logged, FriendshipDTO friendDTO);
 
-	List<UserDTO> getFriendshipRequests(User logged);
+	List<User> getFriendshipRequests(User logged);
 }

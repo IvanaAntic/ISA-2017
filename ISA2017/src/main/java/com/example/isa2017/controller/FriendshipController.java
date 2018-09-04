@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.isa2017.converters.UserToUserDTO;
 import com.example.isa2017.model.Friendship;
 import com.example.isa2017.model.User;
 import com.example.isa2017.modelDTO.FriendshipDTO;
@@ -25,7 +26,8 @@ public class FriendshipController {
 	
 	@Autowired
 	private FriendshipService friendshipService;
-	
+	@Autowired
+	private UserToUserDTO toUserDTO;
 	@RequestMapping( value = "/addFriend", method= RequestMethod.POST , consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
 	 public ResponseEntity<Friendship> addFriend(HttpServletRequest request,@RequestBody FriendshipDTO friendDTO){
@@ -39,11 +41,13 @@ public class FriendshipController {
 	}
 	
 	
-	/*@RequestMapping(value="/displayFriendRequests", method= RequestMethod.GET)
+	@RequestMapping(value="/displayFriendRequests", method= RequestMethod.GET)
 	public ResponseEntity<List<UserDTO>>  displayRequests(HttpServletRequest request){
+		System.out.println("Usli u displayFriendRequests");
 		User logged = (User) request.getSession().getAttribute("logged");
-		List<UserDTO> friends=friendshipService.getFriendshipRequests(logged);
+		List<User> friends=friendshipService.getFriendshipRequests(logged);
 		
 		//treba da vratimo listu requestova
-	}*/
+		return new ResponseEntity<>(toUserDTO.convert(friends),HttpStatus.OK);
+	}
 }

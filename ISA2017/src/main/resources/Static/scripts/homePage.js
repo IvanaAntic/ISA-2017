@@ -90,11 +90,14 @@ function userEdit(){
 }
 
 function loadFriendRequests(){
-	
+	console.log("loadFriendRequests");
 	$.ajax({
 			url:"http://localhost:8080/friendship/displayFriendRequests",
 			method:"GET",
 			contentType: "application/json",
 			datatype: 'json',
+			success: function(){
+				
+			}
 	});
 }
