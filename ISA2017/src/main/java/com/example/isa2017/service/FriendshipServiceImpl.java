@@ -34,6 +34,7 @@ public class FriendshipServiceImpl implements FriendshipService {
 	public void addFriend(User logged, FriendshipDTO friendDTO) {
 		// TODO Auto-generated method stub
 		//uzmi logovanog po mailu
+		
 		User user=userRepository.findByEmail(logged.getEmail());
 		Long idFriend=friendDTO.getId();
 		Friendship friendship=new Friendship();
@@ -52,9 +53,9 @@ public class FriendshipServiceImpl implements FriendshipService {
 		System.out.println("USLI U FRENDSHIPSERVICE");
 		
 		User user=userRepository.findByEmail(logged.getEmail());
-		System.out.println("Logovan je:"+user.getId() );
+		//System.out.println("Logovan je:"+user.getId() );
 		List<Friendship> allTableFrindsip=friendshipRepository.findAll();
-		List<User> usersAll=userRepository.findAll();
+		
 		List<User> returnList=new ArrayList<User>();
 		for(Friendship f:allTableFrindsip){
 			if(f.getStatus().equals("waiting")){
@@ -62,15 +63,60 @@ public class FriendshipServiceImpl implements FriendshipService {
 				if(f.getReciver().getId().equals(user.getId())){
 				//lista recivera
 				returnList.add(f.getSender());
-			System.out.println("oni koji su u tabeli"+f.getStatus());
+			//System.out.println("oni koji su u tabeli"+f.getStatus());
 				}
 			}
 		}
 		for(User u:returnList){
-			System.out.println("Oni koji su mi poslali zahtev"+u.getName());
+			//System.out.println("Oni koji su mi poslali zahtev"+u.getName());
 		}
 		
 		return returnList;
+		
+	}
+
+	@Override
+	public void acceptFriend(User logged, FriendshipDTO friendshipDTO) {
+		// TODO Auto-generated method stub
+		
+		Friendship f= getFriendship(logged,friendshipDTO,"waiting");
+		System.out.println("ID PRIJATELJSTVA JE:" +f.getId());
+		f.setStatus("accepted");
+		friendshipRepository.save(f);
+		
+	}
+	@Override
+	public Friendship getFriendship(User logged,FriendshipDTO friendshipDTO,String status){
+		System.out.println("DOBAVI PRIJATELJSTVO");
+		User user=userRepository.findByEmail(logged.getEmail());
+		Long id=friendshipDTO.getId();
+		Friendship getFriendship=new Friendship();
+		List<Friendship> allFriendship=friendshipRepository.findAll();
+		for(Friendship f:allFriendship){
+			System.out.println("ULAZIMO U FOR");
+			System.out.println("f.getReciver()----"+f.getReciver());
+			System.out.println("logged.getId()----"+logged.getId());
+			System.out.println("RECIVER JE"+f.getReciver().equals(logged.getId()));
+			if(f.getReciver().getId().equals(logged.getId()) && f.getSender().getId().equals(friendshipDTO.getId()) && f.getStatus().equals(status) ){
+				getFriendship=friendshipRepository.findById(f.getId());
+				return getFriendship;
+			}
+			
+		}
+		return null;
+	}
+	
+	//da li je vec dodat da li vec ista kombinacija id status recivet pstoji
+	public boolean isAdded(User logged,FriendshipDTO friendshipDTO,String status){
+		Friendship f= getFriendship(logged,friendshipDTO,"waiting");
+		Long ifFriendship=f.getId();
+		List<Friendship> allFriendship=friendshipRepository.findAll();
+		for(Friendship fs:allFriendship){
+			if(fs.getId().equals(ifFriendship)){
+				return true;
+			}
+		}
+		return false;
 		
 	}
 	

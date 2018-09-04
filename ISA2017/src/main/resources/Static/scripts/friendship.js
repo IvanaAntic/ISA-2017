@@ -48,7 +48,13 @@ $(document).on('click','.btn-success',function(event){
 	        	contentType : 'application/json',
 	        	success: function(){
 	        			console.log("USPesnoste dodaliii Prijatelja");
-	        	}
+	        			  $(this).removeClass('btn btn-success').addClass('btn btn-warning');
+	                      $(this).text('Pending');
+	                      $(this).prop('disabled', true);
+	        	},
+	        error:function(){
+    			console.log("Vec ste dodali za prijatelja");
+        	}
 		
 	        });
 	  }

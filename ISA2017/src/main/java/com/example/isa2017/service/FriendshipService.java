@@ -19,4 +19,10 @@ public interface FriendshipService {
 	void addFriend(User logged, FriendshipDTO friendDTO);
 
 	List<User> getFriendshipRequests(User logged);
+
+	void acceptFriend(User logged, FriendshipDTO friendshipDTO);
+
+	Friendship getFriendship(User logged, FriendshipDTO friendshipDTO, String status);
+
+	boolean isAdded(User logged, FriendshipDTO friendDTO, String string);
 }

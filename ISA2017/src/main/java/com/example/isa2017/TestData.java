@@ -18,6 +18,7 @@ import org.springframework.stereotype.Component;
 import com.example.isa2017.model.AdminItem;
 import com.example.isa2017.model.Bid;
 import com.example.isa2017.model.Cinema;
+import com.example.isa2017.model.Friendship;
 import com.example.isa2017.model.Hall;
 import com.example.isa2017.model.Movie;
 import com.example.isa2017.model.Play;
@@ -27,10 +28,12 @@ import com.example.isa2017.model.Theatre;
 import com.example.isa2017.model.User;
 import com.example.isa2017.model.UserItem;
 import com.example.isa2017.modelDTO.AuctionStatus;
+import com.example.isa2017.repository.FriendshipRepository;
 import com.example.isa2017.repository.UserRepository;
 import com.example.isa2017.service.AdminItemService;
 import com.example.isa2017.service.BidService;
 import com.example.isa2017.service.CinemaService;
+import com.example.isa2017.service.FriendshipService;
 import com.example.isa2017.service.HallService;
 import com.example.isa2017.service.MovieService;
 import com.example.isa2017.service.PlayService;
@@ -72,6 +75,10 @@ public class TestData {
 	private SeatService seatService;
 	@Autowired
 	private ProjectionService projService;
+	@Autowired
+	private FriendshipService friendshipService;
+	@Autowired
+	private FriendshipRepository friendshipRepository;
 	
 	@PostConstruct
 	private void init(){
@@ -90,6 +97,8 @@ public class TestData {
 		cinemaService.save(cinema4);
 		Cinema cinema5 = new Cinema("arena cineplexx5", "adresa5", "opis5", 4, generatedMovies.get(4));
 		cinemaService.save(cinema5);
+		
+		
 		
 		
 
@@ -135,6 +144,20 @@ public class TestData {
 		userRepository.save(sasa);//id=6
 		userRepository.save(TCadmin);
 		userRepository.save(sasa2);//id=6
+		
+		
+		Friendship f1=new Friendship();
+		Friendship f2=new Friendship();
+		f1.setReciver(pera);
+		f1.setSender(sasa);
+		f1.setStatus("waiting");
+		
+		f2.setStatus("waiting");
+		f2.setReciver(pera);
+		f2.setSender(sasa2);
+		
+		friendshipRepository.save(f1);
+		friendshipRepository.save(f2);
 		
 		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 		Date datum1 = null;

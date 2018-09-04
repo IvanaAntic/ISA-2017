@@ -13,6 +13,8 @@ import com.example.isa2017.modelDTO.UserDTO;
 @Repository
 public interface FriendshipRepository extends JpaRepository<Friendship, Long> {
 
+	Friendship findById(Long id);
+
 	
 
 
