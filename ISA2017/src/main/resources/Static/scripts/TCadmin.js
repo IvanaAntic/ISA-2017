@@ -64,6 +64,10 @@ $(document).ready(function(){
 										"<a class='btn btn-info btn-md addMovieToCinema' href='/movies/addMovieToCinema/" + data[i].id + "'>Dodaj</a>  " +
 										"<a id='editButton"+data[i].id+"'  class='btn btn-info btn-md editCinema' href='/cinemas/editCinema/" + data[i].id + "'>Izmeni</a></p>" +
 										"<div id='quickList_"+data[i].id+"' class='btn btn-info btn-md quickList'>Karte sa popustima</div>" +
+										"<div class='btn-group' role='group' style='margin-left: 6px;'>" +
+											"<button id='getHalls_" + data[i].id + "' type='button'  data-toggle='modal' data-target='#hallsDialog' class='btn btn-info getHallsBtn'>Sale</button>" +
+											"<button id='addHalls_" + data[i].id + "' type='button' data-toggle='modal' data-target='#addHallDialog' class='btn btn-info addHallDialog'>+</button>" +
+										"</div>" +
 									"</div>";
 							
 							moviesList = "<div style='display: none' class='movieListDiv container-fluid' id='cinema"+data[i].id+"'>";
@@ -85,6 +89,10 @@ $(document).ready(function(){
 											"<p><label>Slika: </label><img src='data:image/(png|jpg|jpeg|gif|bmp|tiff);base64, "+data[i].movies[j].image+"' id='ItemPreview' width='50' height='50' ></p>" +
 											"<p><a class='btn btn-info btn-md deleteMovieInCinema' href='/movies/deleteMovieInCinema/" + data[i].id + "/" + data[i].movies[j].id + "'>Obrisi</a></p>" +
 											"<p><a class='btn btn-info btn-md editMovie' href='/movies/editMovie/" + data[i].movies[j].id + "'>Izmeni</a></p>" +
+											"<div class='btn-group' role='group' style='margin-left: 6px;'>" +
+												"<button id='getProjections_" + data[i].movies[j].id + "' type='button'  data-toggle='modal' data-target='#projectionsDialog' class='btn btn-info getProjectionsBtn'>Projekcije</button>" +
+												"<button id='addProjection_" + data[i].id + "' type='button' data-toggle='modal' data-target='#addProjectionDialog' class='btn btn-info addProjectionDialog'>+</button>" +
+											"</div>" +
 											
 										"</div>";
 								
@@ -101,18 +109,202 @@ $(document).ready(function(){
 
 						$("#goHome").fadeIn()
 						$(".cinemaHolder").fadeIn()
-						
-						
-					});
+			});
 		});
+	});
+	
+	$(document).on('click', '.addProjectionBtn', function(){
+		
+		price = $('#projectionPrice').val()
+		date = $('#projectionDate').val()
+		time = $('#projectionTime').val()
+		movieId = $('#projectionMovie').val()
+		hallId = $('#hallSelect option:selected').attr('value').split('_')[1]
+		
+		dateFormat = date.split('-')[2] + "/" + date.split('-')[1] + "/" + date.split('-')[0]
+		
+		datetime = dateFormat + " " + time
+		console.log(datetime)
+		
+		formData = JSON.stringify({
+			price: price,
+			date: datetime,
+			movieId: movieId,
+			hallId: hallId
+		});
+		
+		$.ajax({
+			url: "/projections/addProjection/",
+			type: "POST",
+			contentType: "application/json",
+			dataType: "json",
+			data: formData,
+			success: function(data){
+				alert("Uspesno dodata projekcija!")
+			}
+		})
+		
+		$('#hallSelect').empty();
+		$('#projectionHallHolder').empty();
+		
+	});
+	
+	$(document).on('click', '.addProjectionDialog', function(){
+		
+		$('#hallSelect').empty();
+		$('#projectionHallHolder').empty();
+		
+		//smestanje id filma u skriveno polje modalnog dijaloga za dodavanje projekcije
+		movieId = $(this).prev().attr('id').split('_')[1]
+		$('#projectionMovie').val(movieId)
+		
+		cinemaId = $(this).attr('id').split('_')[1]
+		
+		$.ajax({
+			url: "halls/" + cinemaId
+		}).then(function(data){
+			option = "<option>Sala</option>"
+		
+			for(i = 0; i < data.length; i++){
+				
+				option += "<option value='hall_" + data[i].id + "'>" + data[i].name + "</option>"
+				
+			}
+			$('#hallSelect').append(option);
+		})
+		
+	});
+	
+	
+	$(document).on('click', '.getProjectionsBtn', function(){
+		
+
+		movieId = $(this).attr('id').split('_')[1]
+		
+		$.ajax({
+			url: "projections/movie/" + movieId
+		}).then(function(data){
+
+			if(data.length === 0){
+				$('#movieProjectionsHolder').empty()
+				$('#movieProjectionsHolder').append('<p>Nema projekcija :(</p>')
+			}else{
+				$('#movieProjectionsHolder').empty()
+			}
+			
+			for(var i = 0; i < data.length; i++){
+				
+				projection = "<div class='container-fluid col-xs-12 hall'>" +
+								"<p>Sala: " + data[i].hallName + "</p>" +
+								"<p>Cena: " + data[i].price + "</p>" +
+								"<p>Datum i vreme: " + data[i].date + "</p>" +
+							"</div>"
+				
+				$('#movieProjectionsHolder').append(projection)
+			}
+			
+		});
+		
+	});
+	
+	$(document).on('click', '.addHallBtn', function(){
+		
+		name = $('#hallName').val()
+		rows = $('#hallRows').val()
+		cols = $('#hallColumns').val()
+		cinemaId = $('#hallCinemaId').val()
+		
+		var seats = []
+		
+		for(var i = 1; i <= rows; i++){
+			for(var j = 1; j <= cols; j++){
+				
+				var seat = {}
+				seat.seatRow = i
+				seat.seatColumn = j
+				seat.isReserved = false
+				
+				seats.push(seat);
+				
+			}
+		}
+		
+		formData = JSON.stringify({
+			name: name,
+			seats: seats
+		});
+		
+		$.ajax({
+			url: "/halls/addHall/" + cinemaId,
+			type: "POST",
+			contentType: "application/json",
+			dataType: "json",
+			data: formData,
+			success: function(data){
+				alert("Uspesno dodata sala: " + data.name)
+			}
+		})
 		
 		
 		
 	});
 	
+	$(document).on('click', '.addHallDialog', function(){
+		cinemaId = $(this).attr('id').split('_')[1]
+		console.log(cinemaId)
+		$('#hallCinemaId').val(cinemaId);
+	});
+	
+	$(document).on('click', '.getHallsBtn', function(){
+		
+		cinemaId = $(this).attr('id').split('_')[1]
+		
+		$.ajax({
+			url: "halls/" + cinemaId
+		}).then(function(data){
+			
+			if(data.length === 0){
+				$('#cinemaHallsHolder').empty()
+				$('#cinemaHallsHolder').append('<p>Nema sala :(</p>')
+			}else{
+				$('#cinemaHallsHolder').empty()
+			}
+			
+			
+			for(var i = 0; i < data.length; i++){
+				
+				h = data[i]
+				
+				hall = "<div class='container-fluid col-xs-12 hall'>" + "<h4>" + data[i].name + "</h4>" + generateHallConf(h) + "</div>"
+				
+				$('#cinemaHallsHolder').append(hall)
+			}
+			
+		});
+		
+	});
+	
+	$(document).on('click', '.deleteTicketBtn', function(){
+		
+		event.preventDefault();
+		
+		ticketId = $(this).attr('href');
+		console.log(ticketId)
+		
+		$.ajax({
+			url: "tickets/" + ticketId,
+			type: "DELETE",
+			success: function(){
+				id = "#ticket_" + ticketId
+				$(id).remove()
+			}
+		})
+		
+	});
 	
 	$(document).on("click", ".quickList", function(){
 		cinemaId = ($(this).attr('id')).split('_')[1]
+		$('#cinemaHallsHolder').empty()
 		getQuicks(cinemaId);
 	});
 	
@@ -120,9 +312,82 @@ $(document).ready(function(){
 		
 		event.preventDefault();
 		
-		createQuick($(this).attr("href"));
+		createQuickForm($(this).attr("href"));
 		
 	});
+	
+	$(document).on("click", "#addQuickButton", function(){
+		
+		event.preventDefault();
+		
+		projectionId = $('#projectionSelect option:selected').attr('value').split('_')[1]
+		
+		i = document.getElementById("projectionSelect").selectedIndex
+		movieNameTemp = document.getElementById("projectionSelect").options[i].text
+		movieName = movieNameTemp.split('|')[0].trim();
+		
+		discount = $('#discountInput').val()
+		cinemaId = $('#cinemaTicketId').val()
+		
+		checkedBoxes = $('.isChecked:checkbox:checked')
+		
+		//			za svako sediste napraviti po kartu
+		
+		for(i = 0; i < checkedBoxes.length; i++){
+			seatId = checkedBoxes[i].id.split('_')[1]
+			
+			formData = JSON.stringify({
+				projectionId: projectionId,
+				movieName: movieName,
+				discount: discount,
+				cinemaId: cinemaId,
+				seatId: seatId
+			});
+			
+			$.ajax({
+				url: "http://localhost:8080/tickets/createQuick",
+				type: "POST",
+				contentType: "application/json",
+				dataType: "json",
+				data: formData,
+				success: function(data){
+					
+					$('#addQuickForm').fadeOut()
+					getQuicks(data.cinemaId)
+					
+				}
+			})
+			
+		}
+		
+	})
+	
+	
+	$('#projectionSelect').change(function(){
+		
+		if(document.getElementById("projectionSelect").selectedIndex === 0){
+			$('#hallHolder').empty();
+		}else{
+			temp = $('#projectionSelect option:selected').attr('value')
+			projId = temp.split('_')[1]
+			
+			getHallConf(projId)
+		}
+		
+	})
+	
+	$('#hallSelect').change(function(){
+		
+		if(document.getElementById("hallSelect").selectedIndex === 0){
+			$('#projectionHallHolder').empty();
+		}else{
+			temp = $('#hallSelect option:selected').attr('value')
+			hallId = temp.split('_')[1]
+			
+			getHallProjConf(hallId)
+		}
+		
+	})
 	
 	$("#goBackMovies").click(function(){
 		
@@ -136,6 +401,7 @@ $(document).ready(function(){
 	
 	$("#goHome").click(function(){
 		
+		$('#addQuickForm').fadeOut()
 		$("#goBackPlays").fadeOut()
 		$("#goBackMovies").fadeOut()
 		$("#goHome").fadeOut()

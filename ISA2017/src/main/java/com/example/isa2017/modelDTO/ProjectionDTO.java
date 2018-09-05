@@ -11,6 +11,10 @@ public class ProjectionDTO {
 	private String price;	
 	private Long hallId;
 	private Long movieId;
+	
+	private String movieName;
+	private String hallName;
+	
 	public ProjectionDTO() {
 		super();
 	}
@@ -57,6 +61,22 @@ public class ProjectionDTO {
 
 	public void setMovieId(Long movieId) {
 		this.movieId = movieId;
+	}
+
+	public String getMovieName() {
+		return movieName;
+	}
+
+	public void setMovieName(String movieName) {
+		this.movieName = movieName;
+	}
+
+	public String getHallName() {
+		return hallName;
+	}
+
+	public void setHallName(String hallName) {
+		this.hallName = hallName;
 	}
 	
 }

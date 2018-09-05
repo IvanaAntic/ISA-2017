@@ -45,18 +45,22 @@ public class TicketController {
 	public ResponseEntity<Ticket> createQuick(HttpServletRequest request, @RequestBody TicketDTO ticketDTO){
 		
 		// da li je ulogovan i da li je admin
-		/*User logged = (User) request.getSession().getAttribute("logged");
+		User logged = (User) request.getSession().getAttribute("logged");
 		if(logged==null)
 			return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);
 		if(logged.getRole()!=Role.ADMIN)
-			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);*/
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		
 		// napravi novi ticket i snimi...ali nema usera povezanog i takodje staviti to sediste da bude rezervisano
 		Ticket quickTicket = new Ticket();
 		Projection projection = projectionService.findOne(ticketDTO.getProjectionId());
 		Seat seat = seatService.findOne(ticketDTO.getSeatId());
-		seat.setReserved(true);
-		seatService.save(seat);
+		if(seat.isReserved()){
+			return new ResponseEntity<>(HttpStatus.CONFLICT);
+		}else{
+			seat.setReserved(true);
+			seatService.save(seat);
+		}
 		
 		quickTicket.setMovieName(ticketDTO.getMovieName());
 		quickTicket.setProjection(projection);
@@ -107,6 +111,18 @@ public class TicketController {
 		}
 		
 		return new ResponseEntity<>(ticketConverter.convert(tickets), HttpStatus.OK);
+		
+	}
+	
+	@RequestMapping(value = "/{ticketId}", method = RequestMethod.DELETE)
+	public ResponseEntity<Ticket> delete(@PathVariable Long ticketId){
+		
+		Ticket ticket = ticketService.delete(ticketId);
+		Seat seat = ticket.getSeat();
+		seat.setReserved(false);
+		seatService.save(seat);
+		
+		return new ResponseEntity<>(HttpStatus.OK);
 		
 	}
 	

@@ -2,6 +2,7 @@ package com.example.isa2017.controller;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -16,10 +17,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.isa2017.converters.ProjectionToProjectionDTO;
+import com.example.isa2017.model.Cinema;
 import com.example.isa2017.model.Hall;
 import com.example.isa2017.model.Movie;
 import com.example.isa2017.model.Projection;
 import com.example.isa2017.modelDTO.ProjectionDTO;
+import com.example.isa2017.service.CinemaService;
 import com.example.isa2017.service.HallService;
 import com.example.isa2017.service.MovieService;
 import com.example.isa2017.service.ProjectionService;
@@ -37,8 +41,14 @@ public class ProjectionController {
 	@Autowired
 	private HallService hallService;
 
+	@Autowired
+	private CinemaService cinemaService;
+
+	@Autowired
+	private ProjectionToProjectionDTO projectionToProjectionDTO;
+
 	@RequestMapping(value = "addProjection", method=RequestMethod.POST, consumes="application/json")
-	public ResponseEntity<Projection> addProjection(HttpServletRequest request, @RequestBody ProjectionDTO projDTO) throws ParseException{
+	public ResponseEntity<ProjectionDTO> addProjection(HttpServletRequest request, @RequestBody ProjectionDTO projDTO) throws ParseException{
 		
 		/*User logged = (User) request.getSession().getAttribute("logged");
 		if(logged==null)
@@ -50,8 +60,9 @@ public class ProjectionController {
 		Projection proj = new Projection();
 		proj.setPrice(projDTO.getPrice());
 		proj.setHall(hall);
+		proj.setMovieId(projDTO.getMovieId());
 		
-		SimpleDateFormat df = new SimpleDateFormat("DD/mm/yyyy");
+		SimpleDateFormat df = new SimpleDateFormat("DD/mm/yyyy HH:mm");
 		Date date = df.parse(projDTO.getDate());
 		proj.setDate(date);
 		
@@ -60,11 +71,11 @@ public class ProjectionController {
 		movie.getProjections().add(proj);
 		movieService.save(movie);
 		
-	 return new ResponseEntity<>(proj, HttpStatus.OK);
+		return new ResponseEntity<>(projDTO, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "delete/{projectionId}", method=RequestMethod.DELETE)
-	public ResponseEntity<Hall> deleteProjection(HttpServletRequest request, @PathVariable Long projectionId){
+	public ResponseEntity<Projection> deleteProjection(HttpServletRequest request, @PathVariable Long projectionId){
 		
 		/*User logged = (User) request.getSession().getAttribute("logged");
 		if(logged==null)
@@ -89,6 +100,30 @@ public class ProjectionController {
 		projectionService.delete(projectionId);
 		
 	 return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/{cinemaId}", method = RequestMethod.GET)
+	public ResponseEntity<List<ProjectionDTO>> getAll(@PathVariable Long cinemaId){
+		
+		List<Projection> projections = new ArrayList<>();
+		
+		Cinema cinema = cinemaService.findOne(cinemaId);
+		for(Movie movie : cinema.getMovies()){
+			for(Projection proj : movie.getProjections()){
+				projections.add(proj);
+			}
+		}
+		
+		return new ResponseEntity<>(projectionToProjectionDTO.convert(projections), HttpStatus.OK);
+		
+	}
+	
+	@RequestMapping(value = "/movie/{movieId}", method = RequestMethod.GET)
+	public ResponseEntity<List<ProjectionDTO>> getAllMovie(@PathVariable Long movieId){
+		
+		List<Projection> projections = movieService.findOne(movieId).getProjections();
+		
+		return new ResponseEntity<>(projectionToProjectionDTO.convert(projections), HttpStatus.OK);
 	}
 	
 }

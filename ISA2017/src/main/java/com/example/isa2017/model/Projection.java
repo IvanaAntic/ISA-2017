@@ -14,7 +14,7 @@ public class Projection {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long Id;
+	private Long id;
 	
 	@Column
 	private Date date;
@@ -24,6 +24,9 @@ public class Projection {
 	
 	@ManyToOne
 	private Hall hall;
+	
+	@Column
+	private Long movieId;
 
 	public Projection(Date date, String price, Hall hall) {
 		super();
@@ -37,11 +40,11 @@ public class Projection {
 	}
 
 	public Long getId() {
-		return Id;
+		return id;
 	}
 
 	public void setId(Long id) {
-		Id = id;
+		this.id = id;
 	}
 
 	public Date getDate() {
@@ -66,6 +69,14 @@ public class Projection {
 
 	public void setHall(Hall hall) {
 		this.hall = hall;
+	}
+
+	public Long getMovieId() {
+		return movieId;
+	}
+
+	public void setMovieId(Long movieId) {
+		this.movieId = movieId;
 	}
 	
 }

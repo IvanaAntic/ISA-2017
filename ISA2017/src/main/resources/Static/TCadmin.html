@@ -14,14 +14,42 @@
 				margin-left: auto;
 				margin-right: auto;
 				margin-top: 50px;
-				border: 1px solid #aaa;
+				border: 1px solid #bbb;
 				border-radius: 10px;
 				padding: 15px;
-				background-color: #d4cccc;
 			}
-			#addQuickForm h1,h2{
+			#addQuickForm h1,h2,h4{
 				text-align: center;
 			}
+			.hallHolder{
+				border: 1px solid #ccc;
+				border-radius: 5px;
+				padding: 5px;
+				width: 480px;
+				margin-left: auto;
+				margin-right: auto;
+			}
+			.checkbox-grid li {
+			    display: block;
+			    float: left;
+			}
+			.hallHolder table, th, td {
+				border: 0;
+				text-align: center;
+			}
+			.hall table{
+				border: 1px solid #ccc;
+				border-radius: 4px;
+			}
+			.hall{
+				border-bottom: 1px solid #bbb;
+				padding-bottom: 10px;
+				margin-bottom: 10px;
+				border-radius: 20px;
+			}
+			/* #inputForm input{
+				
+			} */
 		</style>
 
 <title>Admin pozorista/bioskopa</title>
@@ -81,28 +109,164 @@
 
 </div>
 
+
+			<!-- modalni dijalog za dodavanje projekcije u film -->
+
+<div id="addProjectionDialog" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title">Dodaj projekciju</h2>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body row" style='text-align: center;'>
+      	<form data-toggle="validator" role="form" data-disable="true">
+      		<div class="form-group  col-xs-12" style='display: none;'>
+	       		<input type="text" class='form-control' id="projectionMovie" />
+	        </div>
+      		<div class="form-group">
+	    		<div class="col-xs-12">
+				    <select class="form-control" id="hallSelect">
+				    </select>
+	    		</div>
+		  	</div>
+		  	<div class="form-group col-xs-12">
+	    		<div class="container hallHolder" id="projectionHallHolder">
+	    		</div>
+	    	</div>
+	    	<div class="form-group  col-xs-12">
+	       		<input type="text" class='form-control' id="projectionPrice" placeholder='Cena' />
+	        </div>
+	        <div class='row'>
+	        
+	        </div>
+	        <div class="form-group  col-xs-6">
+	       		<input type="date" class='form-control' id="projectionDate" placeholder='Datum' />
+	        </div>
+	        <div class="form-group  col-xs-6">
+	       		<input type="time" class='form-control' id="projectionTime" placeholder='Vreme' />
+	        </div>
+		</form>
+      </div>
+      <div class="modal-footer">
+      	<button type="button" class="btn btn-primary addProjectionBtn" data-dismiss="modal">Dodaj</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+			<!-- modalni dijalog za prikaz projekcija nekog filma -->
+
+<div id="projectionsDialog" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Projekcije</h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body row" id="movieProjectionsHolder" style='text-align: center;'>
+        <p >Nema projekcija :(</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+			<!-- modalni dijalog za dodavanje sale u bioskop -->
+
+<div id="addHallDialog" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title">Dodaj salu</h2>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body row" style='text-align: center;'>
+      	<form data-toggle="validator" role="form" data-disable="true">
+      		<div class="form-group  col-xs-12" style='display: none;'>
+	       		<input type="text" class='form-control' id="hallCinemaId" />
+	        </div>
+	        <div class="form-group  col-xs-12">
+	       		<input type="text" class='form-control' id="hallName" placeholder='Naziv sale' />
+	        </div>
+	        <div class="form-group  col-xs-12">
+	       		<input type="text" class='form-control' id="hallRows" placeholder='Broj redova sedista u sali'/>
+	        </div>
+	        <div class="form-group  col-xs-12">
+	       		<input type="text" class='form-control' id="hallColumns" placeholder='Broj kolona sedista u sali' />
+	        </div>
+		</form>
+      </div>
+      <div class="modal-footer">
+      	<button type="button" class="btn btn-primary addHallBtn" data-dismiss="modal">Dodaj</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+			<!-- modalni dijalog za prikaz sala nekog bioskopa -->
+
+<div id="hallsDialog" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Sale</h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body row" id="cinemaHallsHolder" style='text-align: center;'>
+        <p >Nema sala :(</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+			<!-- forma za dodavanje nove brze rezervacije -->
+
 <div class="container" id="addQuickForm" style="display: none">
 	<div class="row">
     	<div class="col-xs-12">
     		<h1>Nova karta</h1><hr>
-    		<form class="form-horizontal">
+    		<form class="form-horizontal" id="quickForm">
 		    	<div class="form-group">
 		    		<div class="col-xs-12">
-		    			<input type="password" class="form-control" id="oldPass" placeholder="Stara lozinka" />
+					    <select class="form-control" id="projectionSelect">
+					    </select>
+		    		</div>
+			  	</div>
+		    	<div class="form-group col-xs-12">
+		    		<div class="container hallHolder" id="hallHolder">
 		    		</div>
 		    	</div>
-		    	<div class="form-group">
+		    	<div class="form-group col-xs-12">
 		    		<div class="col-xs-12">
-		    			<input type="password" class="form-control" id="newPass" placeholder="Nova lozinka" />
+		    			<input type="text" class="form-control" id="discountInput" placeholder="Popust" />
 		    		</div>
 		    	</div>
-		    	<div class="form-group">
+		    	<div class="form-group col-xs-12">
 		    		<div class="col-xs-12">
-		    			<input type="password" class="form-control" id="passConfirm" placeholder="Potvrda lozinke" />
+		    			<input type="text" class="form-control" id="cinemaTicketId" disabled/>
 		    		</div>
 		    	</div>
 		    	<div class="col-xs-10 col-xs-offset-2">
-		    		<button class="btn btn-primary" id="submit">Promeni</button> <button type="reset" class="btn btn-default">Reset</button>
+		    		<button class="btn btn-primary" id="addQuickButton">Dodaj</button> <button type="reset" class="btn btn-default">Reset</button>
 		    	</div>
 		    </form>
     	</div>

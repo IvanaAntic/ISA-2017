@@ -21,7 +21,6 @@ import com.example.isa2017.model.Cinema;
 import com.example.isa2017.model.Hall;
 import com.example.isa2017.model.Movie;
 import com.example.isa2017.model.Play;
-import com.example.isa2017.model.Projection;
 import com.example.isa2017.model.Role;
 import com.example.isa2017.model.Theatre;
 import com.example.isa2017.model.User;
@@ -288,16 +287,6 @@ public class TestData {
 			actors.add("glumac2");
 			actors.add("glumac3");
 			
-			Hall hall = new Hall();
-			List<Projection> projections = new ArrayList<>();
-			Projection proj = new Projection();
-			proj.setHall(hall);
-			proj.setPrice("500");
-			projections.add(proj);
-			
-			hallService.save(hall);
-			projService.save(proj);
-			
 			Movie movie1 = new Movie("Bladerunner", actors,  "Sci-Fi",
 					 "Ridley Scott",  "1h 57min", 5,
 					 "Film prikazuje distopijski Los Angeles"
@@ -306,8 +295,7 @@ public class TestData {
 					 + " istraživanju. Radnja se odvija oko skupine nekoliko tih replikanata koji su pobjegli te se skrivaju"
 					 + " u Los Angelesu, te ih posebna policija zvana 'Blade Runner' mora uloviti, a među njima je i iskusni "
 					 + "Rick Deckard (Harrison Ford).");
-			if(i == 0)
-				movie1.setProjections(projections);
+			
 			
 			// 			ZA UBACIVANJE SLIKE
 			

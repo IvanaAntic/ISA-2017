@@ -15,9 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.isa2017.model.Cinema;
 import com.example.isa2017.model.Hall;
+import com.example.isa2017.model.Projection;
 import com.example.isa2017.model.Seat;
 import com.example.isa2017.service.CinemaService;
 import com.example.isa2017.service.HallService;
+import com.example.isa2017.service.ProjectionService;
 import com.example.isa2017.service.SeatService;
 
 @RestController
@@ -32,6 +34,9 @@ public class HallController {
 	
 	@Autowired
 	private CinemaService cinemaService;
+	
+	@Autowired
+	private ProjectionService projService;
 
 	@RequestMapping(value = "addHall/{cinemaId}", method=RequestMethod.POST, consumes="application/json")
 	public ResponseEntity<Hall> addHall(@RequestBody Hall hall, @PathVariable Long cinemaId){
@@ -89,6 +94,35 @@ public class HallController {
 		hallService.delete(hallId);
 		
 	 return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/inProjection/{projId}", method = RequestMethod.GET)
+	public ResponseEntity<Hall> getHall(@PathVariable Long projId){
+		
+		Projection proj = projService.findOne(projId);
+		
+		Hall hall = proj.getHall();
+		
+		return new ResponseEntity<>(hall, HttpStatus.OK);
+		
+	}
+	
+	@RequestMapping(value = "/hall/{hallId}", method = RequestMethod.GET)
+	public ResponseEntity<Hall> getOneHall(@PathVariable Long hallId){
+		
+		return new ResponseEntity<>(hallService.findOne(hallId), HttpStatus.OK);
+		
+	}
+	
+	@RequestMapping(value = "/{cinemaId}", method = RequestMethod.GET)
+	public ResponseEntity<List<Hall>> getHalls(@PathVariable Long cinemaId){
+		
+		Cinema cinema = cinemaService.findOne(cinemaId);
+		
+		List<Hall> halls = cinema.getHalls();
+		
+		return new ResponseEntity<>(halls, HttpStatus.OK);
+		
 	}
 	
 }
