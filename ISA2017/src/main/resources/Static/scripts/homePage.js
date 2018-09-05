@@ -1,7 +1,7 @@
 $(document).ready(function(event){
 	console.log("ovde")
 	loadUser();
-
+	loadFriendRequests();
 	
 	$("#izmeni").click(function(){
 		console.log("desilo se");
@@ -13,6 +13,7 @@ $(document).ready(function(event){
 		console.log("search");
 	
 	});
+	
 	
 	
 	$(".navbar-right").on('click', function (e) {
@@ -88,4 +89,44 @@ function userEdit(){
 	
 }
 
+function loadFriendRequests(){
+	console.log("loadFriendRequests");
+	$.ajax({
+			url:"http://localhost:8080/friendship/displayFriendRequests",
+			method:"GET",
+			contentType: "application/json",
+			datatype: 'json',
+			success: function(data){
+				for(i=0;i<data.length;i++){
+					newRow="<tr>"
+						+"<td>"+data[i].name+"</td>"
+						+"<td>"+data[i].surname+"</td>"
+						+"<td><button name='accept' class='btn btn-primary' style='width:80px;' id=" + data[i].id + ">Accept</button></td>"
+						+"<td><button name='delete' class='btn btn-danger' style='width:80px;' id=" + data[i].id+ ">Reject</button></td>>"
+						+"</tr>";
+					$(".reqTable").append(newRow);
+				}
+			}
+	});
+}
 
+$(document).on("click",".btn-primary",function(event){
+	//obostrano je prijateljsnto ako se klikne na accept
+	console.log("hocemo da prihvatimo prijatelja");
+	 var id = $(this).attr('id');
+     formData= JSON.stringify({
+ 		id: id
+           });
+     console.log(id);
+     console.log(formData);
+	$.ajax({
+		url: "http://localhost:8080/friendship/accept",
+		method: "POST",
+		data : formData,
+		contentType : 'application/json',
+    	success: function(){
+    			console.log("Prihvaceno prijateljstvo");
+    	}
+	});
+	
+});

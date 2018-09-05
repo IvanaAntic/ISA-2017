@@ -1,5 +1,8 @@
 package com.example.isa2017.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -15,9 +18,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.isa2017.converters.CinemaToCinemaDTO;
+import com.example.isa2017.converters.UserToUserDTO;
+import com.example.isa2017.model.Cinema;
 import com.example.isa2017.model.Role;
 import com.example.isa2017.model.User;
 import com.example.isa2017.modelDTO.ChangePassDTO;
+import com.example.isa2017.modelDTO.CinemaDTO;
 import com.example.isa2017.modelDTO.UserDTO;
 import com.example.isa2017.service.UserService;
 
@@ -29,7 +36,8 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
-	
+	@Autowired
+	private UserToUserDTO toUserDTO;
 	
 	@RequestMapping(value="/register" , method=RequestMethod.POST)
 	public ResponseEntity<User> registerUser(@RequestBody UserDTO user){
@@ -139,5 +147,36 @@ public class UserController {
 		
 	}
 
-	
+	/*@RequestMapping(value="/displayUsers", method=RequestMethod.GET)
+	public ResponseEntity<UserDTO> displayUsers(HttpServletRequest request){
+		User logged = (User) request.getSession().getAttribute("logged");
+		System.out.println("user display User:"+logged.getEmail());
+		if(logged!=null) {
+			UserDTO log=userService.convertToDTO(logged);
+			return new ResponseEntity<UserDTO>(log,HttpStatus.OK);
+		}
+		UserDTO log=null;
+		return new ResponseEntity<UserDTO>(log,HttpStatus.NOT_FOUND);
+		
+	}*/
+	@RequestMapping(value="/displayUsers", method=RequestMethod.GET)
+	public ResponseEntity<List<UserDTO>> dispayList(HttpServletRequest request){
+		System.out.println("OK");
+		User logged = (User) request.getSession().getAttribute("logged");
+		List<User> users = userService.findAll();
+		List<User> returnList = new ArrayList<>();
+		//System.out.println("U listi koji treba da se ispisu korisnici");
+		for(User u:users){
+			//System.out.println("Display user"+u.getName());
+			if(u.getRole()==Role.USER){
+				if(!u.getId().equals(logged.getId())){
+				returnList.add(u);
+				System.out.println("Oni koji su obicni korisnici"+u.getName());
+				}
+			}
+		}
+			//return new ResponseEntity<>(toCinemaDTO.convert(cinemas), HttpStatus.OK);
+			return new ResponseEntity<List<UserDTO>>(toUserDTO.convert(returnList), HttpStatus.OK);
+		
+	}
 }
