@@ -74,7 +74,7 @@ public class TicketController {
 		
 	}
 	
-	@RequestMapping(value = "reserveQuick/{ticketId}", method = RequestMethod.PUT, consumes = "application/json")
+	@RequestMapping(value = "reserveQuick/{ticketId}", method = RequestMethod.PUT)
 	public ResponseEntity<Ticket> reserveQuick(HttpServletRequest request, @PathVariable Long ticketId){
 		
 		// da li je ulogovan i da li je user
@@ -105,7 +105,7 @@ public class TicketController {
 		List<Ticket> tickets = new ArrayList<Ticket>();
 		
 		for(Ticket ticket : allTickets){
-			if(ticket.getCinemaId() == cinemaId){
+			if(ticket.getCinemaId() == cinemaId && ticket.getUser() == null){
 				tickets.add(ticket);
 			}
 		}

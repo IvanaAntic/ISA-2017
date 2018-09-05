@@ -4,11 +4,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.isa2017.model.Hall;
 import com.example.isa2017.repository.HallRepository;
 import com.example.isa2017.service.HallService;
 
+@Transactional
 @Service
 public class JpaHallService implements HallService {
 
