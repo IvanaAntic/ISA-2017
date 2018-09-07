@@ -121,18 +121,18 @@ public class TestData {
 		Theatre theatre5 = new Theatre("Narodno pozorište „Toša Jovanović“", "Zrenjanin, Trg slobode 7", "Najstarija pozorišna zgrada u današnjoj Srbiji.", 4, generatedPlays.get(4));
 		theatreService.save(theatre5);
 		//Obican korisnik
-		User pera = new User("pera@pera", "pera", "Petar", "Petrovic", "064123123", "Petrovac", Role.USER, true);
+		User pera = new User("pera@pera", "pera", "Petar", "Petrovic", "064123123", "Petrovac", Role.USER, true,"0");
 		//Administrator fan zone
-		User gema = new User("gema@gema", "gema", "Gema", "Gema", "064123123", "Uzvece", Role.FANZONEADMIN, true);
+		User gema = new User("gema@gema", "gema", "Gema", "Gema", "064123123", "Uzvece", Role.FANZONEADMIN, true,"0");
 		//Obican user sa ispravnim mailom
-		User sasa = new User("gemovics@gmail.com","gemovics", "Sasa", "Gemovic", "064123123", "Uzvece", Role.USER, true);
+		User sasa = new User("gemovics@gmail.com","gemovics", "Sasa", "Gemovic", "064123123", "Uzvece", Role.USER, true,"0");
 		//Obican user sa ispravnim mailom
-		User sasa2 = new User("gemin.mail.za.testiranje@gmail.com","gema", "Sasa2", "Gemovic2", "064123123", "Uzvece2", Role.USER, true);
+		User sasa2 = new User("gemin.mail.za.testiranje@gmail.com","gema", "Sasa2", "Gemovic2", "064123123", "Uzvece2", Role.USER, true,"0");
 		//Admin fan zone
-		User adminFZ = new User("adminFZ@adminFZ", "admin", "AdminFZ", "AdminFZ", "064123123", "Uzvece", Role.FANZONEADMIN, true);
-		User adminSYS = new User("adminSYS@adminSYS", "adminSYS", "AdminSYS", "AdminSYS", "064123123", "Uzvece", Role.SYSTEMADMIN, true);
+		User adminFZ = new User("adminFZ@adminFZ", "admin", "AdminFZ", "AdminFZ", "064123123", "Uzvece", Role.FANZONEADMIN, true,"0");
+		User adminSYS = new User("adminSYS@adminSYS", "adminSYS", "AdminSYS", "AdminSYS", "064123123", "Uzvece", Role.SYSTEMADMIN, true,"0");
 		
-		User TCadmin = new User("tcadmin@tcadmin", "tcadmin", "Igor", "Zeljkovic", "066555548", "Novi Sad", Role.ADMIN, true);
+		User TCadmin = new User("tcadmin@tcadmin", "tcadmin", "Igor", "Zeljkovic", "066555548", "Novi Sad", Role.ADMIN, true,"0");
 
 		
 		userRepository.save(adminSYS);//id=1 glavni predefinisani administrator

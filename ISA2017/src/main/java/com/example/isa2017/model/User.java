@@ -11,6 +11,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import org.hibernate.validator.constraints.Email;
@@ -53,12 +54,14 @@ public class User {
 	@Column(name="first_login")
 	private boolean firstLogin = true;
 	
-
+	@Column(name="type")
+	private String type;
+	
 
 	public User(){}
 	
 	
-	public User(String email, String password, String name, String surname, String phoneNumber, String city,Role role,boolean active) {
+	public User(String email, String password, String name, String surname, String phoneNumber, String city,Role role,boolean active,String type) {
 		super();
 		this.email = email;
 		this.password = password;
@@ -68,8 +71,22 @@ public class User {
 		this.city = city;
 		this.role=role;
 		this.active=active;
+		this.type=type; 
 		
 	}
+	
+	
+	
+	public String getType() {
+		return type;
+	}
+
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+
 	public Long getId() {
 		return id;
 	}

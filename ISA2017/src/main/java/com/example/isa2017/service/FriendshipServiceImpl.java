@@ -120,7 +120,45 @@ public class FriendshipServiceImpl implements FriendshipService {
 		
 	}
 	
-	
+	public List<User> getFriends(User user,String status){
+		System.out.println("Dobavljamo prijatelje status nam je: "+status);
+		User logged=userRepository.findByEmail(user.getEmail());
+		System.out.println("SAD PROVERAVAM FINDRECIVERS STA VRACA: ");
+		List<User> sender=findRecivers(logged.getId(),status);
+		List<User> reciver=findSenders(logged.getId(),status);
+		sender.addAll(reciver);
+		return sender;
+	}
+
+	private List<User> findSenders(Long id, String status) {
+		// TODO Auto-generated method stub
+		List<Friendship> allF=friendshipRepository.findAll();
+		List<User> returnList=new ArrayList<>(); 
+		for(Friendship f:allF){
+			if(f.getReciver().getId().equals(id)){
+				returnList.add(f.getSender());
+				return returnList;
+			}
+		}
+		return returnList;
+	}
+
+	private List<User> findRecivers(Long id, String status) {
+		// TODO Auto-generated method stub
+		List<Friendship> allF=friendshipRepository.findAll();
+		List<User> returnList=new ArrayList<>(); 
+		System.out.println("Usli u findRecivers sa statusom" +status);
+		for(Friendship f:allF){
+			System.out.println("Usli u for RECIVER ID"+f.getReciver().getId());
+			System.out.println("Usli u for ID KOJI SMO POSLAI"+f.getReciver().getId());
+			if(f.getSender().getId().equals(id)){
+				System.out.println("find reciver"+f.getReciver().getId());
+				returnList.add(f.getReciver());
+				return returnList;
+			}
+		}
+		return returnList;
+	}
 
 
 }

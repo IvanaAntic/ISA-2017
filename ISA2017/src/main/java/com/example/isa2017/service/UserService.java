@@ -34,5 +34,7 @@ public interface UserService {
 	User editUser(UserDTO user,User use1);
 	
 	void changePassword(ChangePassDTO frontUser, User loggedUser);
+
+	List<User> getAllUsers(User user);
 	
 }

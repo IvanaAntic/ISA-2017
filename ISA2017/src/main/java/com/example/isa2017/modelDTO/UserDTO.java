@@ -13,10 +13,11 @@ public class UserDTO {
 	private String phoneNumber;
 	private boolean firstLogin;
 	private Role role;
+	private String type;
 	
 	public UserDTO(){}
 	
-	public UserDTO(String email, String name, String surname, String password, String city, String phoneNumber,Role role) {
+	public UserDTO(String email, String name, String surname, String password, String city, String phoneNumber,Role role,String type) {
 		super();
 		this.email = email;
 		this.name = name;
@@ -24,7 +25,17 @@ public class UserDTO {
 		this.password = password;
 		this.city = city;
 		this.phoneNumber = phoneNumber;
+		this.type=type;
 	
+	}
+
+	
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	public Long getId() {
