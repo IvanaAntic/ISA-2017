@@ -216,6 +216,15 @@ public class UserServiceImpl implements UserService{
 		List<User> friends=friendshipService.getFriends(logged,"accepted");
 		System.out.println("sad cemo ici koji su peri waiting prijatelji: ");
 		List<User> waitingFriends=friendshipService.getFriends(logged,"waiting");
+		//da vidimo sta imamo fu ovim listama
+		System.out.println("DA VIDIMO sta se nalazi u friends listi: ");
+		for(User u: friends){
+			System.out.println("friends IME"+u.getName());
+		}
+		System.out.println("DA VIDIMO sta se nalazi u waitingfriends listi: ");
+		for(User u: waitingFriends){
+			System.out.println("waiting IME"+u.getName());
+		}
 		List<User> allUsres=userRepository.findAll();
 		List<User> all=new ArrayList<>();
 		for(User u:allUsres){

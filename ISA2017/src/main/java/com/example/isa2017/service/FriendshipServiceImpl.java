@@ -127,17 +127,34 @@ public class FriendshipServiceImpl implements FriendshipService {
 		List<User> sender=findRecivers(logged.getId(),status);
 		List<User> reciver=findSenders(logged.getId(),status);
 		sender.addAll(reciver);
+		System.out.println("SENDER RETURN----------------------------------------"+status);
+		for(int i=0;i<sender.size();i++){
+			System.out.println("sta ima u sender listi"+ sender.get(i).getName());
+		}
+		System.out.println("SENDER RETURN----------------------------------------"+status);
 		return sender;
 	}
 
 	private List<User> findSenders(Long id, String status) {
 		// TODO Auto-generated method stub
+		System.out.println("Usli u findSenders sa statusom" +status);
 		List<Friendship> allF=friendshipRepository.findAll();
+		System.out.println("Izlistah allF" +status);
+		for(Friendship f: allF){
+			System.out.println("Izlistah allF" +f.getId()+"status"+f.getStatus());
+		}
 		List<User> returnList=new ArrayList<>(); 
 		for(Friendship f:allF){
-			if(f.getReciver().getId().equals(id)){
+			System.out.println("Usli u for RECIVER ID za metodu findSenders"+f.getReciver().getId());
+			System.out.println("Usli u for ID KOji je logovan u metodi findSenders"+id);
+			System.out.println("u metodi findSenders da li je nas logovani jedrak sa reciver id"+f.getReciver().getId().equals(id));
+			if(f.getReciver().getId().equals(id) && f.getStatus().equals(status)){
+				System.out.println("Ovo dodajemo u return"+f.getSender().getId());
 				returnList.add(f.getSender());
-				return returnList;
+				for(User u:returnList){
+					System.out.println("NAME U RETURN LISTI "+u.getName()+"ID:"+u.getId());
+				}
+				//return returnList;
 			}
 		}
 		return returnList;
@@ -149,8 +166,7 @@ public class FriendshipServiceImpl implements FriendshipService {
 		List<User> returnList=new ArrayList<>(); 
 		System.out.println("Usli u findRecivers sa statusom" +status);
 		for(Friendship f:allF){
-			System.out.println("Usli u for RECIVER ID"+f.getReciver().getId());
-			System.out.println("Usli u for ID KOJI SMO POSLAI"+f.getReciver().getId());
+
 			if(f.getSender().getId().equals(id)){
 				System.out.println("find reciver"+f.getReciver().getId());
 				returnList.add(f.getReciver());
