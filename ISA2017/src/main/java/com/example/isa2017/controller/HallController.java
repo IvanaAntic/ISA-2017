@@ -78,6 +78,19 @@ public class HallController {
 		hall.setHallName(hallDTO.getHallName());
 		hallService.save(hall);
 		
+		for(Seat s : hall.getSeats()){
+			seatService.delete(s.getId());
+		}
+		
+		for(SeatDTO seat : hallDTO.getSeats()){
+			Seat s = new Seat();
+			s.setHall(hall);
+			s.setReserved(seat.isReserved());
+			s.setColumnNumber(seat.getColumnNumber());
+			s.setRowNumber(seat.getRowNumber());
+			seatService.save(s);	
+		}
+		
 		hall = hallService.findOne(hallId);
 		
 	 return new ResponseEntity<>(HttpStatus.OK);

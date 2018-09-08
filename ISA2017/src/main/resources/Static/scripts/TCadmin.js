@@ -276,7 +276,8 @@ $(document).ready(function(){
 				h = data[i]
 				
 				hall = "<div id='hallDiv_" + data[i].id + "' class='container-fluid col-xs-12 hall'>" + "<h4>" + data[i].hallName + "</h4>" + generateHallConf(h) + "" +
-							"<a href='/halls/deleteHall/" + data[i].id + "' class='btn btn-warning deleteHallBtn'>Obrisi</a>" +
+							"<a href='/halls/deleteHall/" + data[i].id + "' class='btn btn-danger deleteHallBtn'>Obrisi</a>" +
+							"<button type='button' data-dismiss='modal' id='/halls/editHall/" + data[i].id + "' class='btn btn-info editHallDialogBtn'>Izmeni</a>" +
 						"</div>"
 				
 				$('#cinemaHallsHolder').append(hall)
@@ -285,6 +286,60 @@ $(document).ready(function(){
 		});
 		
 	});
+	
+	$(document).on('click', '.editHallDialogBtn', function(){
+		
+		$('#editHallDialog').modal()
+		
+		url = $(this).attr('id')
+		
+		$('#editHallId').val(url)
+		$('#editHallName').val($(this).prev().prev().prev().text())
+		$('#editHallRows').val('')
+		$('#editHallColumns').val('')
+	})
+	
+	$(document).on('click', '.editHallBtn', function(){
+		
+		var hallName = $('#editHallName').val()
+		var rows = $('#editHallRows').val()
+		var cols = $('#editHallColumns').val()
+		var url = $('#editHallId').val()
+		
+		var seats = []
+		
+		for(var i = 1; i <= rows; i++){
+			for(var j = 1; j <= cols; j++){
+				
+				var seat = {}
+				seat.rowNumber = i
+				seat.columnNumber = j
+				seat.isReserved = false
+				
+				seats.push(seat);
+			}
+		}
+		
+		formData = JSON.stringify({
+			hallName : hallName,
+			seats : seats
+		})
+		
+		$.ajax({
+			url: url,
+			type: "PUT",
+			contentType: "application/json",
+			dataType: "json",
+			data: formData,
+			success: function(){
+				alert("Uspesno editovana sala: " + hallName)
+			}
+			
+		})
+		
+		
+		
+	})
 	
 	$(document).on('click', '.deleteHallBtn', function(event){
 		

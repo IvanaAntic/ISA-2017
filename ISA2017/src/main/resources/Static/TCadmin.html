@@ -216,6 +216,41 @@
   </div>
 </div>
 
+			<!-- modalni dijalog za editovanje sale u bioskopu -->
+
+<div id="editHallDialog" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title">Izmeni salu</h2>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body row" style='text-align: center;'>
+      	<form data-toggle="validator" role="form" data-disable="true">
+      		<div class="form-group  col-xs-12" style='display: none;'>
+	       		<input type="text" class='form-control' id="editHallId" />
+	        </div>
+	        <div class="form-group  col-xs-12">
+	       		<input type="text" class='form-control' id="editHallName" placeholder='Naziv sale' />
+	        </div>
+	        <div class="form-group  col-xs-12">
+	       		<input type="text" class='form-control' id="editHallRows" placeholder='Broj redova sedista u sali'/>
+	        </div>
+	        <div class="form-group  col-xs-12">
+	       		<input type="text" class='form-control' id="editHallColumns" placeholder='Broj kolona sedista u sali' />
+	        </div>
+		</form>
+      </div>
+      <div class="modal-footer">
+      	<button type="button" class="btn btn-primary editHallBtn" data-dismiss="modal">Dodaj</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 			<!-- modalni dijalog za prikaz sala nekog bioskopa -->
 
 <div id="hallsDialog" class="modal fade" tabindex="-1" role="dialog">

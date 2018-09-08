@@ -19,7 +19,7 @@ public class Hall {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long Id;
 	
-	@OneToMany(mappedBy = "hall", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "hall", orphanRemoval = true)
 	private List<Seat> seats;
 	
 	@Column
