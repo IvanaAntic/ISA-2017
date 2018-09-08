@@ -1,20 +1,14 @@
 package com.example.isa2017.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotEmpty;
 
 
 
@@ -53,6 +47,14 @@ public class User {
 	@Column(name="first_login")
 	private boolean firstLogin = true;
 	
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	private List<Movie> moviesToRate;
+	
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	private List<Cinema> cinemasToRate;
+	
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	private List<Ticket> tickets;
 
 
 	public User(){}
@@ -135,6 +137,36 @@ public class User {
 
 	public void setFirstLogin(boolean firstLogin) {
 		this.firstLogin = firstLogin;
+	}
+
+
+	public List<Movie> getMoviesToRate() {
+		return moviesToRate;
+	}
+
+
+	public void setMoviesToRate(List<Movie> moviesToRate) {
+		this.moviesToRate = moviesToRate;
+	}
+
+
+	public List<Cinema> getCinemasToRate() {
+		return cinemasToRate;
+	}
+
+
+	public void setCinemasToRate(List<Cinema> cinemasToRate) {
+		this.cinemasToRate = cinemasToRate;
+	}
+
+
+	public List<Ticket> getTickets() {
+		return tickets;
+	}
+
+
+	public void setTickets(List<Ticket> tickets) {
+		this.tickets = tickets;
 	}
 	
 }

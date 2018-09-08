@@ -10,19 +10,12 @@ public class CinemaDTO {
 	private String address;
 	private String description;
 	private int avgRating;
+	private List<MovieDTO> movies;
 	private List<HallDTO> halls;
+	
+	
 	CinemaDTO(){
 		
-	}
-
-	public CinemaDTO(Long id, String name, String address, String description, int avgRating, List<HallDTO> halls) {
-		super();
-		Id = id;
-		this.name = name;
-		this.address = address;
-		this.description = description;
-		this.avgRating = avgRating;
-		this.halls = halls;
 	}
 
 	public Long getId() {
@@ -73,7 +66,12 @@ public class CinemaDTO {
 		this.halls = halls;
 	}
 
-	
-	
+	public List<MovieDTO> getMovies() {
+		return movies;
+	}
+
+	public void setMovies(List<MovieDTO> movies) {
+		this.movies = movies;
+	}
 	
 }

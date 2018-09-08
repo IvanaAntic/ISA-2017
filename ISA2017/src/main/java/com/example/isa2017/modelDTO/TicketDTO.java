@@ -3,19 +3,18 @@ package com.example.isa2017.modelDTO;
 public class TicketDTO {
 
 	private Long Id;
-	private Long seatId;
-	private Long userId;
 	private Long projectionId;
-	private Long cinemaId;
-	
-	private String movieName;
-	private String price;
-	private int discount;
+	private Long projectionMovieCinemaId;
+	private String projectionMovieName;
 	private String date;
 	private String time;
-	private String hall;
-	private String seatRow;
-	private String seatColumn;
+	private String projectionPrice;
+	private Long seatId;
+	private int seatRowNumber;
+	private int seatColumnNumber;
+	private String projectionHallName;
+	private int discount;
+	
 	
 	public TicketDTO() {
 		super();
@@ -29,28 +28,12 @@ public class TicketDTO {
 		Id = id;
 	}
 
-	public Long getSeatId() {
-		return seatId;
+	public String getProjectionMovieName() {
+		return projectionMovieName;
 	}
 
-	public void setSeatId(Long seatId) {
-		this.seatId = seatId;
-	}
-
-	public Long getUserId() {
-		return userId;
-	}
-
-	public void setUserId(Long userId) {
-		this.userId = userId;
-	}
-
-	public String getMovieName() {
-		return movieName;
-	}
-
-	public void setMovieName(String movieName) {
-		this.movieName = movieName;
+	public void setProjectionMovieName(String projectionMovieName) {
+		this.projectionMovieName = projectionMovieName;
 	}
 
 	public Long getProjectionId() {
@@ -61,12 +44,12 @@ public class TicketDTO {
 		this.projectionId = projectionId;
 	}
 
-	public String getPrice() {
-		return price;
+	public Long getSeatId() {
+		return seatId;
 	}
 
-	public void setPrice(String price) {
-		this.price = price;
+	public void setSeatId(Long seatId) {
+		this.seatId = seatId;
 	}
 
 	public int getDiscount() {
@@ -75,6 +58,46 @@ public class TicketDTO {
 
 	public void setDiscount(int discount) {
 		this.discount = discount;
+	}
+
+	public Long getProjectionMovieCinemaId() {
+		return projectionMovieCinemaId;
+	}
+
+	public void setProjectionMovieCinemaId(Long projectionMovieCinemaId) {
+		this.projectionMovieCinemaId = projectionMovieCinemaId;
+	}
+
+	public String getProjectionPrice() {
+		return projectionPrice;
+	}
+
+	public void setProjectionPrice(String projectionPrice) {
+		this.projectionPrice = projectionPrice;
+	}
+
+	public String getProjectionHallName() {
+		return projectionHallName;
+	}
+
+	public void setProjectionHallName(String projectionHallName) {
+		this.projectionHallName = projectionHallName;
+	}
+
+	public int getSeatRowNumber() {
+		return seatRowNumber;
+	}
+
+	public void setSeatRowNumber(int seatRowNumber) {
+		this.seatRowNumber = seatRowNumber;
+	}
+
+	public int getSeatColumnNumber() {
+		return seatColumnNumber;
+	}
+
+	public void setSeatColumnNumber(int seatColumnNumber) {
+		this.seatColumnNumber = seatColumnNumber;
 	}
 
 	public String getDate() {
@@ -91,38 +114,6 @@ public class TicketDTO {
 
 	public void setTime(String time) {
 		this.time = time;
-	}
-
-	public String getHall() {
-		return hall;
-	}
-
-	public void setHall(String hall) {
-		this.hall = hall;
-	}
-
-	public String getSeatRow() {
-		return seatRow;
-	}
-
-	public void setSeatRow(String seatRow) {
-		this.seatRow = seatRow;
-	}
-
-	public String getSeatColumn() {
-		return seatColumn;
-	}
-
-	public void setSeatColumn(String seatColumn) {
-		this.seatColumn = seatColumn;
-	}
-
-	public Long getCinemaId() {
-		return cinemaId;
-	}
-
-	public void setCinemaId(Long cinemaId) {
-		this.cinemaId = cinemaId;
 	}
 	
 }

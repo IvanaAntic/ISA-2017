@@ -39,17 +39,17 @@ public class TicketController {
 	TicketService ticketService;
 	
 	@Autowired
-	TicketToTicketDTO ticketConverter;
+	TicketToTicketDTO toTicketDTO;
 
 	@RequestMapping(value = "createQuick", method = RequestMethod.POST, consumes = "application/json")
-	public ResponseEntity<Ticket> createQuick(HttpServletRequest request, @RequestBody TicketDTO ticketDTO){
+	public ResponseEntity<TicketDTO> createQuick(HttpServletRequest request, @RequestBody TicketDTO ticketDTO){
 		
 		// da li je ulogovan i da li je admin
-		User logged = (User) request.getSession().getAttribute("logged");
+		/*User logged = (User) request.getSession().getAttribute("logged");
 		if(logged==null)
 			return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);
 		if(logged.getRole()!=Role.ADMIN)
-			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);*/
 		
 		// napravi novi ticket i snimi...ali nema usera povezanog i takodje staviti to sediste da bude rezervisano
 		Ticket quickTicket = new Ticket();
@@ -62,20 +62,19 @@ public class TicketController {
 			seatService.save(seat);
 		}
 		
-		quickTicket.setMovieName(ticketDTO.getMovieName());
 		quickTicket.setProjection(projection);
 		quickTicket.setSeat(seat);
 		quickTicket.setDiscount(ticketDTO.getDiscount());
-		quickTicket.setCinemaId(ticketDTO.getCinemaId());
 		
 		ticketService.save(quickTicket);
 		
-		return new ResponseEntity<>(quickTicket, HttpStatus.OK);
+		
+		return new ResponseEntity<>(toTicketDTO.convert(quickTicket), HttpStatus.OK);
 		
 	}
 	
 	@RequestMapping(value = "reserveQuick/{ticketId}", method = RequestMethod.PUT)
-	public ResponseEntity<Ticket> reserveQuick(HttpServletRequest request, @PathVariable Long ticketId){
+	public ResponseEntity<TicketDTO> reserveQuick(HttpServletRequest request, @PathVariable Long ticketId){
 		
 		// da li je ulogovan i da li je user
 		User logged = (User) request.getSession().getAttribute("logged");
@@ -94,7 +93,7 @@ public class TicketController {
 		ticket.setUser(logged);
 		ticketService.save(ticket);
 		
-		return new ResponseEntity<>(ticket, HttpStatus.OK);
+		return new ResponseEntity<>(toTicketDTO.convert(ticket), HttpStatus.OK);
 		
 	}
 	
@@ -105,17 +104,17 @@ public class TicketController {
 		List<Ticket> tickets = new ArrayList<Ticket>();
 		
 		for(Ticket ticket : allTickets){
-			if(ticket.getCinemaId() == cinemaId && ticket.getUser() == null){
+			if(ticket.getProjection().getMovie().getCinema().getId() == cinemaId && ticket.getUser() == null){
 				tickets.add(ticket);
 			}
 		}
 		
-		return new ResponseEntity<>(ticketConverter.convert(tickets), HttpStatus.OK);
+		return new ResponseEntity<>(toTicketDTO.convert(tickets), HttpStatus.OK);
 		
 	}
 	
 	@RequestMapping(value = "/{ticketId}", method = RequestMethod.DELETE)
-	public ResponseEntity<Ticket> delete(@PathVariable Long ticketId){
+	public ResponseEntity<TicketDTO> delete(@PathVariable Long ticketId){
 		
 		Ticket ticket = ticketService.delete(ticketId);
 		Seat seat = ticket.getSeat();

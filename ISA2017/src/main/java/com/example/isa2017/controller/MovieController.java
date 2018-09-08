@@ -15,10 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.isa2017.converters.CinemaToCinemaDTO;
+import com.example.isa2017.converters.MovieToMovieDTO;
 import com.example.isa2017.model.Cinema;
 import com.example.isa2017.model.Movie;
 import com.example.isa2017.model.User;
+import com.example.isa2017.modelDTO.MovieDTO;
 import com.example.isa2017.service.CinemaService;
 import com.example.isa2017.service.MovieService;
 
@@ -33,49 +34,49 @@ public class MovieController {
 	@Autowired
 	private MovieService movieService;
 	
+	@Autowired
+	private MovieToMovieDTO toMovieDTO;
+	
 	@RequestMapping(value="getTCadminMovies", method = RequestMethod.GET)
-	public ResponseEntity<List<Movie>> getTCadminMovies(HttpServletRequest request) {
+	public ResponseEntity<List<MovieDTO>> getTCadminMovies(HttpServletRequest request) {
+		
+		/*User logged = (User) request.getSession().getAttribute("logged");
+		if(logged==null)
+			return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);*/
+		
+		List<Movie> movies = movieService.findAll();
+		 
+		return new ResponseEntity<>(toMovieDTO.convert(movies), HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "deleteMovie/{movieId}", method=RequestMethod.DELETE)
+	public ResponseEntity<MovieDTO> deleteMovieInCinema(HttpServletRequest request, @PathVariable Long movieId){
 		
 		/*User logged = (User) request.getSession().getAttribute("logged");
 		if(logged==null)
 			return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);*/
 		
 		
-		List<Movie> movies = movieService.findAll();
-		 
-		return new ResponseEntity<>(movies, HttpStatus.OK);
-	}
-	
-	@RequestMapping(value = "deleteMovieInCinema/{cinemaId}/{movieId}", method=RequestMethod.POST, consumes="application/json")
-	public ResponseEntity<Cinema> deleteMovieInCinema(HttpServletRequest request, @PathVariable Long cinemaId, @PathVariable Long movieId){
-		
-		User logged = (User) request.getSession().getAttribute("logged");
-		if(logged==null)
-			return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);
-		
-		
-		Cinema cinema = cinemaService.findOne(cinemaId);
+		/*Cinema cinema = cinemaService.findOne(cinemaId);
 		
 		for(int i = 0; i < cinema.getMovies().size(); i++){
 			if(cinema.getMovies().get(i).getId() == movieId)
 				cinema.getMovies().remove(cinema.getMovies().get(i));
 		}
 		
-		cinemaService.save(cinema);
+		cinemaService.save(cinema);*/
+		
+		movieService.delete(movieId);
 		
 	 return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "addMovieToCinema/{cinemaId}", method=RequestMethod.POST, consumes="application/json")
-	public ResponseEntity<Movie> addMovieToCinema(HttpServletRequest request, @RequestBody Movie movie, @PathVariable Long cinemaId){
+	public ResponseEntity<MovieDTO> addMovieToCinema(HttpServletRequest request, @RequestBody Movie movie, @PathVariable Long cinemaId){
 		
-		User logged = (User) request.getSession().getAttribute("logged");
+		/*User logged = (User) request.getSession().getAttribute("logged");
 		if(logged==null)
-			return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);
-		
-		
-		Cinema cinema = cinemaService.findOne(cinemaId);
-		
+			return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);*/
 		
 		if(movie.getImage() != null){
 			String s = new String(movie.getImage());
@@ -85,40 +86,45 @@ public class MovieController {
 			movie.setImage(Base64.getDecoder().decode(firstPart));
 		}
 		
-		Movie addedMovie = movieService.save(movie);
-		cinema.getMovies().add(addedMovie);
-		cinemaService.save(cinema);
+		movie.setCinema(cinemaService.findOne(cinemaId));
+		movieService.save(movie);
 		
-	 return new ResponseEntity<>(addedMovie, HttpStatus.OK);
+	 return new ResponseEntity<>(toMovieDTO.convert(movie), HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "editMovie/{movieId}", method=RequestMethod.POST, consumes="application/json")
-	public ResponseEntity<Movie> editMovie(HttpServletRequest request, @RequestBody Movie movie, @PathVariable Long movieId){
+	public ResponseEntity<MovieDTO> editMovie(HttpServletRequest request, @RequestBody Movie movieDTO, @PathVariable Long movieId){
 		
 		User logged = (User) request.getSession().getAttribute("logged");
 		if(logged==null)
 			return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);
 		
+		Movie movie = movieService.findOne(movieId);
 		
-		movie.setId(movieId);
-		
-		if(movie.getImage() != null){
-			String s = new String(movie.getImage());
+		if(movieDTO.getImage() != null){
+			String s = new String(movieDTO.getImage());
 			
 			String[] parts = s.split(",");
 			String firstPart = parts[1];
 			movie.setImage(Base64.getDecoder().decode(firstPart));
-		}else{
+		}/*else{
 			movie.setImage(movieService.findOne(movieId).getImage());
-		}
+		}*/
 		
-		Movie editedMovie = movieService.save(movie);
+		movie.setActors(movieDTO.getActors());
+		movie.setDescription(movieDTO.getDescription());
+		movie.setDirector(movieDTO.getDirector());
+		movie.setGenre(movieDTO.getGenre());
+		movie.setMovieName(movieDTO.getMovieName());
+		movie.setRuntime(movieDTO.getRuntime());
 		
-	 return new ResponseEntity<>(editedMovie, HttpStatus.OK);
+		movieService.save(movie);
+		
+	 return new ResponseEntity<>(toMovieDTO.convert(movie), HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "rateMovie/{movieId}", method=RequestMethod.POST, consumes=MediaType.ALL_VALUE)
-	public ResponseEntity<Movie> rateMovie(@PathVariable Long movieId, @RequestBody Movie rating){
+	public ResponseEntity<MovieDTO> rateMovie(@PathVariable Long movieId, @RequestBody MovieDTO rating){
 		
 		Movie movie = movieService.findOne(movieId);
 		
@@ -133,7 +139,17 @@ public class MovieController {
 		
 		movieService.save(movie);
 		
-		return new ResponseEntity<>(movie, HttpStatus.OK);
+		return new ResponseEntity<>(toMovieDTO.convert(movie), HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "moviesToRate", method = RequestMethod.GET)
+	public ResponseEntity<List<Movie>> getMoviesToRate(HttpServletRequest request){
+		
+		User logged = (User) request.getSession().getAttribute("logged");
+		if(logged==null)
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		
+		return new ResponseEntity<>(logged.getMoviesToRate(), HttpStatus.OK);
 	}
 
 }

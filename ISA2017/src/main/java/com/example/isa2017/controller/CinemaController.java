@@ -1,6 +1,5 @@
 package com.example.isa2017.controller;
 
-import java.util.Base64;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,12 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.isa2017.converters.CinemaToCinemaDTO;
 import com.example.isa2017.model.Cinema;
-import com.example.isa2017.model.Movie;
 import com.example.isa2017.model.User;
 import com.example.isa2017.modelDTO.CinemaDTO;
-import com.example.isa2017.repository.CinemaRepository;
 import com.example.isa2017.service.CinemaService;
-import com.example.isa2017.service.MovieService;
 
 @RestController
 @RequestMapping(value = "/cinemas")
@@ -30,9 +26,6 @@ public class CinemaController {
 
 	@Autowired
 	private CinemaService cinemaService;
-	
-	@Autowired
-	private MovieService movieService;
 	
 	@Autowired
 	private CinemaToCinemaDTO toCinemaDTO;
@@ -54,36 +47,37 @@ public class CinemaController {
 	 * */
 	
 	@RequestMapping(value="getTCadminCinemas", method = RequestMethod.GET)
-	public ResponseEntity<List<Cinema>> getTCadminCinemas(HttpServletRequest request) {
+	public ResponseEntity<List<CinemaDTO>> getTCadminCinemas(HttpServletRequest request) {
 		
-		User logged = (User) request.getSession().getAttribute("logged");
+		/*User logged = (User) request.getSession().getAttribute("logged");
 		if(logged==null)
-			return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);
+			return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);*/
 		
 		
 		List<Cinema> cinemas = cinemaService.findAll();
 		 
-		return new ResponseEntity<>(cinemas, HttpStatus.OK);
+		return new ResponseEntity<>(toCinemaDTO.convert(cinemas), HttpStatus.OK);
 	}
 	
 	
 	@RequestMapping(value = "editCinema/{cinemaId}", method=RequestMethod.POST, consumes="application/json")
-	public ResponseEntity<Cinema> editMovie(HttpServletRequest request, @RequestBody Cinema cinema, @PathVariable Long cinemaId){
+	public ResponseEntity<CinemaDTO> editMovie(HttpServletRequest request, @RequestBody CinemaDTO cinemaDTO, @PathVariable Long cinemaId){
 		
-		User logged = (User) request.getSession().getAttribute("logged");
+		/*User logged = (User) request.getSession().getAttribute("logged");
 		if(logged==null)
-			return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);
+			return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);*/
 		
+		Cinema cinema = cinemaService.findOne(cinemaId);
+		cinema.setAddress(cinemaDTO.getAddress());
+		cinema.setDescription(cinemaDTO.getDescription());
+		cinema.setName(cinemaDTO.getName());
+		cinemaService.save(cinema);
 		
-		cinema.setId(cinemaId);
-		cinema.setMovies(cinemaService.findOne(cinemaId).getMovies());
-		Cinema editedCinema = cinemaService.save(cinema);
-		
-	 return new ResponseEntity<>(editedCinema, HttpStatus.OK);
+	 return new ResponseEntity<>(toCinemaDTO.convert(cinema), HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "rateCinema/{cinemaId}", method=RequestMethod.POST, consumes=MediaType.ALL_VALUE)
-	public ResponseEntity<Cinema> rateCinema(@PathVariable Long cinemaId, @RequestBody Cinema rating){
+	public ResponseEntity<CinemaDTO> rateCinema(@PathVariable Long cinemaId, @RequestBody Cinema rating){
 		
 		Cinema cinema = cinemaService.findOne(cinemaId);
 		
@@ -98,7 +92,16 @@ public class CinemaController {
 		
 		cinemaService.save(cinema);
 		
-		return new ResponseEntity<>(cinema, HttpStatus.OK);
+		return new ResponseEntity<>(toCinemaDTO.convert(cinema), HttpStatus.OK);
 	}
 	
+	@RequestMapping(value = "cinemasToRate", method = RequestMethod.GET)
+	public ResponseEntity<List<CinemaDTO>> getCinemasToRate(HttpServletRequest request){
+		
+		User logged = (User) request.getSession().getAttribute("logged");
+		/*if(logged==null)
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);*/
+		
+		return new ResponseEntity<>(toCinemaDTO.convert(logged.getCinemasToRate()), HttpStatus.OK);
+	}
 }

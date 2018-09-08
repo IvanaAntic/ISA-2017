@@ -13,10 +13,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.isa2017.converters.HallToHallDTO;
 import com.example.isa2017.model.Cinema;
 import com.example.isa2017.model.Hall;
 import com.example.isa2017.model.Projection;
 import com.example.isa2017.model.Seat;
+import com.example.isa2017.modelDTO.HallDTO;
+import com.example.isa2017.modelDTO.SeatDTO;
 import com.example.isa2017.service.CinemaService;
 import com.example.isa2017.service.HallService;
 import com.example.isa2017.service.ProjectionService;
@@ -37,35 +40,47 @@ public class HallController {
 	
 	@Autowired
 	private ProjectionService projService;
+	
+	@Autowired
+	private HallToHallDTO toHallDTO;
 
 	@RequestMapping(value = "addHall/{cinemaId}", method=RequestMethod.POST, consumes="application/json")
-	public ResponseEntity<Hall> addHall(@RequestBody Hall hall, @PathVariable Long cinemaId){
+	public ResponseEntity<HallDTO> addHall(@RequestBody HallDTO hallDTO, @PathVariable Long cinemaId){
 		
-		for(Seat seat : hall.getSeats()){
-			seatService.save(seat);	
-		}
+		Hall hall = new Hall();
 		
+		hall.setCinema(cinemaService.findOne(cinemaId));
+		hall.setHallName(hallDTO.getHallName());
 		hallService.save(hall);
 		
-		Cinema cinema = cinemaService.findOne(cinemaId);
-		cinema.getHalls().add(hall);
-		cinemaService.save(cinema);
+		for(SeatDTO seat : hallDTO.getSeats()){
+			Seat s = new Seat();
+			s.setHall(hall);
+			s.setReserved(seat.isReserved());
+			s.setColumnNumber(seat.getColumnNumber());
+			s.setRowNumber(seat.getRowNumber());
+			seatService.save(s);	
+		}
 		
-		return new ResponseEntity<>(hall, HttpStatus.OK);
+		Hall frontHall = hallService.findOne(hall.getId());
+		
+		return new ResponseEntity<>(toHallDTO.convert(frontHall), HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "editHall/{hallId}", method=RequestMethod.POST, consumes="application/json")
-	public ResponseEntity<Hall> editHall(HttpServletRequest request, @RequestBody Hall hall, @PathVariable Long hallId){
+	@RequestMapping(value = "editHall/{hallId}", method=RequestMethod.PUT, consumes="application/json")
+	public ResponseEntity<HallDTO> editHall(HttpServletRequest request, @RequestBody HallDTO hallDTO, @PathVariable Long hallId){
 		
 		/*User logged = (User) request.getSession().getAttribute("logged");
 		if(logged==null)
 			return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);*/
 		
+		Hall hall = hallService.findOne(hallId);
+		hall.setHallName(hallDTO.getHallName());
+		hallService.save(hall);
 		
-		hall.setId(hallId);
-		Hall editedHall = hallService.save(hall);
+		hall = hallService.findOne(hallId);
 		
-	 return new ResponseEntity<>(editedHall, HttpStatus.OK);
+	 return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "deleteHall/{hallId}", method=RequestMethod.DELETE)
@@ -75,9 +90,23 @@ public class HallController {
 		if(logged==null)
 			return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);*/
 		
-		List<Cinema> cinemas = cinemaService.findAll();
+		//List<Cinema> cinemas = cinemaService.findAll();
+		List<Projection> projs = projService.findAll();
 		
-		for(Cinema cinema : cinemas){
+		for(Projection p : projs){									// da li postoji i dalje projekcija u sali?
+			if(p.getHall() != null){
+				if(p.getHall().getId() == hallId){
+					return new ResponseEntity<>(HttpStatus.LOCKED);
+				}
+			}
+		}
+		
+		for(Seat s : hallService.findOne(hallId).getSeats()){			// da li je neko mesto u sali rezervisano?
+			if(s.isReserved())
+				return new ResponseEntity<>(HttpStatus.LOCKED);
+		}
+		
+		/*for(Cinema cinema : cinemas){				// uklanja se sala iz bioskopa
 			List<Hall> halls = cinema.getHalls();
 			Hall tempHall = null;
 			for(Hall hall : halls){
@@ -85,11 +114,14 @@ public class HallController {
 					tempHall = hall;
 				}
 			}
-			if(tempHall != null){
+			if(tempHall != null){				
 				halls.remove(tempHall);
 				cinemaService.save(cinema);
 			}
-		}
+			
+			cinema.getHalls().remove(hallService.findOne(hallId));
+			
+		}*/
 		
 		hallService.delete(hallId);
 		
@@ -97,31 +129,31 @@ public class HallController {
 	}
 	
 	@RequestMapping(value = "/inProjection/{projId}", method = RequestMethod.GET)
-	public ResponseEntity<Hall> getHall(@PathVariable Long projId){
+	public ResponseEntity<HallDTO> getHall(@PathVariable Long projId){
 		
 		Projection proj = projService.findOne(projId);
 		
 		Hall hall = proj.getHall();
 		
-		return new ResponseEntity<>(hall, HttpStatus.OK);
+		return new ResponseEntity<>(toHallDTO.convert(hall), HttpStatus.OK);		// posle proveriti uz projekcije
 		
 	}
 	
 	@RequestMapping(value = "/hall/{hallId}", method = RequestMethod.GET)
-	public ResponseEntity<Hall> getOneHall(@PathVariable Long hallId){
+	public ResponseEntity<HallDTO> getOneHall(@PathVariable Long hallId){
 		
-		return new ResponseEntity<>(hallService.findOne(hallId), HttpStatus.OK);
+		return new ResponseEntity<>(toHallDTO.convert(hallService.findOne(hallId)), HttpStatus.OK);
 		
 	}
 	
 	@RequestMapping(value = "/{cinemaId}", method = RequestMethod.GET)
-	public ResponseEntity<List<Hall>> getHalls(@PathVariable Long cinemaId){
+	public ResponseEntity<List<HallDTO>> getHalls(@PathVariable Long cinemaId){
 		
 		Cinema cinema = cinemaService.findOne(cinemaId);
 		
 		List<Hall> halls = cinema.getHalls();
 		
-		return new ResponseEntity<>(halls, HttpStatus.OK);
+		return new ResponseEntity<>(toHallDTO.convert(halls), HttpStatus.OK);
 		
 	}
 	

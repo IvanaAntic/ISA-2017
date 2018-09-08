@@ -1,11 +1,15 @@
 package com.example.isa2017.model;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Version;
 
 @Entity(name="seat")
 public class Seat {
@@ -15,47 +19,31 @@ public class Seat {
 	private Long Id;
 	
 	@Column
-	private int seatRow;
+	private int rowNumber;
 	
 	@Column
-	private int seatColumn;
-	//@ManyToOne
-	//private Hall hall;
+	private int columnNumber;
+	
+	@ManyToOne
+	private Hall hall;
 
 	@Column
 	private boolean isReserved;
 	
+	@OneToMany(mappedBy = "seat", orphanRemoval = true)
+	private List<Ticket> tickets;
+	
+	@Version
+	private Long version;
+	
 	public Seat() {}
-
-	public Seat(int seatRow, int seatColumn, boolean isReserved) {
-		super();
-		this.seatRow = seatRow;
-		this.seatColumn = seatColumn;
-		this.isReserved = isReserved;
-	}
 
 	public Long getId() {
 		return Id;
 	}
 
 	public void setId(Long id) {
-		Id = id;
-	}
-
-	public int getseatRow() {
-		return seatRow;
-	}
-
-	public void setseatRow(int seatRow) {
-		this.seatRow = seatRow;
-	}
-
-	public int getseatColumn() {
-		return seatColumn;
-	}
-
-	public void setseatColumn(int seatColumn) {
-		this.seatColumn = seatColumn;
+		this.Id = id;
 	}
 
 	public boolean isReserved() {
@@ -65,7 +53,45 @@ public class Seat {
 	public void setReserved(boolean isReserved) {
 		this.isReserved = isReserved;
 	}
-	
-	
+
+	public Long getVersion() {
+		return version;
+	}
+
+	public void setVersion(Long version) {
+		this.version = version;
+	}
+
+	public Hall getHall() {
+		return hall;
+	}
+
+	public void setHall(Hall hall) {
+		this.hall = hall;
+	}
+
+	public List<Ticket> getTickets() {
+		return tickets;
+	}
+
+	public void setTickets(List<Ticket> tickets) {
+		this.tickets = tickets;
+	}
+
+	public int getRowNumber() {
+		return rowNumber;
+	}
+
+	public void setRowNumber(int rowNumber) {
+		this.rowNumber = rowNumber;
+	}
+
+	public int getColumnNumber() {
+		return columnNumber;
+	}
+
+	public void setColumnNumber(int columnNumber) {
+		this.columnNumber = columnNumber;
+	}
 	
 }

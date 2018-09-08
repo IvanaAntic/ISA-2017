@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Version;
 
 @Entity(name="ticket")
 public class Ticket {
@@ -13,15 +14,9 @@ public class Ticket {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long Id;
-	
-	@Column
-	private Long cinemaId;
 
 	@ManyToOne
 	private Projection projection;
-	
-	@Column
-	private String movieName;
 	
 	@ManyToOne
 	private Seat seat;
@@ -31,6 +26,9 @@ public class Ticket {
 	
 	@ManyToOne
 	private User user;
+	
+	@Version
+	private Long version;
 
 	public Ticket() {
 		super();
@@ -50,14 +48,6 @@ public class Ticket {
 
 	public void setProjection(Projection projection) {
 		this.projection = projection;
-	}
-
-	public String getMovieName() {
-		return movieName;
-	}
-
-	public void setMovieName(String movieName) {
-		this.movieName = movieName;
 	}
 
 	public Seat getSeat() {
@@ -84,12 +74,12 @@ public class Ticket {
 		this.user = user;
 	}
 
-	public Long getCinemaId() {
-		return cinemaId;
+	public Long getVersion() {
+		return version;
 	}
 
-	public void setCinemaId(Long cinemaId) {
-		this.cinemaId = cinemaId;
+	public void setVersion(Long version) {
+		this.version = version;
 	}
 	
 }

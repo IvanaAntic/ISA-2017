@@ -1,48 +1,55 @@
 package com.example.isa2017.modelDTO;
 
-import javax.persistence.Column;
-
 public class SeatDTO {
 
 	private Long Id;
-	private int row;	
-	private int column;
+	private int rowNumber;	
+	private int columnNumber;
 	private boolean isReserved;
+	private Long hallId;
 	
 	public SeatDTO() {
 		super();
 	}
-	public SeatDTO(Long id, int row, int column, boolean isReserved) {
-		super();
-		Id = id;
-		this.row = row;
-		this.column = column;
-		this.isReserved = isReserved;
-	}
+
 	public Long getId() {
 		return Id;
 	}
+
 	public void setId(Long id) {
-		Id = id;
+		this.Id = id;
 	}
-	public int getRow() {
-		return row;
+
+	public int getRowNumber() {
+		return rowNumber;
 	}
-	public void setRow(int row) {
-		this.row = row;
+
+	public void setRowNumber(int rowNumber) {
+		this.rowNumber = rowNumber;
 	}
-	public int getColumn() {
-		return column;
+
+	public int getColumnNumber() {
+		return columnNumber;
 	}
-	public void setColumn(int column) {
-		this.column = column;
+
+	public void setColumnNumber(int columnNumber) {
+		this.columnNumber = columnNumber;
 	}
+
 	public boolean isReserved() {
 		return isReserved;
 	}
+
 	public void setReserved(boolean isReserved) {
 		this.isReserved = isReserved;
 	}
-	
+
+	public Long getHallId() {
+		return hallId;
+	}
+
+	public void setHallId(Long hallId) {
+		this.hallId = hallId;
+	}
 	
 }

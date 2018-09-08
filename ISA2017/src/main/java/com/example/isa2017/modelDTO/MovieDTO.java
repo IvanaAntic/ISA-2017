@@ -6,41 +6,20 @@ public class MovieDTO {
 
 
 	private Long Id;
-	private String name;
+	private String movieName;
 	private List<String> actors;
 	private String genre;
 	private String director;
-	private String runtime;
+	private int runtime;
     private byte[] image;
 	private int rating;
 	private String description;
 	private List<String> arenas;
-	private List<String> projectionTimes;
-	private int price;
-	
+	private double avgRating;
 	private Long cinemaId;
 	
 	public MovieDTO() {
 		super();
-	}
-
-	public MovieDTO(Long id, String name, List<String> actors, String genre, String director, String runtime,
-			byte[] image, int rating, String description, List<String> arenas, List<String> projectionTimes,
-			int price, Long cinemaId) {
-		super();
-		Id = id;
-		this.name = name;
-		this.actors = actors;
-		this.genre = genre;
-		this.director = director;
-		this.runtime = runtime;
-		this.image = image;
-		this.rating = rating;
-		this.description = description;
-		this.arenas = arenas;
-		this.projectionTimes = projectionTimes;
-		this.price = price;
-		this.cinemaId = cinemaId;
 	}
 
 	public Long getId() {
@@ -51,12 +30,12 @@ public class MovieDTO {
 		Id = id;
 	}
 
-	public String getName() {
-		return name;
+	public String getMovieName() {
+		return movieName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setMovieName(String movieName) {
+		this.movieName = movieName;
 	}
 
 	public List<String> getActors() {
@@ -83,11 +62,11 @@ public class MovieDTO {
 		this.director = director;
 	}
 
-	public String getRuntime() {
+	public int getRuntime() {
 		return runtime;
 	}
 
-	public void setRuntime(String runtime) {
+	public void setRuntime(int runtime) {
 		this.runtime = runtime;
 	}
 
@@ -123,22 +102,6 @@ public class MovieDTO {
 		this.arenas = arenas;
 	}
 
-	public List<String> getProjectionTimes() {
-		return projectionTimes;
-	}
-
-	public void setProjectionTimes(List<String> projectionTimes) {
-		this.projectionTimes = projectionTimes;
-	}
-
-	public int getPrice() {
-		return price;
-	}
-
-	public void setPrice(int price) {
-		this.price = price;
-	}
-
 	public Long getCinemaId() {
 		return cinemaId;
 	}
@@ -146,7 +109,13 @@ public class MovieDTO {
 	public void setCinemaId(Long cinemaId) {
 		this.cinemaId = cinemaId;
 	}
-	
-	
+
+	public double getAvgRating() {
+		return avgRating;
+	}
+
+	public void setAvgRating(double avgRating) {
+		this.avgRating = avgRating;
+	}
 	
 }

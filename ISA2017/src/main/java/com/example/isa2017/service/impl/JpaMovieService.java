@@ -35,5 +35,15 @@ public class JpaMovieService implements MovieService{
 		return movieRepository.findOne(id);
 	}
 
+	@Override
+	public Movie delete(Long id) {
+		Movie movie = movieRepository.findOne(id);
+		if (movie == null) {
+			throw new IllegalArgumentException("Sediste ne postoji.");
+		}
+		movieRepository.delete(movie);
+		return movie;
+	}
+
 	
 }

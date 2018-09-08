@@ -1,5 +1,6 @@
 package com.example.isa2017.model;
 
+import java.util.Calendar;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -9,23 +10,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Version;
 
-
-/*
-svaka stranica predstave/filma sadrži:
-	• naziv
-	• spisak glumaca
-	• žanr
-	• ime reditelja
-	• trajanje
-	• poster (sliku)
-	• prosečnu ocenu
-	• kratak opis
-	• sale u kojima se vrše projekcije
-	• termine u kojima se vrše projekcije
-	• cenu
-*/
 
 
 @Entity(name="movie")
@@ -36,7 +24,7 @@ public class Movie {
 	private Long Id;
 	
 	@Column(columnDefinition="VARCHAR(40)")
-	private String name;
+	private String movieName;
 	
 	@ElementCollection
 	@Column
@@ -48,8 +36,8 @@ public class Movie {
 	@Column(columnDefinition="VARCHAR(80)")
 	private String director;
 	
-	@Column(columnDefinition="VARCHAR(10)")
-	private String runtime;
+	@Column
+	private int runtime;
 	
 	@Lob
     @Column(name="MOVIE_IMAGE", columnDefinition="mediumblob")
@@ -68,44 +56,28 @@ public class Movie {
 	@Column(columnDefinition="VARCHAR(500)")
 	private String description;
 	
-	@OneToMany
+	@OneToMany(mappedBy = "movie", orphanRemoval = true)
 	private List<Projection> projections;
+	
+	@ManyToOne
+	private User user;
+	
+	@ManyToOne
+	private Cinema cinema;
+	
+	@Version
+	private Long version;
 	
 	public Movie(){
 		
 	}
-	
-	public Movie(String name, List<String> actors, String genre, String director, String runtime, int rating,
-			String description) {
-		super();
-		this.name = name;
-		this.actors = actors;
-		this.genre = genre;
-		this.director = director;
-		this.runtime = runtime;
-		this.rating = rating;
-		this.description = description;
-	}
-	
-	public Movie(String name, List<String> actors, String genre, String director, String runtime, int rating,
-			String description, byte[] image) {
-		super();
-		this.name = name;
-		this.actors = actors;
-		this.genre = genre;
-		this.director = director;
-		this.runtime = runtime;
-		this.rating = rating;
-		this.description = description;
-		this.image = image;
+
+	public String getMovieName() {
+		return movieName;
 	}
 
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
+	public void setMovieName(String movieName) {
+		this.movieName = movieName;
 	}
 
 	public List<String> getActors() {
@@ -130,14 +102,6 @@ public class Movie {
 
 	public void setDirector(String director) {
 		this.director = director;
-	}
-
-	public String getRuntime() {
-		return runtime;
-	}
-
-	public void setRuntime(String runtime) {
-		this.runtime = runtime;
 	}
 
 	public int getRating() {
@@ -205,6 +169,38 @@ public class Movie {
 		    return sum.doubleValue() / marks.size();
 		  }
 		  return sum;
+	}
+
+	public Long getVersion() {
+		return version;
+	}
+
+	public void setVersion(Long version) {
+		this.version = version;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Cinema getCinema() {
+		return cinema;
+	}
+
+	public void setCinema(Cinema cinema) {
+		this.cinema = cinema;
+	}
+
+	public int getRuntime() {
+		return runtime;
+	}
+
+	public void setRuntime(int runtime) {
+		this.runtime = runtime;
 	}
 	
 }

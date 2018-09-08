@@ -77,17 +77,14 @@ $(document).ready(function(){
 							for(j = 0; j < data[i].movies.length; j++){
 								
 								movie = "<div class='movieDiv movieClass_" + data[i].movies[j].id + "' id='movieBox_" + data[i].id + "_" + data[i].movies[j].id + "'>" +
-											"<h3 class='cinemaName'>" + data[i].movies[j].name + "</h3>" +
+											"<h3 class='cinemaName'>" + data[i].movies[j].movieName + "</h3>" +
 											"<p><label>Zanr: </label><span>" + data[i].movies[j].genre + "</span></p>" +
 											"<p><label>Reditelj: </label><span>" + data[i].movies[j].director + "</span></p>" +
-											"<p><label>Trajanje: </label><span>" + data[i].movies[j].runtime + "</span></p>" +
+											"<p><label>Trajanje: </label><span>" + data[i].movies[j].runtime + " min</span></p>" +
 											"<p><label>Glumci: </label><span>" + data[i].movies[j].actors + "</span></p>" +
 											"<p><label>Opis: </label><span>" + data[i].movies[j].description + "</span></p>" +
-											"<p><label>Vreme projekcije: </label><span>" + data[i].movies[j].projectionTimes + "</span></p>" +
-											"<p><label>Cena: </label><span>" + data[i].movies[j].price + "din</span></p>" +
-											"<p><label>Prosecna ocena: </label><span>" + data[i].movies[j].rating + "</span></p>" +
 											"<p><label>Slika: </label><img src='data:image/(png|jpg|jpeg|gif|bmp|tiff);base64, "+data[i].movies[j].image+"' id='ItemPreview' width='50' height='50' ></p>" +
-											"<p><a class='btn btn-info btn-md deleteMovieInCinema' href='/movies/deleteMovieInCinema/" + data[i].id + "/" + data[i].movies[j].id + "'>Obrisi</a></p>" +
+											"<p><a class='btn btn-info btn-md deleteMovie' href='/movies/deleteMovie/" + data[i].movies[j].id + "'>Obrisi</a></p>" +
 											"<p><a class='btn btn-info btn-md editMovie' href='/movies/editMovie/" + data[i].movies[j].id + "'>Izmeni</a></p>" +
 											"<div class='btn-group' role='group' style='margin-left: 6px;'>" +
 												"<button id='getProjections_" + data[i].movies[j].id + "' type='button'  data-toggle='modal' data-target='#projectionsDialog' class='btn btn-info getProjectionsBtn'>Projekcije</button>" +
@@ -112,6 +109,8 @@ $(document).ready(function(){
 			});
 		});
 	});
+	
+	
 	
 	$(document).on('click', '.addProjectionBtn', function(){
 		
@@ -167,7 +166,7 @@ $(document).ready(function(){
 		
 			for(i = 0; i < data.length; i++){
 				
-				option += "<option value='hall_" + data[i].id + "'>" + data[i].name + "</option>"
+				option += "<option value='hall_" + data[i].id + "'>" + data[i].hallName + "</option>"
 				
 			}
 			$('#hallSelect').append(option);
@@ -197,7 +196,8 @@ $(document).ready(function(){
 				projection = "<div class='container-fluid col-xs-12 hall'>" +
 								"<p>Sala: " + data[i].hallName + "</p>" +
 								"<p>Cena: " + data[i].price + "</p>" +
-								"<p>Datum i vreme: " + data[i].date + "</p>" +
+								"<p>Datum: " + data[i].date + "</p>" +
+								"<p>Vreme: " + data[i].time + "</p>" +
 							"</div>"
 				
 				$('#movieProjectionsHolder').append(projection)
@@ -220,8 +220,8 @@ $(document).ready(function(){
 			for(var j = 1; j <= cols; j++){
 				
 				var seat = {}
-				seat.seatRow = i
-				seat.seatColumn = j
+				seat.rowNumber = i
+				seat.columnNumber = j
 				seat.isReserved = false
 				
 				seats.push(seat);
@@ -230,7 +230,7 @@ $(document).ready(function(){
 		}
 		
 		formData = JSON.stringify({
-			name: name,
+			hallName: name,
 			seats: seats
 		});
 		
@@ -241,7 +241,7 @@ $(document).ready(function(){
 			dataType: "json",
 			data: formData,
 			success: function(data){
-				alert("Uspesno dodata sala: " + data.name)
+				alert("Uspesno dodata sala: " + data.hallName)
 			}
 		})
 		
@@ -275,7 +275,9 @@ $(document).ready(function(){
 				
 				h = data[i]
 				
-				hall = "<div class='container-fluid col-xs-12 hall'>" + "<h4>" + data[i].name + "</h4>" + generateHallConf(h) + "</div>"
+				hall = "<div id='hallDiv_" + data[i].id + "' class='container-fluid col-xs-12 hall'>" + "<h4>" + data[i].hallName + "</h4>" + generateHallConf(h) + "" +
+							"<a href='/halls/deleteHall/" + data[i].id + "' class='btn btn-warning deleteHallBtn'>Obrisi</a>" +
+						"</div>"
 				
 				$('#cinemaHallsHolder').append(hall)
 			}
@@ -283,6 +285,25 @@ $(document).ready(function(){
 		});
 		
 	});
+	
+	$(document).on('click', '.deleteHallBtn', function(event){
+		
+		event.preventDefault();
+		
+		id = $(this).attr('href').split('/')[3]
+		
+		$.ajax({
+			url: $(this).attr('href'),
+			type: "DELETE",
+			success: function(){
+				
+				hallId = "#hallDiv_" + id
+				$(hallId).remove()
+				
+			}
+		})
+		
+	})
 	
 	$(document).on('click', '.deleteTicketBtn', function(){
 		
@@ -338,9 +359,9 @@ $(document).ready(function(){
 			
 			formData = JSON.stringify({
 				projectionId: projectionId,
-				movieName: movieName,
+				projectionMovieName: movieName,
 				discount: discount,
-				cinemaId: cinemaId,
+				projectionMovieCinemaId: cinemaId,
 				seatId: seatId
 			});
 			
@@ -353,7 +374,7 @@ $(document).ready(function(){
 				success: function(data){
 					
 					$('#addQuickForm').fadeOut()
-					getQuicks(data.cinemaId)
+					getQuicks(data.projectionMovieCinemaId)
 					
 				}
 			})
@@ -418,9 +439,10 @@ $(document).ready(function(){
 		$(".cinemaDiv").fadeOut();
 		$("#cinema" + $(this).attr("id")).delay(500).fadeIn();
 		$("#goBackMovies").delay(500).fadeIn();
+		
 	});
 	
-	$(document).on("click",".deleteMovieInCinema", function () {
+	$(document).on("click",".deleteMovie", function () {
 		
 		event.preventDefault();
 		
@@ -429,9 +451,7 @@ $(document).ready(function(){
 		
 		$.ajax({
 			url: url,
-			type: "POST",
-			data: JSON.stringify({}),
-			contentType: "application/json",
+			type: "DELETE",
 			success: function(){
 				$("#" + movieBoxToDelete).remove();
 			}
@@ -456,29 +476,25 @@ $(document).ready(function(){
 			director = $("#directorAdd").val();
 			runtime = $("#runtimeAdd").val();
 			description = $("#descriptionAdd").val();
-			price = $("#priceAdd").val().replace("din", "");
 			actors = $("#actorsAdd").val().split(",")
-			projectionTimes = $("#projectionTimesAdd").val().split(",")
-			rating = $("#ratingAdd").val()
 			
 			
 			var inputField = document.getElementById("imageAdd");
 			var imageFile = inputField.files[0];
 			var reader = new FileReader();
 			
+			console.log(inputField)
+			
 			reader.onloadend = function() {
 				
 				formData = JSON.stringify({
-					name: name,
+					movieName: name,
 					genre: genre,
 					director: director,
 					runtime: runtime,
 					description: description,
-					price: price,
 					image: btoa(reader.result),
-					actors: actors,
-					projectionTimes: projectionTimes,
-					rating: rating
+					actors: actors
 				});
 				
 				$.ajax({
@@ -490,18 +506,19 @@ $(document).ready(function(){
 					success: function(data){
 						
 						movie = "<div class='movieDiv' id='movieBox_" + str[3] + "_" + data.id + "'>" +
-									"<h3 class='cinemaName'>" + data.name + "</h3>" +
+									"<h3 class='cinemaName'>" + data.movieName + "</h3>" +
 									"<p><label>Zanr: </label><span>" + data.genre + "</span></p>" +
 									"<p><label>Reditelj: </label><span>" + data.director + "</span></p>" +
-									"<p><label>Trajanje: </label><span>" + data.runtime + "</span></p>" +
+									"<p><label>Trajanje: </label><span>" + data.runtime + " min</span></p>" +
 									"<p><label>Glumci: </label><span>" + data.actors + "</span></p>" +
 									"<p><label>Opis: </label><span>" + data.description + "</span></p>" +
-									"<p><label>Vreme projekcije: </label><span>" + data.projectionTimes + "</span></p>" +
-									"<p><label>Cena: </label><span>" + data.price + "din</span></p>" +
-									"<p><label>Prosecna ocena: </label><span>" + data.rating + "</span></p>" +
 									"<p><label>Slika: </label><img src='data:image/(png|jpg|jpeg|gif|bmp|tiff);base64, "+data.image+"' id='ItemPreview' width='50' height='50' ></p>" +
-									"<p><a class='btn btn-info btn-md deleteMovieInCinema' href='/movies/deleteMovieInCinema/" + str[3] + "/" + data.id + "'>Obrisi</a></p>" +
+									"<p><a class='btn btn-info btn-md deleteMovie' href='/movies/deleteMovie/" + data.id + "'>Obrisi</a></p>" +
 									"<p><a class='btn btn-info btn-md editMovie' href='/movies/editMovie/" + data.id + "'>Izmeni</a></p>" +
+									"<div class='btn-group' role='group' style='margin-left: 6px;'>" +
+										"<button id='getProjections_" + data.id + "' type='button'  data-toggle='modal' data-target='#projectionsDialog' class='btn btn-info getProjectionsBtn'>Projekcije</button>" +
+										"<button id='addProjection_" + data.cinemaId + "' type='button' data-toggle='modal' data-target='#addProjectionDialog' class='btn btn-info addProjectionDialog'>+</button>" +
+									"</div>" +
 								"</div>";
 						
 						$(movieBoxList).append(movie)
@@ -514,15 +531,12 @@ $(document).ready(function(){
 			else{
 				
 				formData = JSON.stringify({
-					name: name,
+					movieName: name,
 					genre: genre,
 					director: director,
 					runtime: runtime,
 					description: description,
-					price: price,
-					actors: actors,
-					projectionTimes: projectionTimes,
-					rating: rating
+					actors: actors
 				});
 				
 				$.ajax({
@@ -534,18 +548,19 @@ $(document).ready(function(){
 					success: function(data){
 						
 						movie = "<div class='movieDiv' id='movieBox_" + str[3] + "_" + data.id + "'>" +
-									"<h3 class='cinemaName'>" + data.name + "</h3>" +
+									"<h3 class='cinemaName'>" + data.movieName + "</h3>" +
 									"<p><label>Zanr: </label><span>" + data.genre + "</span></p>" +
 									"<p><label>Reditelj: </label><span>" + data.director + "</span></p>" +
-									"<p><label>Trajanje: </label><span>" + data.runtime + "</span></p>" +
+									"<p><label>Trajanje: </label><span>" + data.runtime + " min</span></p>" +
 									"<p><label>Glumci: </label><span>" + data.actors + "</span></p>" +
 									"<p><label>Opis: </label><span>" + data.description + "</span></p>" +
-									"<p><label>Vreme projekcije: </label><span>" + data.projectionTimes + "</span></p>" +
-									"<p><label>Cena: </label><span>" + data.price + "din</span></p>" +
-									"<p><label>Prosecna ocena: </label><span>" + data.rating + "</span></p>" +
 									"<p><label>Slika: </label><img src='data:image/(png|jpg|jpeg|gif|bmp|tiff);base64, "+data.image+"' id='ItemPreview' width='50' height='50' ></p>" +
-									"<p><a class='btn btn-info btn-md deleteMovieInCinema' href='/movies/deleteMovieInCinema/" + str[3] + "/" + data.id + "'>Obrisi</a></p>" +
+									"<p><a class='btn btn-info btn-md deleteMovie' href='/movies/deleteMovie/" + data.id + "'>Obrisi</a></p>" +
 									"<p><a class='btn btn-info btn-md editMovie' href='/movies/editMovie/" + data.id + "'>Izmeni</a></p>" +
+									"<div class='btn-group' role='group' style='margin-left: 6px;'>" +
+										"<button id='getProjections_" + data.id + "' type='button'  data-toggle='modal' data-target='#projectionsDialog' class='btn btn-info getProjectionsBtn'>Projekcije</button>" +
+										"<button id='addProjection_" + data.cinemaId + "' type='button' data-toggle='modal' data-target='#addProjectionDialog' class='btn btn-info addProjectionDialog'>+</button>" +
+									"</div>" +
 								"</div>";
 						
 						$(movieBoxList).append(movie)
@@ -581,19 +596,13 @@ $(document).ready(function(){
 		runtime = $(parentId).children()[3].children[1].innerText
 		actors = $(parentId).children()[4].children[1].innerText
 		description = $(parentId).children()[5].children[1].innerText
-		projectionTimes = $(parentId).children()[6].children[1].innerText
-		price = $(parentId).children()[7].children[1].innerText
-		rating = $(parentId).children()[8].children[1].innerText
 		
 		$("#nameEdit").val(name)
 		$("#genreEdit").val(genre)
 		$("#directorEdit").val(director)
-		$("#runtimeEdit").val(runtime)
+		$("#runtimeEdit").val(runtime.split(" ")[0])
 		$("#actorsEdit").val(actors)
 		$("#descriptionEdit").val(description)
-		$("#projectionTimesEdit").val(projectionTimes)
-		$("#priceEdit").val(price)
-		$("#ratingEdit").val(rating)
 		
 		
 		$("#editMovieModal").modal("toggle")
@@ -605,10 +614,7 @@ $(document).ready(function(){
 			director = $("#directorEdit").val();
 			runtime = $("#runtimeEdit").val();
 			description = $("#descriptionEdit").val();
-			price = $("#priceEdit").val().replace("din", "");
 			actors = $("#actorsEdit").val().split(",")
-			projectionTimes = $("#projectionTimesEdit").val().split(",")
-			rating = $("#ratingEdit").val()
 			
 			var inputField = document.getElementById("imageEdit");
 			var imageFile = inputField.files[0];
@@ -617,16 +623,13 @@ $(document).ready(function(){
 			reader.onloadend = function() {
 				
 				formData = JSON.stringify({
-					name: name,
+					movieName: name,
 					genre: genre,
 					director: director,
 					runtime: runtime,
 					description: description,
-					price: price,
 					image: btoa(reader.result),
-					actors: actors,
-					projectionTimes: projectionTimes,
-					rating: rating
+					actors: actors
 				});
 				
 				$.ajax({
@@ -637,19 +640,20 @@ $(document).ready(function(){
 					data: formData,
 					success: function(data){
 						
-						movie = "<div class='movieDiv movieClass_" + data.id + "' id='movieBox_" + cinemaId + "_" + data.id + "'>" +
-									"<h3 class='cinemaName'>" + data.name + "</h3>" +
+						movie = "<div class='movieDiv' id='movieBox_" + data.cinemaId + "_" + data.id + "'>" +
+									"<h3 class='cinemaName'>" + data.movieName + "</h3>" +
 									"<p><label>Zanr: </label><span>" + data.genre + "</span></p>" +
 									"<p><label>Reditelj: </label><span>" + data.director + "</span></p>" +
-									"<p><label>Trajanje: </label><span>" + data.runtime + "</span></p>" +
+									"<p><label>Trajanje: </label><span>" + data.runtime + " min</span></p>" +
 									"<p><label>Glumci: </label><span>" + data.actors + "</span></p>" +
 									"<p><label>Opis: </label><span>" + data.description + "</span></p>" +
-									"<p><label>Vreme projekcije: </label><span>" + data.projectionTimes + "</span></p>" +
-									"<p><label>Cena: </label><span>" + data.price + "din</span></p>" +
-									"<p><label>Prosecna ocena: </label><span>" + data.rating + "</span></p>" +
 									"<p><label>Slika: </label><img src='data:image/(png|jpg|jpeg|gif|bmp|tiff);base64, "+data.image+"' id='ItemPreview' width='50' height='50' ></p>" +
-									"<p><a class='btn btn-info btn-md deleteMovieInCinema' href='/movies/deleteMovieInCinema/" + cinemaId + "/" + data.id + "'>Obrisi</a></p>" +
+									"<p><a class='btn btn-info btn-md deleteMovie' href='/movies/deleteMovie/" + data.id + "'>Obrisi</a></p>" +
 									"<p><a class='btn btn-info btn-md editMovie' href='/movies/editMovie/" + data.id + "'>Izmeni</a></p>" +
+									"<div class='btn-group' role='group' style='margin-left: 6px;'>" +
+										"<button id='getProjections_" + data.id + "' type='button'  data-toggle='modal' data-target='#projectionsDialog' class='btn btn-info getProjectionsBtn'>Projekcije</button>" +
+										"<button id='addProjection_" + data.cinemaId + "' type='button' data-toggle='modal' data-target='#addProjectionDialog' class='btn btn-info addProjectionDialog'>+</button>" +
+									"</div>" +
 								"</div>";
 						
 						$("."+movieClass).replaceWith(movie)
@@ -661,15 +665,12 @@ $(document).ready(function(){
 				reader.readAsDataURL(imageFile);
 			else{
 				formData = JSON.stringify({
-					name: name,
+					movieName: name,
 					genre: genre,
 					director: director,
 					runtime: runtime,
 					description: description,
-					price: price,
 					actors: actors,
-					projectionTimes: projectionTimes,
-					rating: rating
 				});
 				
 				$.ajax({
@@ -680,19 +681,20 @@ $(document).ready(function(){
 					data: formData,
 					success: function(data){
 						
-						movie = "<div class='movieDiv movieClass_" + data.id + "' id='movieBox_" + cinemaId + "_" + data.id + "'>" +
-									"<h3 class='cinemaName'>" + data.name + "</h3>" +
+						movie = "<div class='movieDiv' id='movieBox_" + data.cinemaId + "_" + data.id + "'>" +
+									"<h3 class='cinemaName'>" + data.movieName + "</h3>" +
 									"<p><label>Zanr: </label><span>" + data.genre + "</span></p>" +
 									"<p><label>Reditelj: </label><span>" + data.director + "</span></p>" +
-									"<p><label>Trajanje: </label><span>" + data.runtime + "</span></p>" +
+									"<p><label>Trajanje: </label><span>" + data.runtime + " min</span></p>" +
 									"<p><label>Glumci: </label><span>" + data.actors + "</span></p>" +
 									"<p><label>Opis: </label><span>" + data.description + "</span></p>" +
-									"<p><label>Vreme projekcije: </label><span>" + data.projectionTimes + "</span></p>" +
-									"<p><label>Cena: </label><span>" + data.price + "din</span></p>" +
-									"<p><label>Prosecna ocena: </label><span>" + data.rating + "</span></p>" +
 									"<p><label>Slika: </label><img src='data:image/(png|jpg|jpeg|gif|bmp|tiff);base64, "+data.image+"' id='ItemPreview' width='50' height='50' ></p>" +
-									"<p><a class='btn btn-info btn-md deleteMovieInCinema' href='/movies/deleteMovieInCinema/" + cinemaId + "/" + data.id + "'>Obrisi</a></p>" +
+									"<p><a class='btn btn-info btn-md deleteMovie' href='/movies/deleteMovie/" + data.id + "'>Obrisi</a></p>" +
 									"<p><a class='btn btn-info btn-md editMovie' href='/movies/editMovie/" + data.id + "'>Izmeni</a></p>" +
+									"<div class='btn-group' role='group' style='margin-left: 6px;'>" +
+										"<button id='getProjections_" + data.id + "' type='button'  data-toggle='modal' data-target='#projectionsDialog' class='btn btn-info getProjectionsBtn'>Projekcije</button>" +
+										"<button id='addProjection_" + data.cinemaId + "' type='button' data-toggle='modal' data-target='#addProjectionDialog' class='btn btn-info addProjectionDialog'>+</button>" +
+									"</div>" +
 								"</div>";
 						
 						$("."+movieClass).replaceWith(movie)
@@ -800,7 +802,7 @@ $(document).ready(function(){
 											"<h3 class='cinemaName'>" + data[i].plays[j].name + "</h3>" +
 											"<p><label>Zanr: </label>" + data[i].plays[j].genre + "</p>" +
 											"<p><label>Reditelj: </label>" + data[i].plays[j].director + "</p>" +
-											"<p><label>Trajanje: </label>" + data[i].plays[j].runtime + "</p>" +
+											"<p><label>Trajanje: </label>" + data[i].plays[j].runtime + " min</p>" +
 											"<p><label>Glumci: </label>" + data[i].plays[j].actors + "</p>" +
 											"<p><label>Opis: </label>" + data[i].plays[j].description + "</p>" +
 											"<p><label>Vreme projekcije: </label>" + data[i].plays[j].projectionTimes + "</p>" +

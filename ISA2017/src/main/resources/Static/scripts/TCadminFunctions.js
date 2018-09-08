@@ -12,14 +12,14 @@ function getQuicks(cinemaId){
 		for(i = 0; i < data.length; i++){
 			
 			ticket = "<div class='cinemaDiv col-md-6' id=ticket_" + data[i].id + ">" +
-				"<h2>" + data[i].movieName + "</p>" +
-				"<p>Cena: " + data[i].price + "</p>" +
+				"<h2>" + data[i].projectionMovieName + "</p>" +
+				"<p>Cena: " + data[i].projectionPrice + "</p>" +
 				"<p>Popust: " + data[i].discount + "%</p>" +
 				"<p>Datum projekcije: " + data[i].date + "</p>" +
 				"<p>Vreme projekcije: " + data[i].time + "</p>" +
-				"<p>Sala: " + data[i].hall + "</p>" +
-				"<p>Red: " + data[i].seatRow + "</p>" +
-				"<p>Kolona: " + data[i].seatColumn + "</p>" +
+				"<p>Sala: " + data[i].projectionHallName + "</p>" +
+				"<p>Red: " + data[i].seatRowNumber + "</p>" +
+				"<p>Kolona: " + data[i].seatColumnNumber + "</p>" +
 				"<a class='btn btn-danger deleteTicketBtn' href='" + data[i].id + "'>Obrisi</a>"
 			"</div>";
 			
@@ -56,9 +56,6 @@ function createQuickForm(cinemaId){
 		
 	});
 	
-	// discount string
-	// cinemaId je argument funkcije i vec je unesen i disabled polje
-	
 }
 
 function getHallConf(projId){
@@ -71,7 +68,7 @@ function getHallConf(projId){
 		
 		table = generateHallConf(data)
 		
-		hallName = "<h4>Sala: " + data.name + "</h4>"
+		hallName = "<h4>Sala: " + data.hallName + "</h4>"
 		
 		$('#hallHolder').append(hallName).append(table)
 		
@@ -88,7 +85,7 @@ function getHallProjConf(hallId){
 		
 		table = generateHallConf(data)
 		
-		hallName = "<h4>Sala: " + data.name + "</h4>"
+		hallName = "<h4>Sala: " + data.hallName + "</h4>"
 		
 		$('#projectionHallHolder').append(hallName).append(table)
 		
@@ -98,8 +95,8 @@ function getHallProjConf(hallId){
 function generateHallConf(data){
 	
 	seatsNumber = data.seats.length - 1
-	rows = data.seats[seatsNumber].seatRow
-	columns = data.seats[seatsNumber].seatColumn
+	rows = data.seats[seatsNumber].rowNumber
+	columns = data.seats[seatsNumber].columnNumber
 	
 	table = "<table>"
 	

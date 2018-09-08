@@ -3,14 +3,16 @@ package com.example.isa2017.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.CascadeType;
+import javax.persistence.Version;
 
 
 /*Neprijavljeni korisnici mogu videti osnovne informacije o
@@ -36,10 +38,10 @@ public class Cinema {
 	@Column(name="averageRating")
 	private double avgRating;
 	
-	@OneToMany
+	@OneToMany(mappedBy = "cinema", cascade = CascadeType.ALL)
 	private List<Movie> movies;
 	
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "cinema", cascade = CascadeType.ALL)
 	private List<Hall> halls;
 	
 	@ElementCollection
@@ -48,6 +50,12 @@ public class Cinema {
 	
 	@Column
 	private int rating;
+	
+	@ManyToOne
+	private User user;
+	
+	@Version
+	private Long version;
 	
 	public Cinema(){
 		ratingList = new ArrayList<>();
@@ -156,8 +164,21 @@ public class Cinema {
 	public void setRatingList(List<Integer> ratingList) {
 		this.ratingList = ratingList;
 	}
-	
-	
-	
+
+	public Long getVersion() {
+		return version;
+	}
+
+	public void setVersion(Long version) {
+		this.version = version;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
 
 }

@@ -53,16 +53,16 @@ $(document).ready(function(event){
 				
 				var karta = "<div class='panel panel-default'>" +
 								"<div class='panel-heading text-center'>" +
-									"<h3 class='panel-title text-center'>" + data[i].movieName + "</h3>" +
+									"<h3 class='panel-title text-center'>" + data[i].projectionMovieName + "</h3>" +
 								"</div>" +
 								"<div class='panel-body'>" +
 									"<p>Popust: " + data[i].discount + "%" + "</p>" +
-									"<p>Cena: " + data[i].price + "</p>" +
+									"<p>Cena: " + data[i].projectionPrice + "</p>" +
 									"<p>Datum: " + data[i].date + "</p>" +
 									"<p>Vreme: " + data[i].time + "</p>" +
-									"<p>Sala: " + data[i].hall + "</p>" +
-									"<p>Red: " + data[i].seatRow + "</p>" +
-									"<p>Sediste: " + data[i].seatColumn + "</p>" +
+									"<p>Sala: " + data[i].projectionHallName + "</p>" +
+									"<p>Red: " + data[i].seatRowNumber + "</p>" +
+									"<p>Sediste: " + data[i].seatColumnNumber + "</p>" +
 									"<p><a href='#' class='btn btn-info reserveQuickBtn' id='reserveQuick_" + data[i].id + "'>Rezervisi</a></p>"
 								"</div>" +
 							"</div>"

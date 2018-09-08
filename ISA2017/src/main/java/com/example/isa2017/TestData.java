@@ -82,11 +82,10 @@ public class TestData {
 	@PostConstruct
 	private void init(){
 		
-		List<List<Movie>> generatedMovies = generateMovies();
-		List<List<Play>> generatedPlays = generatePlays();
-		
+		/*List<List<Movie>> generatedMovies = generateMovies();*/
+		/*List<List<Play>> generatedPlays = generatePlays();*/
+		/*
 		Cinema cinema1 = new Cinema("arena cineplexx1", "adresa1", "opis1", 0, generatedMovies.get(0));
-		List<Hall> halls = new ArrayList<>();
 		cinemaService.save(cinema1);
 		Cinema cinema2 = new Cinema("arena cineplexx2", "adresa2", "opis2", 2, generatedMovies.get(1));
 		cinemaService.save(cinema2);
@@ -95,13 +94,21 @@ public class TestData {
 		Cinema cinema4 = new Cinema("arena cineplexx4", "adresa4", "opis4", 3, generatedMovies.get(3));
 		cinemaService.save(cinema4);
 		Cinema cinema5 = new Cinema("arena cineplexx5", "adresa5", "opis5", 4, generatedMovies.get(4));
-		cinemaService.save(cinema5);
+		cinemaService.save(cinema5);*/
 		
 		
+		Cinema cinema1 = new Cinema();
+		Cinema cinema2 = new Cinema();
 		
+		cinema1.setAddress("adresa1");
+		cinema1.setDescription("opis");
+		cinema1.setName("cinema1");
+		
+		cinemaService.save(cinema1);
+		cinemaService.save(cinema2);
 		
 
-		Theatre theatre1 = new Theatre("Srpsko narodno pozorište", "Novi Sad, Pozorišni trg 1", "Srpsko narodno"
+/*		Theatre theatre1 = new Theatre("Srpsko narodno pozorište", "Novi Sad, Pozorišni trg 1", "Srpsko narodno"
 				+ " pozorište je najstariji profesionalni teatar u Srba. Osnovano je 1861. godine u Novom Sadu i u "
 				+ "okviru njega funkcionišu umetničke jedinice Opere, Baleta i Drame", 5, generatedPlays.get(0));
 		theatreService.save(theatre1);
@@ -119,7 +126,7 @@ public class TestData {
 		theatreService.save(theatre4);
 		
 		Theatre theatre5 = new Theatre("Narodno pozorište „Toša Jovanović“", "Zrenjanin, Trg slobode 7", "Najstarija pozorišna zgrada u današnjoj Srbiji.", 4, generatedPlays.get(4));
-		theatreService.save(theatre5);
+		theatreService.save(theatre5);*/
 		//Obican korisnik
 		User pera = new User("pera@pera", "pera", "Petar", "Petrovic", "064123123", "Petrovac", Role.USER, true);
 		//Administrator fan zone
@@ -295,7 +302,7 @@ public class TestData {
 		
 	}
 	
-	public List<List<Movie>> generateMovies(){
+/*	public List<List<Movie>> generateMovies(){
 
 		List<Movie> movies1 = new ArrayList<Movie>();
 		List<Movie> movies2 = new ArrayList<Movie>();		
@@ -322,7 +329,7 @@ public class TestData {
 			
 			// 			ZA UBACIVANJE SLIKE
 			
-			/*File file = new File("C:\\Users\\Gema\\Desktop\\slika.png");
+			File file = new File("C:\\Users\\Gema\\Desktop\\slika.png");
 	        byte[] bFile = new byte[(int) file.length()];
 	 
 	        try {
@@ -333,7 +340,7 @@ public class TestData {
 	            e.printStackTrace();
 	        }
 			
-	        movie1.setImage(bFile);*/
+	        movie1.setImage(bFile);
 			
 			movieService.save(movie1);
 			
@@ -389,9 +396,9 @@ public class TestData {
 		
 		return generatedMovies;
 		
-	}
+	}*/
 	
-	public List<List<Play>> generatePlays(){
+/*	public List<List<Play>> generatePlays(){
 
 		
 		List<String> actors = new ArrayList<String>();
@@ -477,5 +484,5 @@ public class TestData {
 		
 		return generatedMovies;
 		
-	}
+	}*/
 }

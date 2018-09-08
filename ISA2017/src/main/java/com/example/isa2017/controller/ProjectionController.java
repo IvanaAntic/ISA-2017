@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.isa2017.converters.DateConverter;
 import com.example.isa2017.converters.ProjectionToProjectionDTO;
 import com.example.isa2017.model.Cinema;
 import com.example.isa2017.model.Hall;
@@ -45,7 +46,10 @@ public class ProjectionController {
 	private CinemaService cinemaService;
 
 	@Autowired
-	private ProjectionToProjectionDTO projectionToProjectionDTO;
+	private ProjectionToProjectionDTO toProjectionDTO;
+	
+	@Autowired
+	private DateConverter dateConverter;
 
 	@RequestMapping(value = "addProjection", method=RequestMethod.POST, consumes="application/json")
 	public ResponseEntity<ProjectionDTO> addProjection(HttpServletRequest request, @RequestBody ProjectionDTO projDTO) throws ParseException{
@@ -60,18 +64,18 @@ public class ProjectionController {
 		Projection proj = new Projection();
 		proj.setPrice(projDTO.getPrice());
 		proj.setHall(hall);
-		proj.setMovieId(projDTO.getMovieId());
+		proj.setMovie(movie);
+		proj.setDate(dateConverter.stringToDate(projDTO.getDate()));
+		proj.setEndDate(dateConverter.addRuntime(dateConverter.stringToDate(projDTO.getDate()), movie.getRuntime()));
 		
-		SimpleDateFormat df = new SimpleDateFormat("DD/mm/yyyy HH:mm");
-		Date date = df.parse(projDTO.getDate());
-		proj.setDate(date);
+		for(Projection p : movie.getProjections()){
+			if(p.getDate().before(proj.getDate()) && p.getEndDate().after(proj.getDate()) && p.getHall().getId() == projDTO.getHallId())
+				return new ResponseEntity<>(HttpStatus.CONFLICT);
+		}
 		
 		projectionService.save(proj);
 		
-		movie.getProjections().add(proj);
-		movieService.save(movie);
-		
-		return new ResponseEntity<>(projDTO, HttpStatus.OK);
+		return new ResponseEntity<>(toProjectionDTO.convert(proj), HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "delete/{projectionId}", method=RequestMethod.DELETE)
@@ -81,7 +85,7 @@ public class ProjectionController {
 		if(logged==null)
 			return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);*/
 		
-		List<Movie> movies = movieService.findAll();
+		/*List<Movie> movies = movieService.findAll();
 		
 		for(Movie movie : movies){
 			List<Projection> projs = movie.getProjections();
@@ -95,7 +99,7 @@ public class ProjectionController {
 				projs.remove(tempProj);
 				movieService.save(movie);
 			}
-		}
+		}*/
 		
 		projectionService.delete(projectionId);
 		
@@ -114,7 +118,7 @@ public class ProjectionController {
 			}
 		}
 		
-		return new ResponseEntity<>(projectionToProjectionDTO.convert(projections), HttpStatus.OK);
+		return new ResponseEntity<>(toProjectionDTO.convert(projectionService.throwOutExpired(projections)), HttpStatus.OK);
 		
 	}
 	
@@ -123,7 +127,7 @@ public class ProjectionController {
 		
 		List<Projection> projections = movieService.findOne(movieId).getProjections();
 		
-		return new ResponseEntity<>(projectionToProjectionDTO.convert(projections), HttpStatus.OK);
+		return new ResponseEntity<>(toProjectionDTO.convert(projectionService.throwOutExpired(projections)), HttpStatus.OK);
 	}
 	
 }

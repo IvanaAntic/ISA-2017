@@ -1,6 +1,5 @@
 package com.example.isa2017.converters;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +17,9 @@ public class TicketToTicketDTO implements Converter<Ticket, TicketDTO>{
 	
 	@Autowired
 	private ProjectionService projService;
+	
+	@Autowired
+	private DateConverter dateConverter;
 
 	@Override
 	public TicketDTO convert(Ticket source) {
@@ -29,14 +31,18 @@ public class TicketToTicketDTO implements Converter<Ticket, TicketDTO>{
 		ModelMapper modelMapper = new ModelMapper();
 		TicketDTO ticketDTO = modelMapper.map(source, TicketDTO.class);
 		
-		ticketDTO.setPrice(source.getProjection().getPrice());
+		/*ticketDTO.setPrice(source.getProjection().getPrice());
 		
 		SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
 		ticketDTO.setTime(df.format(source.getProjection().getDate()));
 		df = new SimpleDateFormat("DD/mm/yyyy");
-		ticketDTO.setDate(df.format(source.getProjection().getDate()));
+		ticketDTO.setDate(df.format(source.getProjection().getDate()));*/
 		
-		ticketDTO.setHall(source.getProjection().getHall().getName());
+		
+		//ticketDTO.setHall(source.getProjection().getHall().getName());
+		
+		ticketDTO.setDate(dateConverter.dateToString(source.getProjection().getDate()));
+		ticketDTO.setTime(dateConverter.timeToString(source.getProjection().getDate()));
 		
 		
 		return ticketDTO;

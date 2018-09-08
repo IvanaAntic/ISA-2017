@@ -21,6 +21,9 @@ public class ProjectionToProjectionDTO implements Converter<Projection, Projecti
 	
 	@Autowired
 	private HallService hallService;
+	
+	@Autowired
+	private DateConverter dateConverter;
 
 	@Override
 	public ProjectionDTO convert(Projection source) {
@@ -31,8 +34,10 @@ public class ProjectionToProjectionDTO implements Converter<Projection, Projecti
 		ModelMapper modelMapper = new ModelMapper();
 		ProjectionDTO projectionDTO = modelMapper.map(source, ProjectionDTO.class);
 		
-		projectionDTO.setMovieName(movieService.findOne(projectionDTO.getMovieId()).getName());
-		projectionDTO.setHallName(hallService.findOne(projectionDTO.getHallId()).getName());
+		projectionDTO.setMovieName(movieService.findOne(projectionDTO.getMovieId()).getMovieName());
+		projectionDTO.setHallName(hallService.findOne(projectionDTO.getHallId()).getHallName());
+		projectionDTO.setDate(dateConverter.dateToString(source.getDate()));
+		projectionDTO.setTime(dateConverter.timeToString(source.getDate()));
 		
 		return projectionDTO;
 	}
