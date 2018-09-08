@@ -142,7 +142,7 @@ public class MovieController {
 		return new ResponseEntity<>(toMovieDTO.convert(movie), HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "moviesToRate", method = RequestMethod.GET)
+/*	@RequestMapping(value = "moviesToRate", method = RequestMethod.GET)
 	public ResponseEntity<List<Movie>> getMoviesToRate(HttpServletRequest request){
 		
 		User logged = (User) request.getSession().getAttribute("logged");
@@ -150,6 +150,6 @@ public class MovieController {
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		
 		return new ResponseEntity<>(logged.getMoviesToRate(), HttpStatus.OK);
-	}
+	}*/
 
 }

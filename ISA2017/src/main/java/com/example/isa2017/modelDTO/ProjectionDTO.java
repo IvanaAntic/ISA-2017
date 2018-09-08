@@ -12,7 +12,6 @@ public class ProjectionDTO {
 	private String price;	
 	private Long hallId;
 	private Long movieId;
-	private List<TicketDTO> tickets;
 	
 	private String movieName;
 	private String hallName;
@@ -79,14 +78,6 @@ public class ProjectionDTO {
 
 	public void setHallName(String hallName) {
 		this.hallName = hallName;
-	}
-
-	public List<TicketDTO> getTickets() {
-		return tickets;
-	}
-
-	public void setTickets(List<TicketDTO> tickets) {
-		this.tickets = tickets;
 	}
 
 	public String getTime() {

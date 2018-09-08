@@ -1,8 +1,8 @@
 package com.example.isa2017.controller;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -23,6 +23,7 @@ import com.example.isa2017.model.Cinema;
 import com.example.isa2017.model.Hall;
 import com.example.isa2017.model.Movie;
 import com.example.isa2017.model.Projection;
+import com.example.isa2017.model.Seat;
 import com.example.isa2017.modelDTO.ProjectionDTO;
 import com.example.isa2017.service.CinemaService;
 import com.example.isa2017.service.HallService;
@@ -57,6 +58,8 @@ public class ProjectionController {
 		/*User logged = (User) request.getSession().getAttribute("logged");
 		if(logged==null)
 			return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);*/
+		Date today = new Date();
+		today = Calendar.getInstance().getTime();
 		
 		Movie movie = movieService.findOne(projDTO.getMovieId());
 		Hall hall = hallService.findOne(projDTO.getHallId());
@@ -67,6 +70,9 @@ public class ProjectionController {
 		proj.setMovie(movie);
 		proj.setDate(dateConverter.stringToDate(projDTO.getDate()));
 		proj.setEndDate(dateConverter.addRuntime(dateConverter.stringToDate(projDTO.getDate()), movie.getRuntime()));
+		
+		if(today.after(proj.getDate()))
+			return new ResponseEntity<>(HttpStatus.CONFLICT);
 		
 		for(Projection p : movie.getProjections()){
 			if(p.getDate().before(proj.getDate()) && p.getEndDate().after(proj.getDate()) && p.getHall().getId() == projDTO.getHallId())
@@ -85,21 +91,12 @@ public class ProjectionController {
 		if(logged==null)
 			return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);*/
 		
-		/*List<Movie> movies = movieService.findAll();
+		Projection proj = projectionService.findOne(projectionId);
 		
-		for(Movie movie : movies){
-			List<Projection> projs = movie.getProjections();
-			Projection tempProj = null;
-			for(Projection proj : projs){
-				if(proj.getId() == projectionId){
-					tempProj = proj;
-				}
-			}
-			if(tempProj != null){
-				projs.remove(tempProj);
-				movieService.save(movie);
-			}
-		}*/
+		for(Seat s : hallService.findOne(proj.getHall().getId()).getSeats()){			// da li je neko mesto u sali rezervisano?
+			if(s.isReserved())
+				return new ResponseEntity<>(HttpStatus.LOCKED);
+		}
 		
 		projectionService.delete(projectionId);
 		

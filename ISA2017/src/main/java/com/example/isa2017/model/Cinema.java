@@ -1,6 +1,6 @@
 package com.example.isa2017.model;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Version;
@@ -44,9 +45,9 @@ public class Cinema {
 	@OneToMany(mappedBy = "cinema", cascade = CascadeType.ALL)
 	private List<Hall> halls;
 	
-	@ElementCollection
-	@Column
-	private List<Integer> ratingList;
+	@Lob
+    @Column(name="RATING_LIST", columnDefinition="mediumblob")
+	private HashMap<Long, Integer> ratingList;
 	
 	@Column
 	private int rating;
@@ -58,7 +59,7 @@ public class Cinema {
 	private Long version;
 	
 	public Cinema(){
-		ratingList = new ArrayList<>();
+		ratingList = new HashMap<>();
 	}
 
 	public Cinema(String name, String address, String description, int avgRating) {
@@ -67,7 +68,7 @@ public class Cinema {
 		this.address = address;
 		this.description = description;
 		this.avgRating = avgRating;
-		ratingList = new ArrayList<>();
+		ratingList = new HashMap<>();
 	}
 	
 	
@@ -79,7 +80,7 @@ public class Cinema {
 		this.description = description;
 		this.avgRating = avgRating;
 		this.movies = movies;
-		ratingList = new ArrayList<>();
+		ratingList = new HashMap<>();
 	}
 
 	public Long getId() {
@@ -157,11 +158,11 @@ public class Cinema {
 		this.rating = rating;
 	}
 
-	public List<Integer> getRatingList() {
+	public HashMap<Long,Integer> getRatingList() {
 		return ratingList;
 	}
 
-	public void setRatingList(List<Integer> ratingList) {
+	public void setRatingList(HashMap<Long,Integer> ratingList) {
 		this.ratingList = ratingList;
 	}
 

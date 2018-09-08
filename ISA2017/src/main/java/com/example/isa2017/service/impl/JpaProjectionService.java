@@ -59,7 +59,7 @@ public class JpaProjectionService implements ProjectionService {
 	@Override
 	public List<Projection> throwOutExpired(List<Projection> projections) {
 		
-		List<Ticket> tickets = ticketService.findAll();
+		/*List<Ticket> tickets = ticketService.findAll();*/
 		List<Projection> nonExpired = new ArrayList<>();
 		List<Projection> expired = new ArrayList<>();
 		Date today = new Date();
@@ -71,18 +71,19 @@ public class JpaProjectionService implements ProjectionService {
 			
 			if(today.after(projection.getDate())){
 				System.out.println("Projekcija " + projection.getId() + " je istekla!");
-				expired.add(projection);
+				projection.setExpired(true);
+				projectionRepository.save(projection);
 			}else{
 				nonExpired.add(projection);
 			}
 		}
 		
 		System.out.println("provera zavrsena...");
-		
-		System.out.println("ubacivanje filmova i bioskopa u liste za ocenjivanje...");
+		/*
+		System.out.println("ubacivanje filmova i bioskopa u liste za ocenjivanje...");*/
 		/*Ako se istekla projekcija i projekcija iz karte poklapaju onda se film i bioskop
 		ubacuju u listu za ocenjivanje korisnika koji je rezervisao tu kartu
-		Takodje se ta karta i obrise jer je istekla*/
+		Takodje se ta karta i obrise jer je istekla
 		for(Ticket ticket : tickets){
 			for(Projection projection : expired){
 				if(projection.getId() == ticket.getProjection().getId()){
@@ -98,7 +99,7 @@ public class JpaProjectionService implements ProjectionService {
 		for(Projection p : expired){
 			projectionRepository.delete(p);
 		}
-		System.out.println("uspesno obrisano!");
+		System.out.println("uspesno obrisano!");*/
 		
 		return nonExpired;
 	}

@@ -1,6 +1,8 @@
 package com.example.isa2017.controller;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,22 +26,26 @@ import com.example.isa2017.modelDTO.TicketDTO;
 import com.example.isa2017.service.ProjectionService;
 import com.example.isa2017.service.SeatService;
 import com.example.isa2017.service.TicketService;
+import com.example.isa2017.service.UserService;
 
 @RestController
 @RequestMapping(value = "/tickets")
 public class TicketController {
 	
 	@Autowired
-	ProjectionService projectionService;
+	private ProjectionService projectionService;
 	
 	@Autowired
-	SeatService seatService;
+	private SeatService seatService;
 	
 	@Autowired
-	TicketService ticketService;
+	private TicketService ticketService;
 	
 	@Autowired
-	TicketToTicketDTO toTicketDTO;
+	private TicketToTicketDTO toTicketDTO;
+
+	@Autowired
+	private UserService userService;
 
 	@RequestMapping(value = "createQuick", method = RequestMethod.POST, consumes = "application/json")
 	public ResponseEntity<TicketDTO> createQuick(HttpServletRequest request, @RequestBody TicketDTO ticketDTO){
@@ -105,7 +111,9 @@ public class TicketController {
 		
 		for(Ticket ticket : allTickets){
 			if(ticket.getProjection().getMovie().getCinema().getId() == cinemaId && ticket.getUser() == null){
-				tickets.add(ticket);
+				if(!ticket.getProjection().getExpired()){
+					tickets.add(ticket);
+				}
 			}
 		}
 		
@@ -123,6 +131,37 @@ public class TicketController {
 		
 		return new ResponseEntity<>(HttpStatus.OK);
 		
+	}
+	
+	@RequestMapping(value = "getHistory", method = RequestMethod.GET)
+	public ResponseEntity<List<TicketDTO>> getHistory(HttpServletRequest request){
+		// da li je ulogovan i da li je user
+		User logged = (User) request.getSession().getAttribute("logged");
+		if(logged==null)
+			return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);
+		if(logged.getRole()!=Role.USER)
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		
+		Date today = new Date();
+		today = Calendar.getInstance().getTime();
+		
+		List<Ticket> tickets = userService.findById(logged.getId()).getTickets();
+		List<Ticket> expired = new ArrayList<>();
+		
+		for(Ticket ticket : tickets){
+			if(today.after(ticket.getProjection().getDate())){
+				Projection p = ticket.getProjection();
+				p.setExpired(true);
+				projectionService.save(p);
+			}
+		}
+		
+		for(Ticket ticket : tickets){
+			if(ticket.getProjection().getExpired())
+				expired.add(ticket);
+		}
+				
+		return new ResponseEntity<>(toTicketDTO.convert(expired), HttpStatus.OK);
 	}
 	
 }

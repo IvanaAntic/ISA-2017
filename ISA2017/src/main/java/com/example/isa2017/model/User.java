@@ -1,14 +1,13 @@
 package com.example.isa2017.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 
@@ -48,13 +47,13 @@ public class User {
 	@Column(name="first_login")
 	private boolean firstLogin = true;
 	
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	/*@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private List<Movie> moviesToRate;
 	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-	private List<Cinema> cinemasToRate;
+	private List<Cinema> cinemasToRate;*/
 	
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "user", orphanRemoval = true)
 	private List<Ticket> tickets;
 
 	@Column(name="type")
@@ -75,6 +74,7 @@ public class User {
 		this.role=role;
 		this.active=active;
 		this.type=type; 
+		this.tickets = new ArrayList<>();
 		
 	}
 	
@@ -158,7 +158,7 @@ public class User {
 	}
 
 
-	public List<Movie> getMoviesToRate() {
+/*	public List<Movie> getMoviesToRate() {
 		return moviesToRate;
 	}
 
@@ -175,14 +175,13 @@ public class User {
 
 	public void setCinemasToRate(List<Cinema> cinemasToRate) {
 		this.cinemasToRate = cinemasToRate;
-	}
+	}*/
 
 
 	public List<Ticket> getTickets() {
 		return tickets;
 	}
-
-
+	
 	public void setTickets(List<Ticket> tickets) {
 		this.tickets = tickets;
 	}

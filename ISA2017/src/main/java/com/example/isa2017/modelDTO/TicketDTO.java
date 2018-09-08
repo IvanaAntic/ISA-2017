@@ -5,7 +5,9 @@ public class TicketDTO {
 	private Long Id;
 	private Long projectionId;
 	private Long projectionMovieCinemaId;
+	private String projectionMovieCinemaName;
 	private String projectionMovieName;
+	private String projectionMovieId;
 	private String date;
 	private String time;
 	private String projectionPrice;
@@ -114,6 +116,22 @@ public class TicketDTO {
 
 	public void setTime(String time) {
 		this.time = time;
+	}
+
+	public String getProjectionMovieCinemaName() {
+		return projectionMovieCinemaName;
+	}
+
+	public void setProjectionMovieCinemaName(String projectionMovieCinemaName) {
+		this.projectionMovieCinemaName = projectionMovieCinemaName;
+	}
+
+	public String getProjectionMovieId() {
+		return projectionMovieId;
+	}
+
+	public void setProjectionMovieId(String projectionMovieId) {
+		this.projectionMovieId = projectionMovieId;
 	}
 	
 }

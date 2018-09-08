@@ -1,5 +1,6 @@
 package com.example.isa2017.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -77,31 +78,22 @@ public class CinemaController {
 	}
 	
 	@RequestMapping(value = "rateCinema/{cinemaId}", method=RequestMethod.POST, consumes=MediaType.ALL_VALUE)
-	public ResponseEntity<CinemaDTO> rateCinema(@PathVariable Long cinemaId, @RequestBody Cinema rating){
+	public ResponseEntity<CinemaDTO> rateCinema(HttpServletRequest request, @PathVariable Long cinemaId, @RequestBody Cinema rating){
+		
+		User logged = (User) request.getSession().getAttribute("logged");
+		if(logged==null)
+			return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);
 		
 		Cinema cinema = cinemaService.findOne(cinemaId);
 		
-		cinema.getRatingList().add(rating.getRating());
+		cinema.getRatingList().put(logged.getId(), rating.getRating());
 		
-		System.out.println("integers in the rating list: ");
-		for(int i : cinema.getRatingList()){
-			System.out.println(i + ", ");
-		}
+		List<Integer> list = new ArrayList<>(cinema.getRatingList().values());
 		
-		cinema.setAvgRating(cinema.calculateAverage(cinema.getRatingList()));
+		cinema.setAvgRating(cinema.calculateAverage(list));
 		
 		cinemaService.save(cinema);
 		
 		return new ResponseEntity<>(toCinemaDTO.convert(cinema), HttpStatus.OK);
-	}
-	
-	@RequestMapping(value = "cinemasToRate", method = RequestMethod.GET)
-	public ResponseEntity<List<CinemaDTO>> getCinemasToRate(HttpServletRequest request){
-		
-		User logged = (User) request.getSession().getAttribute("logged");
-		/*if(logged==null)
-			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);*/
-		
-		return new ResponseEntity<>(toCinemaDTO.convert(logged.getCinemasToRate()), HttpStatus.OK);
 	}
 }

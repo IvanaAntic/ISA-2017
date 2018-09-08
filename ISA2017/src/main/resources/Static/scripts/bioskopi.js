@@ -88,6 +88,7 @@ $(document).ready(function(event){
 				console.log("Rezervisana karta: " + data.id)
 				$("#" + thisId).text('Rezervisano')
 				$("#" + thisId).removeClass('btn-info').addClass('btn-success')
+				loadVisitHistory();
 			},
 			error: function(error){
 				alert("Karta nije rezervisana!")

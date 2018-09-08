@@ -104,7 +104,7 @@ public class HallController {
 			return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);*/
 		
 		//List<Cinema> cinemas = cinemaService.findAll();
-		List<Projection> projs = projService.findAll();
+		/*List<Projection> projs = projService.findAll();
 		
 		for(Projection p : projs){									// da li postoji i dalje projekcija u sali?
 			if(p.getHall() != null){
@@ -112,7 +112,7 @@ public class HallController {
 					return new ResponseEntity<>(HttpStatus.LOCKED);
 				}
 			}
-		}
+		}*/
 		
 		for(Seat s : hallService.findOne(hallId).getSeats()){			// da li je neko mesto u sali rezervisano?
 			if(s.isReserved())

@@ -9,6 +9,12 @@ body {
 	font-family: "Times New Roman", Times, serif;
 	
 }
+
+#historyHolderDiv{
+	height: 200px;
+	overflow-y: scroll;
+}
+
 .left {
 	
 	float: left;

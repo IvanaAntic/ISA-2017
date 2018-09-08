@@ -37,6 +37,9 @@ public class Projection {
 	@OneToMany(mappedBy = "projection", orphanRemoval = true)
 	private List<Ticket> tickets;
 	
+	@Column
+	private Boolean expired = false;
+	
 	@Version
 	private Long version;
 
@@ -113,6 +116,14 @@ public class Projection {
 
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
+	}
+
+	public Boolean getExpired() {
+		return expired;
+	}
+
+	public void setExpired(Boolean expired) {
+		this.expired = expired;
 	}
 	
 }

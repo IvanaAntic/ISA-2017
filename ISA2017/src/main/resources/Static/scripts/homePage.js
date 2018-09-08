@@ -2,6 +2,7 @@ $(document).ready(function(event){
 	console.log("ovde")
 	loadUser();
 	loadFriendRequests();
+	loadVisitHistory();
 	
 	$("#izmeni").click(function(){
 		console.log("desilo se");
@@ -13,6 +14,8 @@ $(document).ready(function(event){
 		console.log("search");
 	
 	});
+	
+	
 	
 	
 	
@@ -101,7 +104,7 @@ function loadFriendRequests(){
 					newRow="<tr>"
 						+"<td>"+data[i].name+"</td>"
 						+"<td>"+data[i].surname+"</td>"
-						+"<td><button name='accept' class='btn btn-primary' style='width:80px;' id=" + data[i].id + ">Accept</button></td>"
+						+"<td><button name='accept' class='btn btn-primary acceptFriendshipBtn' style='width:80px;' id=" + data[i].id + ">Accept</button></td>"
 						+"<td><button name='delete' class='btn btn-danger' style='width:80px;' id=" + data[i].id+ ">Reject</button></td>>"
 						+"</tr>";
 					$(".reqTable").append(newRow);
@@ -110,7 +113,72 @@ function loadFriendRequests(){
 	});
 }
 
-$(document).on("click",".btn-primary",function(event){
+function loadVisitHistory(){
+	
+	$('#historyHolder').empty()
+	
+	console.log("getting visit history...")
+	
+	$.ajax({
+		url: "tickets/getHistory"
+	}).then(function(data){
+		
+		for(var i = 0; i < data.length; i++){
+			
+			movie = "<li class='list-group-item'>" + data[i].projectionMovieName + " <a id='rateMovie_" + data[i].projectionMovieId + "' class='badge progress-bar-info rateMovieCinema' href='movies/rateMovie/" + data[i].projectionMovieId + "'>Oceni</a>" +
+					"<span class='badge progress-bar-warning'>Film</span></li>"
+			cinema = "<li class='list-group-item'>" + data[i].projectionMovieCinemaName + " <a id='rateCinema_" + data[i].projectionMovieId + "' class='badge progress-bar-info rateMovieCinema' href='cinemas/rateCinema/" + data[i].projectionMovieCinemaId + "'>Oceni</a>" +
+					"<span class='badge progress-bar-success'>Bioskop</span></li>"
+			
+			$("#historyHolder").append(movie).append(cinema);
+			
+		}
+		
+	});
+	
+}
+
+$(document).on('click', '.rateMovieCinema', function(event){
+	
+	event.preventDefault();
+	
+	$('#rateMovieCinemaDialog').modal()
+	
+	$('#rateName').text($(this).parent().text().split('Oceni')[0])
+	$('#rateId').val($(this).attr('href'))
+	$('#movieCinemaIdRate').val($(this).attr('id'))
+	
+});
+
+$(document).on('click', '#rateMovieCinema', function(){
+	
+	rateId = $('#rateId').val()
+	mark = $('#mark').val();
+	thisId = $('#movieCinemaIdRate').val()
+	
+	formData = JSON.stringify({
+		rating: mark
+	})
+	
+	$.ajax({
+		url: rateId,
+		type: "POST",
+		contentType: "application/json",
+		datatype: 'json',
+		data: formData,
+		success: function(){
+			$("#" + thisId).text('Ocenjeno')
+			$("#" + thisId).removeClass('progress-bar-info').addClass('progress-bar-success')
+		},
+		error: function(){
+			alert("Neuspesno!")
+		}
+		
+	})
+	
+});
+
+$(document).on("click",".acceptFriendshipBtn",function(event){
 	//obostrano je prijateljsnto ako se klikne na accept
 	console.log("hocemo da prihvatimo prijatelja");
 	 var id = $(this).attr('id');
