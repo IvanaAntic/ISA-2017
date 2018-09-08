@@ -25,4 +25,6 @@ public interface FriendshipService {
 	Friendship getFriendship(User logged, FriendshipDTO friendshipDTO, String status);
 
 	boolean isAdded(User logged, FriendshipDTO friendDTO, String string);
+
+	List<User> getFriends(User logged, String string);
 }

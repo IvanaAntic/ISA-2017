@@ -1,5 +1,6 @@
 package com.example.isa2017.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,9 @@ public class UserServiceImpl implements UserService{
 	@Autowired
 	private Environment  env;
 	
+	@Autowired
+	private FriendshipService friendshipService;
+	
 	@Override
 	public User save(UserDTO user)  {
 		// TODO Auto-generated method stub
@@ -42,7 +46,7 @@ public class UserServiceImpl implements UserService{
 		user1.setCity(user.getCity());
 		user1.setPhoneNumber(user.getPhoneNumber());
 		user1.setRole(user.getRole().USER);
-		
+		user1.setType("0");
 		User user2 = userRepository.findByEmail(user1.getEmail());
 		if(user2==null){
 			return userRepository.save(user1);
@@ -73,6 +77,7 @@ public class UserServiceImpl implements UserService{
          	user1.setPhoneNumber(findByEmail(user.getEmail()).getPhoneNumber());
          	user1.setRole(findByEmail(user.getEmail()).getRole());
          	user1.setFirstLogin(findByEmail(user.getEmail()).isFirstLogin());
+         	user1.setType(findByEmail(user.getEmail()).getType());
 			return user1;
 		
 		}
@@ -90,6 +95,7 @@ public class UserServiceImpl implements UserService{
 		user1.setCity(user.getCity());
 		user1.setPhoneNumber(user.getPhoneNumber());
 		user1.setRole(user.getRole());
+		user1.setType(user.getType());
 		return user1;
 	}
 	@Override
@@ -103,7 +109,7 @@ public class UserServiceImpl implements UserService{
 		user1DTO.setCity(user.getCity());
 		user1DTO.setPhoneNumber(user.getPhoneNumber());
 		user1DTO.setRole(user.getRole());
-		
+		user1DTO.setType(user.getType());
 		return user1DTO;
 	}
 	
@@ -202,5 +208,33 @@ public class UserServiceImpl implements UserService{
 		}
 	}
 	
+	//odnos ostalih korisnika u odnosu na logovanog
+	@Override
+	public List<User> getAllUsers(User user){
+		User logged=userRepository.findByEmail(user.getEmail());//logovan je pera 
+		System.out.println("sad cemo ici koji su peri prihvaceni prijatelji: ");
+		List<User> friends=friendshipService.getFriends(logged,"accepted");
+		System.out.println("sad cemo ici koji su peri waiting prijatelji: ");
+		List<User> waitingFriends=friendshipService.getFriends(logged,"waiting");
+		List<User> allUsres=userRepository.findAll();
+		List<User> all=new ArrayList<>();
+		for(User u:allUsres){
+			if(friends.contains(u)){
+				u.setType("2");
+				all.add(u);
+			}else if(waitingFriends.contains(u)){
+				u.setType("1");
+				all.add(u);
+			}else if((u.getId()==logged.getId())){
+				u.setType("3");
+				all.add(u);
+			}else{
+				u.setType("0");
+				all.add(u);
+			}
+		}
+		
+		return all;
+	}
 
 }
