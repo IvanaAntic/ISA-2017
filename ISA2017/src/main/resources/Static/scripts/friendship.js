@@ -26,9 +26,9 @@ function displayListOfPeople(data){
 			+"<td>"+data[i].name+"</td>"
 			+"<td>"+data[i].surname+"</td>";
 		console.log(data[i].type);
-		console.log(data.type);
+		
 		if(data[i].type==="0"){ //are not friends
-			newRow+="<td><button name='add' class='btn btn-success' style='width:80px;' id=" + data[i].id + ">Add</button></td>";
+			newRow+="<td><button name='add'  class='btn btn-success dodaj' style='width:80px;' id=" + data[i].id + ">Add</button></td>";
 			
 		}else if(data[i].type==="1"){ //waiting
 			newRow+="<td><button name='pending' class='btn btn-warning' style='width:80px;' disabled>Pending</button></td>";
@@ -41,7 +41,7 @@ function displayListOfPeople(data){
 	
 }
 
-$(document).on('click','.btn-success',function(event){
+$(document).on('click','.dodaj',function(event){
 	 var retVal = confirm("Are you sure you want to add a friend?");
 	 if( retVal === true ){
 	        var id = $(this).attr('id');
@@ -57,7 +57,7 @@ $(document).on('click','.btn-success',function(event){
 	        	contentType : 'application/json',
 	        	success: function(){
 	        			console.log("USPesnoste dodaliii Prijatelja");
-	        			  $(this).removeClass('btn btn-success').addClass('btn btn-warning');
+	        			  $(this).removeClass('btn btn-success dodaj').addClass('btn btn-warning');
 	                      $(this).text('Pending');
 	                      $(this).prop('disabled', true);
 	        	},
