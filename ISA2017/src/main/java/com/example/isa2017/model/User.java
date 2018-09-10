@@ -60,7 +60,9 @@ public class User {
 	private String type;
 	
 
-	public User(){}
+	public User(){
+		this.tickets = new ArrayList<>();
+	}
 	
 	
 	public User(String email, String password, String name, String surname, String phoneNumber, String city,Role role,boolean active,String type) {
@@ -78,17 +80,13 @@ public class User {
 		
 	}
 	
-	
-	
 	public String getType() {
 		return type;
 	}
 
-
 	public void setType(String type) {
 		this.type = type;
 	}
-
 
 	public Long getId() {
 		return id;
@@ -156,27 +154,6 @@ public class User {
 	public void setFirstLogin(boolean firstLogin) {
 		this.firstLogin = firstLogin;
 	}
-
-
-/*	public List<Movie> getMoviesToRate() {
-		return moviesToRate;
-	}
-
-
-	public void setMoviesToRate(List<Movie> moviesToRate) {
-		this.moviesToRate = moviesToRate;
-	}
-
-
-	public List<Cinema> getCinemasToRate() {
-		return cinemasToRate;
-	}
-
-
-	public void setCinemasToRate(List<Cinema> cinemasToRate) {
-		this.cinemasToRate = cinemasToRate;
-	}*/
-
 
 	public List<Ticket> getTickets() {
 		return tickets;

@@ -7,51 +7,6 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <link rel="stylesheet" href="css/pocetna.css">
 <link rel="stylesheet" href="css/userHomePage.css">
-
-		<style>
-			#addQuickForm{
-				width: 600px;
-				margin-left: auto;
-				margin-right: auto;
-				margin-top: 50px;
-				border: 1px solid #bbb;
-				border-radius: 10px;
-				padding: 15px;
-			}
-			#addQuickForm h1,h2,h4{
-				text-align: center;
-			}
-			.hallHolder{
-				border: 1px solid #ccc;
-				border-radius: 5px;
-				padding: 5px;
-				width: 480px;
-				margin-left: auto;
-				margin-right: auto;
-			}
-			.checkbox-grid li {
-			    display: block;
-			    float: left;
-			}
-			.hallHolder table, th, td {
-				border: 0;
-				text-align: center;
-			}
-			.hall table{
-				border: 1px solid #ccc;
-				border-radius: 4px;
-			}
-			.hall{
-				border-bottom: 1px solid #bbb;
-				padding-bottom: 10px;
-				margin-bottom: 10px;
-				border-radius: 20px;
-			}
-			/* #inputForm input{
-				
-			} */
-		</style>
-
 <title>Admin pozorista/bioskopa</title>
 </head>
 
@@ -103,8 +58,94 @@
 	<div class="tab-content">
 	  <div id="tab1" class="tab-pane fade in active"></div>
 	  <div id="tab2" class="tab-pane fade"></div>
-	  <div id="tab3" class="tab-pane fade"></div>
-	  <div id="tab4" class="tab-pane fade"></div>
+	  <div id="tab3" class="tab-pane fade">
+	  	<div class="col-md-4 text-center" id="byDayHolder">
+	  		<h3>Dnevna posecenost</h3>
+	  		<div id="reportDayChart"></div>
+	  		<div class='container-fluid row'>
+		  		<form data-toggle="validator" role="form" data-disable="true">
+		      		<div class="form-group">
+			    		<div class="col-xs-12 text-center">
+			    			<label>Bioskop: </label>
+						    <select class="form-control" id="reportCinema">
+						    </select>
+			    		</div>
+				  	</div>
+			        <div class="form-group col-xs-12 text-center">
+			        	<label>Dan:</label>
+			       		<input type="date" class='form-control' id="reportDay"/>
+			        </div>
+			        <a class="btn btn-primary getDayReportBtn" id="getDayReportBtn">Ok</a>
+				</form>
+	  		</div>
+	  	</div>
+	  	<div class="col-md-4 text-center" id="byWeekHolder">
+	  		<h3>Nedeljna posecenost</h3>
+	  		<div id="reportWeekChart"></div>
+	  		<div class='container-fluid row'>
+		  		<form data-toggle="validator" role="form" data-disable="true">
+		      		<div class="form-group">
+			    		<div class="col-xs-12 text-center">
+			    			<label>Bioskop: </label>
+						    <select class="form-control" id="reportCinemaWeek">
+						    </select>
+			    		</div>
+				  	</div>
+			        <div class="form-group col-xs-12 text-center">
+			        	<label>Prvi dan nedelje:</label>
+			       		<input type="date" class='form-control' id="reportWeek"/>
+			        </div>
+			        <a class="btn btn-primary getDayReportBtn" id="getWeekReportBtn">Ok</a>
+				</form>
+	  		</div>
+	  	</div>
+	  	<div class="col-md-4 text-center" id="byMonthHolder">
+	  		<h3>Mesecna posecenost</h3>
+	  		<div id="reportMonthChart"></div>
+	  		<div class='container-fluid row'>
+		  		<form data-toggle="validator" role="form" data-disable="true">
+		      		<div class="form-group">
+			    		<div class="col-xs-12 text-center">
+			    			<label>Bioskop: </label>
+						    <select class="form-control" id="reportCinemaMonth">
+						    </select>
+			    		</div>
+				  	</div>
+			        <div class="form-group col-xs-12 text-center">
+			        	<label>Mesec:</label>
+			       		<input type="month" class='form-control' id="reportMonth"/>
+			        </div>
+			        <a class="btn btn-primary getDayReportBtn" id="getMonthReportBtn">Ok</a>
+				</form>
+	  		</div>
+	  	</div>
+	  </div>
+	  <div id="tab4" class="tab-pane fade row">
+	  	<div class="col-md-12 text-center" id="byPeriodHolder">
+	  		<h3>Zarada u periodu</h3>
+	  		<div id="reportPeriodChart"></div>
+	  		<div class='container-fluid row justify-content-center'>
+		  		<form data-toggle="validator" role="form" data-disable="true">
+		      		<div class="form-group">
+			    		<div class="col-xs-6 col-md-offset-3 text-center">
+			    			<label>Bioskop: </label>
+						    <select class="form-control" id="reportCinemaPeriod">
+						    </select>
+			    		</div>
+				  	</div>
+			        <div class="form-group col-xs-3 col-md-offset-3 text-center">
+			        	<label>Od:</label>
+			       		<input type="date" class='form-control' id="reportPeriodFrom"/>
+			        </div>
+			         <div class="form-group col-xs-3 text-center">
+			        	<label>Do:</label>
+			       		<input type="date" class='form-control' id="reportPeriodTo"/>
+			        </div>
+			        <a class="btn btn-primary getPeriodReportBtn col-xs-2 col-md-offset-5" id="getPeriodReportBtn">Ok</a>
+				</form>
+	  		</div>
+	  	</div>
+	  </div>
 	</div>
 
 </div>
@@ -481,6 +522,7 @@
 <script type="text/javascript" src="scripts/TCadminReports.js"></script>
 <script type="text/javascript" src="scripts/TCadminProfile.js"></script>
 <script type="text/javascript" src="scripts/TCadmin.js"></script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
 
 </body>

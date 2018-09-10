@@ -1,5 +1,7 @@
 package com.example.isa2017.controller;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +20,7 @@ import com.example.isa2017.model.Cinema;
 import com.example.isa2017.model.Hall;
 import com.example.isa2017.model.Projection;
 import com.example.isa2017.model.Seat;
+import com.example.isa2017.model.Ticket;
 import com.example.isa2017.modelDTO.HallDTO;
 import com.example.isa2017.modelDTO.SeatDTO;
 import com.example.isa2017.service.CinemaService;
@@ -56,7 +59,6 @@ public class HallController {
 		for(SeatDTO seat : hallDTO.getSeats()){
 			Seat s = new Seat();
 			s.setHall(hall);
-			s.setReserved(seat.isReserved());
 			s.setColumnNumber(seat.getColumnNumber());
 			s.setRowNumber(seat.getRowNumber());
 			seatService.save(s);	
@@ -75,6 +77,20 @@ public class HallController {
 			return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);*/
 		
 		Hall hall = hallService.findOne(hallId);
+		
+		Date today = new Date();
+		today = Calendar.getInstance().getTime();
+		
+		/*ako postoji mesto u bioskopu koje u sebi ima rezervisanu kartu koja je vazeca
+		onda se konfiguracija ne moze editovati*/
+		for(Seat s : hall.getSeats()){
+			List<Ticket> tickets = s.getTickets();
+			for(Ticket t : tickets){
+				if(t.getUser() != null && today.after(t.getProjection().getDate()))
+					return new ResponseEntity<>(HttpStatus.CONFLICT);
+			}
+		}
+		
 		hall.setHallName(hallDTO.getHallName());
 		hallService.save(hall);
 		
@@ -85,7 +101,6 @@ public class HallController {
 		for(SeatDTO seat : hallDTO.getSeats()){
 			Seat s = new Seat();
 			s.setHall(hall);
-			s.setReserved(seat.isReserved());
 			s.setColumnNumber(seat.getColumnNumber());
 			s.setRowNumber(seat.getRowNumber());
 			seatService.save(s);	
@@ -114,31 +129,29 @@ public class HallController {
 			}
 		}*/
 		
-		for(Seat s : hallService.findOne(hallId).getSeats()){			// da li je neko mesto u sali rezervisano?
+		/*for(Seat s : hallService.findOne(hallId).getSeats()){			// da li je neko mesto u sali rezervisano?
 			if(s.isReserved())
 				return new ResponseEntity<>(HttpStatus.LOCKED);
-		}
-		
-		/*for(Cinema cinema : cinemas){				// uklanja se sala iz bioskopa
-			List<Hall> halls = cinema.getHalls();
-			Hall tempHall = null;
-			for(Hall hall : halls){
-				if(hall.getId() == hallId){
-					tempHall = hall;
-				}
-			}
-			if(tempHall != null){				
-				halls.remove(tempHall);
-				cinemaService.save(cinema);
-			}
-			
-			cinema.getHalls().remove(hallService.findOne(hallId));
-			
 		}*/
+		
+		Hall hall = hallService.findOne(hallId);
+		
+		Date today = new Date();
+		today = Calendar.getInstance().getTime();
+		
+		/*ako postoji mesto u bioskopu koje u sebi ima rezervisanu kartu koja je vazeca
+		onda se sala ne moze obrisati*/
+		for(Seat s : hall.getSeats()){
+			List<Ticket> tickets = s.getTickets();
+			for(Ticket t : tickets){
+				if(t.getUser() != null && today.after(t.getProjection().getDate()))
+					return new ResponseEntity<>(HttpStatus.CONFLICT);
+			}
+		}
 		
 		hallService.delete(hallId);
 		
-	 return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/inProjection/{projId}", method = RequestMethod.GET)
@@ -148,7 +161,20 @@ public class HallController {
 		
 		Hall hall = proj.getHall();
 		
-		return new ResponseEntity<>(toHallDTO.convert(hall), HttpStatus.OK);		// posle proveriti uz projekcije
+		HallDTO hallDTO = toHallDTO.convert(hall);
+		
+			/*mesto u sali sadrzi karte koje vezuju njega i projekciju
+			ukoliko mesto sadrzi kartu koja povezuje njega i projekciju za koju trazimo da se prikaze sala
+			onda je to mesto rezervisano*/
+		for (int i = 0; i < hallDTO.getSeats().size(); i++) {
+			List<Ticket> ticketsInSeat = hall.getSeats().get(i).getTickets();
+			for(Ticket ticket : ticketsInSeat){
+				if(ticket.getProjection().getId()==proj.getId())
+					hallDTO.getSeats().get(i).setReserved(true);
+			}
+		}
+		
+		return new ResponseEntity<>(hallDTO, HttpStatus.OK);		// posle proveriti uz projekcije
 		
 	}
 	

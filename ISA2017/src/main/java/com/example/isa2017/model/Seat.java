@@ -26,9 +26,6 @@ public class Seat {
 	
 	@ManyToOne
 	private Hall hall;
-
-	@Column
-	private boolean isReserved;
 	
 	@OneToMany(mappedBy = "seat", orphanRemoval = true)
 	private List<Ticket> tickets;
@@ -44,14 +41,6 @@ public class Seat {
 
 	public void setId(Long id) {
 		this.Id = id;
-	}
-
-	public boolean isReserved() {
-		return isReserved;
-	}
-
-	public void setReserved(boolean isReserved) {
-		this.isReserved = isReserved;
 	}
 
 	public Long getVersion() {

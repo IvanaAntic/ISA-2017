@@ -149,3 +149,45 @@ body {
     text-align: center;
     line-height: 300%;
   }
+  
+#addQuickForm{
+	width: 600px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 50px;
+	border: 1px solid #bbb;
+	border-radius: 10px;
+	padding: 15px;
+}
+#addQuickForm h1,h2,h4{
+	text-align: center;
+}
+.hallHolder{
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	padding: 5px;
+	width: 480px;
+	margin-left: auto;
+	margin-right: auto;
+}
+.checkbox-grid li {
+    display: block;
+    float: left;
+}
+.hallHolder table, th, td {
+	border: 0;
+	text-align: center;
+}
+.hall table{
+	border: 1px solid #ccc;
+	border-radius: 4px;
+}
+.hall{
+	border-bottom: 1px solid #bbb;
+	padding-bottom: 10px;
+	margin-bottom: 10px;
+	border-radius: 20px;
+}
+/* #inputForm input{
+	
+} */

@@ -23,7 +23,7 @@ import com.example.isa2017.model.Cinema;
 import com.example.isa2017.model.Hall;
 import com.example.isa2017.model.Movie;
 import com.example.isa2017.model.Projection;
-import com.example.isa2017.model.Seat;
+import com.example.isa2017.model.Ticket;
 import com.example.isa2017.modelDTO.ProjectionDTO;
 import com.example.isa2017.service.CinemaService;
 import com.example.isa2017.service.HallService;
@@ -71,9 +71,12 @@ public class ProjectionController {
 		proj.setDate(dateConverter.stringToDate(projDTO.getDate()));
 		proj.setEndDate(dateConverter.addRuntime(dateConverter.stringToDate(projDTO.getDate()), movie.getRuntime()));
 		
+		/*	ne moze se dodati projekcija u proslost*/
 		if(today.after(proj.getDate()))
 			return new ResponseEntity<>(HttpStatus.CONFLICT);
 		
+		/*	ne moze se dodati projekcija koja se nalazi u istoj sali
+			i u istom vremenskom periodu kad i druga projekcija*/
 		for(Projection p : movie.getProjections()){
 			if(p.getDate().before(proj.getDate()) && p.getEndDate().after(proj.getDate()) && p.getHall().getId() == projDTO.getHallId())
 				return new ResponseEntity<>(HttpStatus.CONFLICT);
@@ -85,7 +88,7 @@ public class ProjectionController {
 	}
 	
 	@RequestMapping(value = "delete/{projectionId}", method=RequestMethod.DELETE)
-	public ResponseEntity<Projection> deleteProjection(HttpServletRequest request, @PathVariable Long projectionId){
+	public ResponseEntity<Object> deleteProjection(HttpServletRequest request, @PathVariable Long projectionId){
 		
 		/*User logged = (User) request.getSession().getAttribute("logged");
 		if(logged==null)
@@ -93,9 +96,12 @@ public class ProjectionController {
 		
 		Projection proj = projectionService.findOne(projectionId);
 		
-		for(Seat s : hallService.findOne(proj.getHall().getId()).getSeats()){			// da li je neko mesto u sali rezervisano?
-			if(s.isReserved())
-				return new ResponseEntity<>(HttpStatus.LOCKED);
+		/*	da li u ovoj projekciji postoji karta koju je rezervisao neki user*/
+		for(Ticket t : proj.getTickets()){
+			if(t.getUser() != null)
+				return ResponseEntity
+			            .status(HttpStatus.CONFLICT)
+			            .body("Error Message");
 		}
 		
 		projectionService.delete(projectionId);
@@ -108,6 +114,7 @@ public class ProjectionController {
 		
 		List<Projection> projections = new ArrayList<>();
 		
+		/*	pronadji sve projekcije u ovom bioskopu	*/
 		Cinema cinema = cinemaService.findOne(cinemaId);
 		for(Movie movie : cinema.getMovies()){
 			for(Projection proj : movie.getProjections()){

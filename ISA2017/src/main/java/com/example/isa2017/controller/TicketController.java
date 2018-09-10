@@ -61,11 +61,12 @@ public class TicketController {
 		Ticket quickTicket = new Ticket();
 		Projection projection = projectionService.findOne(ticketDTO.getProjectionId());
 		Seat seat = seatService.findOne(ticketDTO.getSeatId());
-		if(seat.isReserved()){
-			return new ResponseEntity<>(HttpStatus.CONFLICT);
-		}else{
-			seat.setReserved(true);
-			seatService.save(seat);
+		
+		/*	ukoliko u ovom sedistu postoji karta cija se projekcija poklapa sa projekcijom iz ove karte
+			onda je to sediste zauzeto	*/
+		for(Ticket t : seat.getTickets()){
+			if(t.getProjection().getId() == projection.getId())
+				return new ResponseEntity<>(HttpStatus.CONFLICT);
 		}
 		
 		quickTicket.setProjection(projection);
@@ -109,6 +110,7 @@ public class TicketController {
 		List<Ticket> allTickets = ticketService.findAll();
 		List<Ticket> tickets = new ArrayList<Ticket>();
 		
+		/*	iz svih karata ikad pronadji one koje se nalaze u ovom bioskopu, nisu rezervisane i nisu istekle	*/
 		for(Ticket ticket : allTickets){
 			if(ticket.getProjection().getMovie().getCinema().getId() == cinemaId && ticket.getUser() == null){
 				if(!ticket.getProjection().getExpired()){
@@ -124,10 +126,12 @@ public class TicketController {
 	@RequestMapping(value = "/{ticketId}", method = RequestMethod.DELETE)
 	public ResponseEntity<TicketDTO> delete(@PathVariable Long ticketId){
 		
-		Ticket ticket = ticketService.delete(ticketId);
-		Seat seat = ticket.getSeat();
-		seat.setReserved(false);
-		seatService.save(seat);
+		Ticket ticket = ticketService.findOne(ticketId);
+		
+		if(ticket.getUser() != null)
+			return new ResponseEntity<>(HttpStatus.CONFLICT);
+		
+		ticketService.delete(ticketId);
 		
 		return new ResponseEntity<>(HttpStatus.OK);
 		

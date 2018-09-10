@@ -45,4 +45,21 @@ public class DateConverter {
 		return calendar.getTime();
 	}
 	
+	public Date getWeek(Date date){
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		calendar.add(Calendar.DAY_OF_MONTH, 6);
+		
+		return calendar.getTime();
+	}
+	
+	public Date getMonth(Date date){
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		
+		calendar.add(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH) - 1);
+		
+		return calendar.getTime();
+	}
+	
 }
