@@ -1,12 +1,9 @@
 package com.example.isa2017;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -21,9 +18,10 @@ import com.example.isa2017.model.Cinema;
 import com.example.isa2017.model.Friendship;
 import com.example.isa2017.model.Hall;
 import com.example.isa2017.model.Movie;
-import com.example.isa2017.model.Play;
+import com.example.isa2017.model.Projection;
 import com.example.isa2017.model.Role;
-import com.example.isa2017.model.Theatre;
+import com.example.isa2017.model.Seat;
+import com.example.isa2017.model.Ticket;
 import com.example.isa2017.model.User;
 import com.example.isa2017.model.UserItem;
 import com.example.isa2017.modelDTO.AuctionStatus;
@@ -39,6 +37,7 @@ import com.example.isa2017.service.PlayService;
 import com.example.isa2017.service.ProjectionService;
 import com.example.isa2017.service.SeatService;
 import com.example.isa2017.service.TheatreService;
+import com.example.isa2017.service.TicketService;
 import com.example.isa2017.service.UserItemService;
 
 
@@ -73,7 +72,9 @@ public class TestData {
 	@Autowired
 	private SeatService seatService;
 	@Autowired
-	private ProjectionService projService;
+	private ProjectionService projectionService;
+	@Autowired
+	private TicketService ticketService;
 	@Autowired
 	private FriendshipService friendshipService;
 	@Autowired
@@ -171,14 +172,59 @@ public class TestData {
 		Date datum3 = null;
 		Date datum4 = null;
 		try {
-			datum1 = dateFormat.parse("20/4/2018 19:40");
-			datum2 = dateFormat.parse("28/5/2018 20:00");
-			datum3 = dateFormat.parse("26/4/2018 20:00");
-			datum4 = dateFormat.parse("23/4/2018 20:00");
+			datum1 = dateFormat.parse("20/09/2018 19:40");
+			datum2 = dateFormat.parse("20/09/2018 20:00");
+			datum3 = dateFormat.parse("26/11/2018 20:00");
+			datum4 = dateFormat.parse("23/12/2018 20:00");
 		} catch (ParseException e) {
 		
 			e.printStackTrace();
 		}
+		
+		
+		Movie movie1 = new Movie();
+		movie1.setCinema(cinema1);
+		movie1.setMovieName("La La Land");
+		movieService.save(movie1);
+		
+		Hall hall1 = new Hall();
+		hall1.setCinema(cinema1);
+		hall1.setHallName("Sala A2");
+		hallService.save(hall1);
+		
+		Seat seat1 = new Seat();
+		seat1.setColumnNumber(1);
+		seat1.setRowNumber(1);
+		seat1.setHall(hall1);
+		seatService.save(seat1);
+		
+		Seat seat2 = new Seat();
+		seat2.setColumnNumber(2);
+		seat2.setRowNumber(1);
+		seat2.setHall(hall1);
+		seatService.save(seat2);
+		
+		Seat seat3 = new Seat();
+		seat3.setColumnNumber(3);
+		seat3.setRowNumber(1);
+		seat3.setHall(hall1);
+		seatService.save(seat3);
+		
+		Projection projection = new Projection();
+		projection.setDate(datum1);
+		projection.setEndDate(datum2);
+		projection.setHall(hall1);
+		projection.setMovie(movie1);
+		projection.setPrice("250din");
+		projectionService.save(projection);
+		
+		Ticket ticket1 = new Ticket();
+		ticket1.setDiscount(10);
+		ticket1.setProjection(projection);
+		ticket1.setSeat(seat1);
+		ticketService.save(ticket1);
+		
+		
 		//Oglas 1
 		UserItem userItem1 = new UserItem();		
 		userItem1.setName("Viking slem");

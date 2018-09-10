@@ -6,7 +6,7 @@ function getQuicks(cinemaId){
 	$(".cinemaHolder").append(addNew);
 	
 	$.ajax({
-		url: "/tickets/"+cinemaId
+		url: "/tickets/getAllCinema/"+cinemaId
 	}).then(function(data){
 		
 		for(i = 0; i < data.length; i++){
