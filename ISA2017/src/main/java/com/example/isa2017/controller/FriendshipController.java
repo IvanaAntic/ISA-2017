@@ -60,7 +60,16 @@ public class FriendshipController {
 		return new ResponseEntity<>(toUserDTO.convert(friends),HttpStatus.OK);
 	}
 	
-	
+	//myfriends
+	@RequestMapping(value="/displayFriendAccepted", method= RequestMethod.GET)
+	public ResponseEntity<List<UserDTO>>  displayRequestsAccepted(HttpServletRequest request){
+		//System.out.println("Usli u displayFriendRequests");
+		User logged = (User) request.getSession().getAttribute("logged");
+		List<User> friends=friendshipService.getFriendshipAccepted(logged);
+		
+		//treba da vratimo listu requestova
+		return new ResponseEntity<>(toUserDTO.convert(friends),HttpStatus.OK);
+	}
 	
 	
 	
@@ -73,6 +82,31 @@ public class FriendshipController {
 		System.out.println("Prijatelj je"+friendshipDTO.getId());
 		
 		friendshipService.acceptFriend(logged,friendshipDTO);
+		return new ResponseEntity<>(HttpStatus.OK);
+		
+	}
+	
+	@RequestMapping( value = "/reject", method= RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity rejectFriend(HttpServletRequest request,@RequestBody FriendshipDTO friendshipDTO){
+		System.out.println("Usli u Reject kontroler");
+		User logged = (User) request.getSession().getAttribute("logged");
+		System.out.println("ULogovan je"+logged.getId());
+		System.out.println("Prijatelj je"+friendshipDTO.getId());
+		
+		friendshipService.rejectFriend(logged,friendshipDTO);
+		return new ResponseEntity<>(HttpStatus.OK);
+		
+	}
+	@RequestMapping( value = "/delete", method= RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity deleteFriend(HttpServletRequest request,@RequestBody FriendshipDTO friendshipDTO){
+	
+		User logged = (User) request.getSession().getAttribute("logged");
+		System.out.println("ULogovan je"+logged.getId());
+		System.out.println("Prijatelj je"+friendshipDTO.getId());
+		
+		friendshipService.deleteFriend(logged,friendshipDTO);
 		return new ResponseEntity<>(HttpStatus.OK);
 		
 	}
