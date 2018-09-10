@@ -33,7 +33,7 @@ public class FriendshipServiceImpl implements FriendshipService {
 	@Override
 	public void addFriend(User logged, FriendshipDTO friendDTO) {
 		// TODO Auto-generated method stub
-		//uzmi logovanog po mailu
+		//uzmi logovanog po mailu to mi je pera 
 		
 		User user=userRepository.findByEmail(logged.getEmail());
 		Long idFriend=friendDTO.getId();
@@ -50,12 +50,9 @@ public class FriendshipServiceImpl implements FriendshipService {
 	@Override
 	public List<User> getFriendshipRequests(User logged) {
 		// TODO Auto-generated method stub
-		System.out.println("USLI U FRENDSHIPSERVICE");
-		
+
 		User user=userRepository.findByEmail(logged.getEmail());
-		//System.out.println("Logovan je:"+user.getId() );
 		List<Friendship> allTableFrindsip=friendshipRepository.findAll();
-		
 		List<User> returnList=new ArrayList<User>();
 		for(Friendship f:allTableFrindsip){
 			if(f.getStatus().equals("waiting")){
@@ -67,13 +64,33 @@ public class FriendshipServiceImpl implements FriendshipService {
 				}
 			}
 		}
-		for(User u:returnList){
-			//System.out.println("Oni koji su mi poslali zahtev"+u.getName());
-		}
 		
 		return returnList;
 		
 	}
+	
+	@Override
+	public List<User> getFriendshipAccepted(User logged) {
+		// TODO Auto-generated method stub
+		User user=userRepository.findByEmail(logged.getEmail());
+		List<Friendship> allTableFriendship=friendshipRepository.findAll();
+		List<User> returnList=new ArrayList<User>();
+		for(Friendship f: allTableFriendship){
+			if(f.getStatus().equals("accepted")){
+				if(f.getReciver().getId().equals(user.getId())){
+					returnList.add(f.getSender());
+				}else if(f.getSender().getId().equals(user.getId())){
+					returnList.add(f.getReciver());
+				}
+			}
+		}
+		return returnList;
+	}
+
+	
+	
+	
+	
 
 	@Override
 	public void acceptFriend(User logged, FriendshipDTO friendshipDTO) {
@@ -176,5 +193,26 @@ public class FriendshipServiceImpl implements FriendshipService {
 		return returnList;
 	}
 
+	@Override
+	public void rejectFriend(User logged, FriendshipDTO friendshipDTO) {
+		// TODO Auto-generated method stub
+		 Friendship friendship = getFriendship(logged, friendshipDTO, "waiting");
+		 System.out.println("ID PRIJATELJSTVA kojeg brisemo JE:" +friendship.getId());
+	        if (friendship != null){
+	            friendshipRepository.delete(friendship);
+	        }
+	}
+
+	@Override
+	public void deleteFriend(User logged, FriendshipDTO friendshipDTO) {
+		// TODO Auto-generated method stub
+		 Friendship friendship = getFriendship(logged, friendshipDTO, "accepted");
+		 System.out.println("ID PRIJATELJSTVA DELETE JE:" +friendship.getId());
+		  if (friendship != null){
+	            friendshipRepository.delete(friendship);
+	        }
+	}
+
+	
 
 }

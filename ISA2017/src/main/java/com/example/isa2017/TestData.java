@@ -146,7 +146,7 @@ public class TestData {
 		userRepository.save(adminFZ);//id=2
 		userRepository.save(gema);//id=3
 		userRepository.save(pera);//id=4
-		userRepository.save(adminFZ);//id=5
+		//userRepository.save(adminFZ);//id=5
 		userRepository.save(sasa);//id=6
 		userRepository.save(TCadmin);
 		userRepository.save(sasa2);//id=6

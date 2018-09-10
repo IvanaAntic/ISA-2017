@@ -27,4 +27,10 @@ public interface FriendshipService {
 	boolean isAdded(User logged, FriendshipDTO friendDTO, String string);
 
 	List<User> getFriends(User logged, String string);
+
+	void rejectFriend(User logged, FriendshipDTO friendshipDTO);
+
+	List<User> getFriendshipAccepted(User logged);
+
+	void deleteFriend(User logged, FriendshipDTO friendshipDTO);
 }

@@ -3,7 +3,7 @@ $(document).ready(function(event){
 	loadUser();
 	loadFriendRequests();
 	loadVisitHistory();
-	
+	loadFriendAccepted();
 	$("#izmeni").click(function(){
 		console.log("desilo se");
 		userEdit();
@@ -104,12 +104,31 @@ function loadFriendRequests(){
 					newRow="<tr>"
 						+"<td>"+data[i].name+"</td>"
 						+"<td>"+data[i].surname+"</td>"
-						+"<td><button name='accept' class='btn btn-primary acceptFriendshipBtn' style='width:80px;' id=" + data[i].id + ">Accept</button></td>"
-						+"<td><button name='delete' class='btn btn-danger' style='width:80px;' id=" + data[i].id+ ">Reject</button></td>>"
+						+"<td><button name='accept' class='btn btn-primary accept' style='width:80px;' id=" + data[i].id + ">Accept</button></td>"
+						+"<td><button name='delete' class='btn btn-danger rejectFR' style='width:80px;' id=" + data[i].id+ ">Reject</button></td>>"
 						+"</tr>";
 					$(".reqTable").append(newRow);
 				}
 			}
+	});
+}
+function loadFriendAccepted(){
+	console.log("loadFriendAccepted");
+	$.ajax({
+		url:"http://localhost:8080/friendship/displayFriendAccepted",
+		method:"GET",
+		contentType: "application/json",
+		datatype: 'json',
+		success: function(data){
+			for(i=0;i<data.length;i++){
+				newRow="<tr>" +
+						"<td>"+data[i].name+"</td>"
+						+"<td>"+data[i].surname+"</td>"
+						+"<td><button name='delete' class='btn btn-danger deleteFromFriend' style='width:160px;' id=" + data[i].id+ ">Remove from friends</button></td>>"
+						+"</tr>";
+				$(".friendsTable").append(newRow);
+			}
+		}
 	});
 }
 
@@ -178,7 +197,24 @@ $(document).on('click', '#rateMovieCinema', function(){
 	
 });
 
-$(document).on("click",".acceptFriendshipBtn",function(event){
+$(document).on("click",".deleteFromFriend", function(event){
+	console.log("NISMO VISE PRIJATELJI");
+	 var id = $(this).attr('id');
+     formData= JSON.stringify({
+ 		id: id
+           });
+	$.ajax({
+		url:"http://localhost:8080/friendship/delete",
+		method:"DELETE",
+		data : formData,
+		contentType : 'application/json',
+    	success: function(){
+    			console.log("RASKINUTO PRIJATELJSTVO");
+    			//loadFriendRequests();
+    	}
+	});
+});
+$(document).on("click",".accept",function(event){
 	//obostrano je prijateljsnto ako se klikne na accept
 	console.log("hocemo da prihvatimo prijatelja");
 	 var id = $(this).attr('id');
@@ -194,7 +230,28 @@ $(document).on("click",".acceptFriendshipBtn",function(event){
 		contentType : 'application/json',
     	success: function(){
     			console.log("Prihvaceno prijateljstvo");
+    			//loadFriendRequests();
     	}
 	});
 	
 });
+
+
+$(document).on("click",".rejectFR",function(event){
+	console.log("Pritisnuto dugme REJECT friend");
+	var id = $(this).attr('id');
+    formData= JSON.stringify({
+		id: id
+          });
+    $.ajax({
+    	url:"http://localhost:8080/friendship/reject",
+    	method:"DELETE",
+    	data:formData,
+    	contentType: 'application/json',
+    	success: function(){
+    		console.log("REJECT FRIEND");
+    		//loadFriendRequests();
+    	}
+    });
+});
+

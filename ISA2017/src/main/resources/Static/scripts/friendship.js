@@ -57,9 +57,9 @@ $(document).on('click','.dodaj',function(event){
 	        	contentType : 'application/json',
 	        	success: function(){
 	        			console.log("USPesnoste dodaliii Prijatelja");
-	        			  $(this).removeClass('btn btn-success dodaj').addClass('btn btn-warning');
-	                      $(this).text('Pending');
-	                      $(this).prop('disabled', true);
+	        			// $(this).removeClass('btn btn-success dodaj').addClass('btn btn-warning');
+	        			//  $(this).text('Pending');
+	                     // $(this).prop('disabled', true);
 	        	},
 	        error:function(){
     			console.log("Vec ste dodali za prijatelja");
