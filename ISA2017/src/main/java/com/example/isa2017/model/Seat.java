@@ -1,5 +1,6 @@
 package com.example.isa2017.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -33,7 +34,9 @@ public class Seat {
 	@Version
 	private Long version;
 	
-	public Seat() {}
+	public Seat() {
+		this.tickets = new ArrayList<>();
+	}
 
 	public Long getId() {
 		return Id;

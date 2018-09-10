@@ -1,8 +1,8 @@
 package com.example.isa2017.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -33,13 +33,13 @@ public class Hall {
 
 	public Hall() {
 		super();
+		this.seats = new ArrayList<>();
 	}
 
 	public Hall(List<Seat> seats, String hallName) {
 		super();
-		this.seats = seats;
 		this.hallName = hallName;
-
+		this.seats = new ArrayList<>();
 	}
 
 	public Long getId() {

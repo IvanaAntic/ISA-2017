@@ -47,12 +47,6 @@ public class User {
 	@Column(name="first_login")
 	private boolean firstLogin = true;
 	
-	/*@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-	private List<Movie> moviesToRate;
-	
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-	private List<Cinema> cinemasToRate;*/
-	
 	@OneToMany(mappedBy = "user", orphanRemoval = true)
 	private List<Ticket> tickets;
 

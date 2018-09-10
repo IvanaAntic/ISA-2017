@@ -1,5 +1,6 @@
 package com.example.isa2017.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -48,10 +49,12 @@ public class Projection {
 		this.date = date;
 		this.price = price;
 		this.hall = hall;
+		this.tickets = new ArrayList<>();
 	}
 
 	public Projection() {
 		super();
+		this.tickets = new ArrayList<>();
 	}
 
 	public Long getId() {

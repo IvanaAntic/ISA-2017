@@ -1,11 +1,10 @@
 package com.example.isa2017.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -39,10 +38,10 @@ public class Cinema {
 	@Column(name="averageRating")
 	private double avgRating;
 	
-	@OneToMany(mappedBy = "cinema", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "cinema", orphanRemoval = true)
 	private List<Movie> movies;
 	
-	@OneToMany(mappedBy = "cinema", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "cinema", orphanRemoval = true)
 	private List<Hall> halls;
 	
 	@Lob
@@ -52,14 +51,13 @@ public class Cinema {
 	@Column
 	private int rating;
 	
-	@ManyToOne
-	private User user;
-	
 	@Version
 	private Long version;
 	
 	public Cinema(){
 		ratingList = new HashMap<>();
+		this.halls = new ArrayList<>();
+		this.movies = new ArrayList<>();
 	}
 
 	public Cinema(String name, String address, String description, int avgRating) {
@@ -69,6 +67,8 @@ public class Cinema {
 		this.description = description;
 		this.avgRating = avgRating;
 		ratingList = new HashMap<>();
+		this.halls = new ArrayList<>();
+		this.movies = new ArrayList<>();
 	}
 	
 	
@@ -81,6 +81,8 @@ public class Cinema {
 		this.avgRating = avgRating;
 		this.movies = movies;
 		ratingList = new HashMap<>();
+		this.halls = new ArrayList<>();
+		this.movies = new ArrayList<>();
 	}
 
 	public Long getId() {
@@ -172,14 +174,6 @@ public class Cinema {
 
 	public void setVersion(Long version) {
 		this.version = version;
-	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
 	}
 
 }

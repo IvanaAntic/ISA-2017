@@ -1,6 +1,6 @@
 package com.example.isa2017.model;
 
-import java.util.Calendar;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -60,16 +60,13 @@ public class Movie {
 	private List<Projection> projections;
 	
 	@ManyToOne
-	private User user;
-	
-	@ManyToOne
 	private Cinema cinema;
 	
 	@Version
 	private Long version;
 	
 	public Movie(){
-		
+		this.projections = new ArrayList<>();
 	}
 
 	public String getMovieName() {
@@ -177,14 +174,6 @@ public class Movie {
 
 	public void setVersion(Long version) {
 		this.version = version;
-	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
 	}
 
 	public Cinema getCinema() {
