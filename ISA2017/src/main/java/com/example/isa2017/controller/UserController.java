@@ -167,11 +167,11 @@ public class UserController {
 		for(User u:user){
 			System.out.println("TIP SVIH"+u.getType());
 		}
-		//List<User> users = userService.findAll();
+		
 		List<User> returnList = new ArrayList<>();
-		//System.out.println("U listi koji treba da se ispisu korisnici");
+	
 		for(User u:user){
-			//System.out.println("Display user"+u.getName());
+		
 			if(u.getRole()==Role.USER){
 				if(!u.getId().equals(logged.getId())){
 				returnList.add(u);
@@ -180,10 +180,7 @@ public class UserController {
 				}
 			}
 		}
-		for(User u :returnList){
-			System.out.println("RETURNLIST"+u.getType());
-		}
-			//return new ResponseEntity<>(toCinemaDTO.convert(cinemas), HttpStatus.OK);
+		
 			return new ResponseEntity<List<UserDTO>>(toUserDTO.convert(returnList), HttpStatus.OK);
 		
 	}

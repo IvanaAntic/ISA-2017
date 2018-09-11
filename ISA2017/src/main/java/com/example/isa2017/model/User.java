@@ -53,9 +53,12 @@ public class User {
 	@Column(name="type")
 	private String type;
 	
+	@OneToMany(mappedBy = "sender", orphanRemoval = true)
+	private List<Friendship> friendship;
 
 	public User(){
 		this.tickets = new ArrayList<>();
+		this.friendship=new ArrayList<>();
 	}
 	
 	
@@ -71,9 +74,20 @@ public class User {
 		this.active=active;
 		this.type=type; 
 		this.tickets = new ArrayList<>();
+		this.friendship=new ArrayList<>();
 		
 	}
 	
+	public List<Friendship> getFriendship() {
+		return friendship;
+	}
+
+
+	public void setFriendship(List<Friendship> friendship) {
+		this.friendship = friendship;
+	}
+
+
 	public String getType() {
 		return type;
 	}

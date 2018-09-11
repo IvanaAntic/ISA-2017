@@ -141,6 +141,8 @@ public class TestData {
 		User adminSYS = new User("adminSYS@adminSYS", "adminSYS", "AdminSYS", "AdminSYS", "064123123", "Uzvece", Role.SYSTEMADMIN, true,"0");
 		
 		User TCadmin = new User("tcadmin@tcadmin", "tcadmin", "Igor", "Zeljkovic", "066555548", "Novi Sad", Role.ADMIN, true,"0");
+		User ivana = new User("iva@iva", "iva", "Ivana", "Antic", "066555548", "Novi Sad", Role.USER, true,"0");
+		User marija = new User("marija@marija", "marija", "Marija", "Molnar", "066555548", "Novi Sad", Role.USER, true,"0");
 
 		
 		userRepository.save(adminSYS);//id=1 glavni predefinisani administrator
@@ -151,10 +153,12 @@ public class TestData {
 		userRepository.save(sasa);//id=6
 		userRepository.save(TCadmin);
 		userRepository.save(sasa2);//id=6
-		
+		userRepository.save(ivana);
+		userRepository.save(marija);
 		
 		Friendship f1=new Friendship();
 		Friendship f2=new Friendship();
+		Friendship f3=new Friendship();
 		f1.setReciver(pera);
 		f1.setSender(sasa);
 		f1.setStatus("waiting");
@@ -163,9 +167,13 @@ public class TestData {
 		f2.setReciver(pera);
 		f2.setSender(sasa2);
 		
+		f3.setStatus("accepted");
+		f3.setReciver(ivana);
+		f3.setSender(pera);
+		
 		friendshipRepository.save(f1);
 		friendshipRepository.save(f2);
-		
+		friendshipRepository.save(f3);
 		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 		Date datum1 = null;
 		Date datum2 = null;

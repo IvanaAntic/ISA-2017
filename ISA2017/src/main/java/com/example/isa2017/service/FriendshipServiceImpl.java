@@ -33,8 +33,6 @@ public class FriendshipServiceImpl implements FriendshipService {
 	@Override
 	public void addFriend(User logged, FriendshipDTO friendDTO) {
 		// TODO Auto-generated method stub
-		//uzmi logovanog po mailu to mi je pera 
-		
 		User user=userRepository.findByEmail(logged.getEmail());
 		Long idFriend=friendDTO.getId();
 		Friendship friendship=new Friendship();
@@ -56,11 +54,8 @@ public class FriendshipServiceImpl implements FriendshipService {
 		List<User> returnList=new ArrayList<User>();
 		for(Friendship f:allTableFrindsip){
 			if(f.getStatus().equals("waiting")){
-				
 				if(f.getReciver().getId().equals(user.getId())){
-				//lista recivera
 				returnList.add(f.getSender());
-			//System.out.println("oni koji su u tabeli"+f.getStatus());
 				}
 			}
 		}
@@ -141,6 +136,7 @@ public class FriendshipServiceImpl implements FriendshipService {
 		System.out.println("Dobavljamo prijatelje status nam je: "+status);
 		User logged=userRepository.findByEmail(user.getEmail());
 		System.out.println("SAD PROVERAVAM FINDRECIVERS STA VRACA: ");
+		
 		List<User> sender=findRecivers(logged.getId(),status);
 		List<User> reciver=findSenders(logged.getId(),status);
 		sender.addAll(reciver);
@@ -162,8 +158,8 @@ public class FriendshipServiceImpl implements FriendshipService {
 		}
 		List<User> returnList=new ArrayList<>(); 
 		for(Friendship f:allF){
-			System.out.println("Usli u for RECIVER ID za metodu findSenders"+f.getReciver().getId());
-			System.out.println("Usli u for ID KOji je logovan u metodi findSenders"+id);
+			System.out.println("Usli u for RECIVER ID za metodu findSenders"+f.getReciver().getId()); //4
+			System.out.println("Usli u for ID KOji je logovan u metodi findSenders"+id); //4
 			System.out.println("u metodi findSenders da li je nas logovani jedrak sa reciver id"+f.getReciver().getId().equals(id));
 			if(f.getReciver().getId().equals(id) && f.getStatus().equals(status)){
 				System.out.println("Ovo dodajemo u return"+f.getSender().getId());
@@ -183,9 +179,10 @@ public class FriendshipServiceImpl implements FriendshipService {
 		List<User> returnList=new ArrayList<>(); 
 		System.out.println("Usli u findRecivers sa statusom" +status);
 		for(Friendship f:allF){
-
-			if(f.getSender().getId().equals(id)){
+			//sender id=4
+			if(f.getSender().getId().equals(id) && f.getStatus().equals(status)){
 				System.out.println("find reciver"+f.getReciver().getId());
+				//dodajemo id=8
 				returnList.add(f.getReciver());
 				return returnList;
 			}
