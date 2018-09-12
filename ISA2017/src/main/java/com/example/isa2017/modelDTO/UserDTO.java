@@ -1,5 +1,8 @@
 package com.example.isa2017.modelDTO;
 
+import java.util.List;
+
+import com.example.isa2017.model.Friendship;
 import com.example.isa2017.model.Role;
 
 public class UserDTO {
@@ -14,22 +17,26 @@ public class UserDTO {
 	private boolean firstLogin;
 	private Role role;
 	private String type;
-	
+	private List<FriendshipDTO> friendship;
+	private List<FriendshipDTO> friendshipReciver;
 	public UserDTO(){}
 	
-	public UserDTO(String email, String name, String surname, String password, String city, String phoneNumber,Role role,String type) {
-		super();
-		this.email = email;
-		this.name = name;
-		this.surname = surname;
-		this.password = password;
-		this.city = city;
-		this.phoneNumber = phoneNumber;
-		this.type=type;
-	
+	public List<FriendshipDTO> getFriendship() {
+		return friendship;
 	}
 
-	
+	public void setFriendship(List<FriendshipDTO> friendship) {
+		this.friendship = friendship;
+	}
+
+	public List<FriendshipDTO> getFriendshipReciver() {
+		return friendshipReciver;
+	}
+
+	public void setFriendshipReciver(List<FriendshipDTO> friendshipReciver) {
+		this.friendshipReciver = friendshipReciver;
+	}
+
 	public String getType() {
 		return type;
 	}

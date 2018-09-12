@@ -19,6 +19,7 @@ import com.example.isa2017.model.User;
 import com.example.isa2017.modelDTO.FriendshipDTO;
 import com.example.isa2017.modelDTO.UserDTO;
 import com.example.isa2017.service.FriendshipService;
+import com.example.isa2017.service.UserService;
 
 @RestController
 @RequestMapping(value = "/friendship")
@@ -28,7 +29,8 @@ public class FriendshipController {
 	private FriendshipService friendshipService;
 	@Autowired
 	private UserToUserDTO toUserDTO;
-	
+	@Autowired
+	private UserService userService;
 	
 	@RequestMapping( value = "/addFriend", method= RequestMethod.POST , consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
@@ -36,15 +38,9 @@ public class FriendshipController {
 		//treba mi ulogovani user
 		System.out.println("Usli u FRIENDSHIP ADDFRIEND");
 		User logged = (User) request.getSession().getAttribute("logged");
-		//Friendship f=friendshipService.getFriendship(logged,friendDTO,"waiting");
-		//DODAJ U friendshipbazu
-		
-		
-		//System.out.println("ADD FRIEND FREIENDSHIP PROVERA"+f.getId());
 		if(logged!=null){
-			//getFriendship(User logged,FriendshipDTO friendshipDTO,String status)
-			
 			friendshipService.addFriend(logged,friendDTO);
+			//userService.getAllUsers(logged);
 		}
 		return new ResponseEntity<>(HttpStatus.OK);
 	}

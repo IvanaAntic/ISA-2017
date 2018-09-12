@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.example.isa2017.model.Friendship;
+import com.example.isa2017.model.User;
 import com.example.isa2017.modelDTO.UserDTO;
 
 
@@ -14,7 +15,8 @@ import com.example.isa2017.modelDTO.UserDTO;
 public interface FriendshipRepository extends JpaRepository<Friendship, Long> {
 
 	Friendship findById(Long id);
-
+	List<Friendship> findByReciver_id(Long reciver_id);
+	List<Friendship> findBySender_id(Long sender_id);
 	
 
 

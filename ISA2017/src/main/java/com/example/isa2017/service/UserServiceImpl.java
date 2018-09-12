@@ -14,13 +14,15 @@ import com.example.isa2017.model.Role;
 import com.example.isa2017.model.User;
 import com.example.isa2017.modelDTO.ChangePassDTO;
 import com.example.isa2017.modelDTO.UserDTO;
+import com.example.isa2017.repository.FriendshipRepository;
 import com.example.isa2017.repository.UserRepository;
 
 @Service
 public class UserServiceImpl implements UserService{
 	@Autowired
 	private UserRepository userRepository;
-	
+	@Autowired
+	private FriendshipRepository friendshipRepository;
 	@Autowired
 	private JavaMailSender javaMailSender;
 	@Autowired
@@ -59,6 +61,7 @@ public class UserServiceImpl implements UserService{
 		// TODO Auto-generated method stub
 		
 		User user1=new User();
+		//Friendship f=friendshipService.
 		//da li taj email vec NE postoji mozes da ga signIN-ujes
 		//if(emailExist(user.getEmail()))
 		if(userExist(user.getEmail(),user.getPassword()))
@@ -78,6 +81,10 @@ public class UserServiceImpl implements UserService{
          	user1.setRole(findByEmail(user.getEmail()).getRole());
          	user1.setFirstLogin(findByEmail(user.getEmail()).isFirstLogin());
          	user1.setType(findByEmail(user.getEmail()).getType());
+         	//1
+         	//user1.setFriendship(findByEmail(user.getEmail()).getFriendship());
+         	//2
+         	//user1.setFriendshipReciver(findByEmail(user.getEmail()).getFriendshipReciver());
 			return user1;
 		
 		}
@@ -96,6 +103,7 @@ public class UserServiceImpl implements UserService{
 		user1.setPhoneNumber(user.getPhoneNumber());
 		user1.setRole(user.getRole());
 		user1.setType(user.getType());
+		
 		return user1;
 	}
 	@Override
@@ -110,6 +118,8 @@ public class UserServiceImpl implements UserService{
 		user1DTO.setPhoneNumber(user.getPhoneNumber());
 		user1DTO.setRole(user.getRole());
 		user1DTO.setType(user.getType());
+		//user1DTO.setFriendship(user.getFriendship());
+		//user1DTO.setFriendshipReciver(user.getFriendshipReciver());
 		return user1DTO;
 	}
 	

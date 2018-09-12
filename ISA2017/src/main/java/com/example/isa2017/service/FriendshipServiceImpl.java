@@ -39,6 +39,7 @@ public class FriendshipServiceImpl implements FriendshipService {
 		friendship.setStatus("waiting");
 		friendship.setSender(userRepository.findById(user.getId()));
 		friendship.setReciver(userRepository.findById(idFriend));
+		
 		friendshipRepository.save(friendship);
 		
 	}
@@ -106,10 +107,13 @@ public class FriendshipServiceImpl implements FriendshipService {
 		List<Friendship> allFriendship=friendshipRepository.findAll();
 		for(Friendship f:allFriendship){
 			System.out.println("ULAZIMO U FOR");
-			System.out.println("f.getReciver()----"+f.getReciver());
+			System.out.println("f.getReciver()----"+f.getReciver().getId());
 			System.out.println("logged.getId()----"+logged.getId());
 			System.out.println("RECIVER JE"+f.getReciver().equals(logged.getId()));
 			if(f.getReciver().getId().equals(logged.getId()) && f.getSender().getId().equals(friendshipDTO.getId()) && f.getStatus().equals(status) ){
+				getFriendship=friendshipRepository.findById(f.getId());
+				return getFriendship;
+			}else if(f.getReciver().getId().equals(friendshipDTO.getId()) && f.getSender().getId().equals(logged.getId()) && f.getStatus().equals(status)){
 				getFriendship=friendshipRepository.findById(f.getId());
 				return getFriendship;
 			}
@@ -167,7 +171,7 @@ public class FriendshipServiceImpl implements FriendshipService {
 				for(User u:returnList){
 					System.out.println("NAME U RETURN LISTI "+u.getName()+"ID:"+u.getId());
 				}
-				//return returnList;
+				
 			}
 		}
 		return returnList;
@@ -184,7 +188,7 @@ public class FriendshipServiceImpl implements FriendshipService {
 				System.out.println("find reciver"+f.getReciver().getId());
 				//dodajemo id=8
 				returnList.add(f.getReciver());
-				return returnList;
+				//return returnList;
 			}
 		}
 		return returnList;
@@ -209,6 +213,8 @@ public class FriendshipServiceImpl implements FriendshipService {
 	            friendshipRepository.delete(friendship);
 	        }
 	}
+
+	
 
 	
 

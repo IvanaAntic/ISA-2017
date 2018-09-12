@@ -56,9 +56,13 @@ public class User {
 	@OneToMany(mappedBy = "sender", orphanRemoval = true)
 	private List<Friendship> friendship;
 
+	@OneToMany(mappedBy = "reciver", orphanRemoval = true)
+	private List<Friendship> friendshipReciver;
+	
 	public User(){
 		this.tickets = new ArrayList<>();
 		this.friendship=new ArrayList<>();
+		this.friendshipReciver=new ArrayList<>();
 	}
 	
 	
@@ -75,9 +79,21 @@ public class User {
 		this.type=type; 
 		this.tickets = new ArrayList<>();
 		this.friendship=new ArrayList<>();
+		this.friendshipReciver=new ArrayList<>();
 		
 	}
 	
+	public List<Friendship> getFriendshipReciver() {
+		
+		return friendshipReciver;
+	}
+
+
+	public void setFriendshipReciver(List<Friendship> friendshipReciver) {
+		this.friendshipReciver = friendshipReciver;
+	}
+
+
 	public List<Friendship> getFriendship() {
 		return friendship;
 	}
@@ -170,5 +186,15 @@ public class User {
 	public void setTickets(List<Ticket> tickets) {
 		this.tickets = tickets;
 	}
+
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", email=" + email + ", password=" + password + ", name=" + name + ", surname="
+				+ surname + ", phoneNumber=" + phoneNumber + ", city=" + city + ", role=" + role + ", active=" + active
+				+ ", firstLogin=" + firstLogin + ", tickets=" + tickets + ", type=" + type + ", friendship="
+				+ friendship + ", friendshipReciver=" + friendshipReciver + "]";
+	}
+	
 	
 }

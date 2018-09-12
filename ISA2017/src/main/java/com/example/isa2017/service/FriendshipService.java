@@ -33,4 +33,7 @@ public interface FriendshipService {
 	List<User> getFriendshipAccepted(User logged);
 
 	void deleteFriend(User logged, FriendshipDTO friendshipDTO);
+	
+	
+	
 }

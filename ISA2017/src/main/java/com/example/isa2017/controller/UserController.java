@@ -21,11 +21,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.isa2017.converters.CinemaToCinemaDTO;
 import com.example.isa2017.converters.UserToUserDTO;
 import com.example.isa2017.model.Cinema;
+import com.example.isa2017.model.Friendship;
 import com.example.isa2017.model.Role;
 import com.example.isa2017.model.User;
 import com.example.isa2017.modelDTO.ChangePassDTO;
 import com.example.isa2017.modelDTO.CinemaDTO;
 import com.example.isa2017.modelDTO.UserDTO;
+import com.example.isa2017.repository.FriendshipRepository;
 import com.example.isa2017.service.UserService;
 
 @RestController
@@ -35,6 +37,8 @@ public class UserController {
 	private static Logger log = LoggerFactory.getLogger(UserController.class);
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private FriendshipRepository friendshipRepository;
 	
 	@Autowired
 	private UserToUserDTO toUserDTO;
@@ -164,19 +168,27 @@ public class UserController {
 		System.out.println("OK");
 		User logged = (User) request.getSession().getAttribute("logged");
 		List<User> user = userService.getAllUsers(logged);
-		for(User u:user){
-			System.out.println("TIP SVIH"+u.getType());
+		List<Friendship> provera=friendshipRepository.findByReciver_id(logged.getId());
+		List<Friendship> provera2=friendshipRepository.findBySender_id(logged.getId());
+		for(Friendship f: provera){
+			System.out.println("F provera"+f.getId());
+		}
+		for(Friendship f: provera2){
+			System.out.println("F  2 provera"+f.getId());
 		}
 		
-		List<User> returnList = new ArrayList<>();
 	
-		for(User u:user){
 		
+		List<User> returnList = new ArrayList<>();
+		
+		for(User u:user){
+			
 			if(u.getRole()==Role.USER){
 				if(!u.getId().equals(logged.getId())){
 				returnList.add(u);
 				System.out.println("Oni koji su obicni korisnici"+u.getName());
 				System.out.println("Oni koji su obicni korisnici"+u.getType());
+				//System.out.println("Oni koji su obicni korisnici"+u.getFriendship());
 				}
 			}
 		}
