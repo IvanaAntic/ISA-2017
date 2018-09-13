@@ -214,13 +214,28 @@ public class TestData {
 		theatre3.setAddress("Maksima Gorkog");
 		theatre3.setAvgRating(3);
 		theatreService.save(theatre3);
-		List<String> actors=new ArrayList();
+		
+		List<String> actors=new ArrayList<>();
 		actors.add("Sergej");
 		actors.add("Mika");
 		
 		Play play1=new Play();
 		play1.setActors(actors);
+		play1.setName("Na Drini cuprija");
+		play1.setGenre("drama");
+		play1.setDescription("radjeno po istoimenom romanu");
+		play1.setPrice(200);
+		play1.setDirector("Neko");
 		playService.save(play1);
+		
+		Play play2=new Play();
+		play2.setActors(actors);
+		play2.setName("Anikina vremena");
+		play2.setGenre("drama");
+		play1.setDescription("radjeno po istoimenom romanu");
+		play1.setPrice(600);
+		play1.setDirector("Neko drugi");
+		playService.save(play2);
 		
 		Movie movie1 = new Movie();
 		movie1.setCinema(cinema1);
