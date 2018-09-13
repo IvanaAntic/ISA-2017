@@ -18,9 +18,11 @@ import com.example.isa2017.model.Cinema;
 import com.example.isa2017.model.Friendship;
 import com.example.isa2017.model.Hall;
 import com.example.isa2017.model.Movie;
+import com.example.isa2017.model.Play;
 import com.example.isa2017.model.Projection;
 import com.example.isa2017.model.Role;
 import com.example.isa2017.model.Seat;
+import com.example.isa2017.model.Theatre;
 import com.example.isa2017.model.Ticket;
 import com.example.isa2017.model.User;
 import com.example.isa2017.model.UserItem;
@@ -105,6 +107,11 @@ public class TestData {
 		cinema1.setDescription("opis");
 		cinema1.setName("cinema1");
 		
+		cinema2.setAddress("adresa2");
+		cinema2.setDescription("opis2");
+		cinema2.setName("cinema2");
+		
+		
 		cinemaService.save(cinema1);
 		cinemaService.save(cinema2);
 		
@@ -174,6 +181,7 @@ public class TestData {
 		friendshipRepository.save(f1);
 		friendshipRepository.save(f2);
 		friendshipRepository.save(f3);
+		
 		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 		Date datum1 = null;
 		Date datum2 = null;
@@ -189,11 +197,45 @@ public class TestData {
 			e.printStackTrace();
 		}
 		
+		Theatre theatre1=new Theatre();
+		theatre1.setName("Pozoriste1");
+		theatre1.setAddress("Bulevar Oslobodjenja");
+		theatre1.setAvgRating(3);
+		theatreService.save(theatre1);
+		
+		Theatre theatre2=new Theatre();
+		theatre2.setName("Narodno p NS");
+		theatre2.setAddress("Narodnog Fronta");
+		theatre2.setAvgRating(3);
+		theatreService.save(theatre2);
+		
+		Theatre theatre3=new Theatre();
+		theatre3.setName("Bosko Buha");
+		theatre3.setAddress("Maksima Gorkog");
+		theatre3.setAvgRating(3);
+		theatreService.save(theatre3);
+		List<String> actors=new ArrayList();
+		actors.add("Sergej");
+		actors.add("Mika");
+		
+		Play play1=new Play();
+		play1.setActors(actors);
+		playService.save(play1);
 		
 		Movie movie1 = new Movie();
 		movie1.setCinema(cinema1);
 		movie1.setMovieName("La La Land");
 		movieService.save(movie1);
+		
+		Movie movie2 = new Movie();
+		movie2.setCinema(cinema1);
+		movie2.setMovieName("Harry Potter");
+		movieService.save(movie2);
+		
+		Movie movie3 = new Movie();
+		movie3.setCinema(cinema2);
+		movie3.setMovieName("Notebook");
+		movieService.save(movie3);
 		
 		Hall hall1 = new Hall();
 		hall1.setCinema(cinema1);

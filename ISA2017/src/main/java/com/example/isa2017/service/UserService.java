@@ -36,5 +36,9 @@ public interface UserService {
 	void changePassword(ChangePassDTO frontUser, User loggedUser);
 
 	List<User> getAllUsers(User user);
+
+	List<User> sortByName(User logged);
+
+	List<User> sortBySurname(User logged);
 	
 }

@@ -177,8 +177,6 @@ public class UserController {
 			System.out.println("F  2 provera"+f.getId());
 		}
 		
-	
-		
 		List<User> returnList = new ArrayList<>();
 		
 		for(User u:user){
@@ -196,4 +194,35 @@ public class UserController {
 			return new ResponseEntity<List<UserDTO>>(toUserDTO.convert(returnList), HttpStatus.OK);
 		
 	}
+	
+	@RequestMapping(value="/sortByName", method=RequestMethod.POST)
+	public ResponseEntity<List<UserDTO>> sortByName(HttpServletRequest request){
+		System.out.println("         SORT BY NAMEE        ");
+		User logged = (User) request.getSession().getAttribute("logged");
+		List<User> getList=userService.sortByName(logged);
+		List<User> returnList = new ArrayList<>();
+		for(User u : getList){
+			if(!u.getId().equals(logged.getId())){
+				returnList.add(u);
+			}
+		}
+		return new ResponseEntity<List<UserDTO>>(toUserDTO.convert(returnList),HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/sortBySurname",method=RequestMethod.POST)
+	public ResponseEntity<List<UserDTO>> sortBySurname(HttpServletRequest request){
+		System.out.println("         SORT BY SURNAME       ");
+		User logged = (User) request.getSession().getAttribute("logged");
+		List<User> getList=userService.sortBySurname(logged);
+		List<User> returnList = new ArrayList<>();
+		for(User u : getList){
+			if(!u.getId().equals(logged.getId())){
+				returnList.add(u);
+			}
+		}
+		
+		return new ResponseEntity<List<UserDTO>>(toUserDTO.convert(returnList),HttpStatus.OK);
+		
+	}
+	
 }

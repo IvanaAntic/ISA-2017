@@ -1,6 +1,8 @@
 package com.example.isa2017.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -221,6 +223,7 @@ public class UserServiceImpl implements UserService{
 	//odnos ostalih korisnika u odnosu na logovanog
 	@Override
 	public List<User> getAllUsers(User user){
+		
 		User logged=userRepository.findByEmail(user.getEmail());//logovan je pera 
 		System.out.println("sad cemo ici koji su peri prihvaceni prijatelji: ");
 		List<User> friends=friendshipService.getFriends(logged,"accepted");
@@ -238,6 +241,7 @@ public class UserServiceImpl implements UserService{
 		List<User> allUsres=userRepository.findAll();
 		List<User> all=new ArrayList<>();
 		for(User u:allUsres){
+			if(u.getRole().equals(Role.USER) ){
 			if(friends.contains(u)){
 				u.setType("2");
 				all.add(u);
@@ -251,9 +255,45 @@ public class UserServiceImpl implements UserService{
 				u.setType("0");
 				all.add(u);
 			}
+			
+			}
+			System.out.println("nama is:"+u.getName() + "Tyoe is"+ u.getType());
 		}
 		
 		return all;
 	}
-
+	@Override
+	public List<User> sortByName(User logged) {
+		// TODO Auto-generated method stub
+		User user=userRepository.findByEmail(logged.getEmail());
+		List<User> allUsers= getAllUsers(user);
+		
+		 Collections.sort(allUsers, new Comparator<User>(){
+			
+			public int compare(User user1,User user2){
+				return (user1.getName().compareTo(user2.getName()));
+				
+			}
+		 });
+		 
+		 
+		return allUsers;
+	}
+	
+	@Override
+	public List<User> sortBySurname(User logged){
+		User user=userRepository.findByEmail(logged.getEmail());
+		List<User> allUsers= getAllUsers(user);
+		
+		 
+		 Collections.sort(allUsers, new Comparator<User>(){
+			
+			public int compare(User user1,User user2){
+				return (user1.getSurname().compareTo(user2.getSurname()));
+				
+			}
+		 });
+		return allUsers;
+	}
+	
 }

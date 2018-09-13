@@ -105,50 +105,61 @@
         </div>
             
         </div>
-       
-       
-       
-       
-       <!-- POZORISTA TAB -->
+      
+       		<!-- POZORISTA TAB -->
         <div class="tab-pane" id="pozorista">
 			
-            <p><a href="#" class="pozoristePregled">Pregled POZORISTA</a></p>
-         
-            <div class="searchPozoriste">
-             <div class="input-group">
-                <input type="text" class="form-control" placeholder="Search for...">
-                <span class="input-group-btn">
-                  <button class="btn btn-default" type="button">Go!</button>
-                </span>
-            </div><!-- /input-group -->
-            </div>
-            <!-- /table -->
-            <br>
-           <div class="theatreHolder"></div>
-            
-            
-           
+        <p>Pregled POZORISTA</p>
+        <div class="col-6 col-md-8"> 
+ 			<table class="table table-hover">
+ 			 <thead>
+				    <tr>
+				      <th scope="col">Name<a class="sortNameTheatreAZ" align="right"><span class="glyphicon glyphicon-sort-by-alphabet"></span></a></th>
+				      <th  scope="col"></th>
+				      <th scope="col">Address<a class="sortAdressAZ" align="right"><span class="glyphicon glyphicon-sort-by-alphabet"></span></a></th>
+				       <th scope="col"></th>
+				      <th scope="col">Description</th>
+				       <th scope="col"></th>
+				      <th scope="col">Rating</th>
+				    </tr>
+  			 </thead>
+  				<tbody class="theatreTable">
+   
+				</tbody>
+			</table>
+		</div>
+  
         </div>
         
         
-        
+        <!-- bioskopi -->
         <div class="tab-pane" id="bioskopi">
         <div class="bioskopi">
-             <p><a href="#" class="bioskopPregled">Pregled BIOSKOPA</a></p>
-            <div class="searchBioskop">
-             <div class="input-group">
-                <input type="text" class="form-control" placeholder="Search for...">
-                <span class="input-group-btn">
-                  <button class="btn btn-default" type="button">Go!</button>
-                </span>
-            </div><!-- /input-group -->
-            </div>
-            <br>
-            <div class="cinemaHolder"></div>
-            
-          </div>
+             <p><a href="#" class="bioskopPregled">Pregled BIOSKOPA</a></p><br>
+            <div class="cinemaHolder">
+            <div class="col-6 col-md-8"> 
+ 			<table class="table table-hover">
+ 			 <thead>
+				    <tr>
+				      <th scope="col">Name<a class="sortNameCinemaAZ" align="right"><span class="glyphicon glyphicon-sort-by-alphabet"></span></a></th>
+				      <th  scope="col"></th>
+				      <th scope="col">Address<a class="sortAdressCinemaAZ" align="right"><span class="glyphicon glyphicon-sort-by-alphabet"></span></a></th>
+				       <th scope="col"></th>
+				      <th scope="col">Description</th>
+				       <th scope="col"></th>
+				      <th scope="col">Rating</th>
+				    </tr>
+  			 </thead>
+  				<tbody class="cinemaTable">
+   
+				</tbody>
+			</table>
+		</div>
+  
         </div>
-        
+       </div>
+       </div>
+         <!-- bioskopi end-->
         
         
         
@@ -163,8 +174,8 @@
           	  <div class="panel-heading">
                 <h3 class="panel-title"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;People</h3><br>
                 Firstname <a class="sortNameAZ" align="right"><span class="glyphicon glyphicon-sort-by-alphabet"></span></a>
-                Lastname <a class="sortLastnameAZ" align="center"><span class="glyphicon glyphicon-sort-by-alphabet"></span></a>
-            </div>
+                Lastname <a class="sortSurnameAZ" align="center"><span class="glyphicon glyphicon-sort-by-alphabet"></span></a>
+            	</div>
             <div class="panel-body">
                 <div class="table-container">
                     <table class="table-users table" id="tableRequests" border="0">
@@ -172,10 +183,10 @@
                         </tbody>
                     </table>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
+           	 </div>
+       	 	</div>
+    		</div>
+			</div>
         </div>
         
         <div class="tab-pane" id="rezervacije">
@@ -286,11 +297,65 @@
     
     
     
+<div id="showTheatreForRepertoar" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title text-center" id='rateName'>REPERTOAR</h2>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <table class="theatreTableShow">
+   
+		</table>
+      <div class="modal-footer">
+      
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
     
+  <div id="showCinemaForRepertoar" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title text-center" id='rateName'>REPERTOAR cinema</h2>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <table class="cinemaTableShow">
+   
+		</table>
+      <div class="modal-footer">
+      
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>  
     
-    
-    
-    
+      <div id="projectionsDialog" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title text-center" id='rateName'>Projection</h2>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <table class="projectionTableShow">
+   
+		</table>
+      <div class="modal-footer">
+      
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>  
     
     
 </body>

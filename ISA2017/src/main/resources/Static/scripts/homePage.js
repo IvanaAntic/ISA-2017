@@ -5,6 +5,8 @@ $(document).ready(function(event){
 	loadVisitHistory();
 	loadFriendAccepted();
 	loadPeople();
+	loadTheatre();
+	loadCinema();
 	$("#izmeni").click(function(){
 		console.log("desilo se");
 		userEdit();
@@ -352,4 +354,196 @@ $(document).on("click",".obrisi",function(event){
 	        	}
 	    	});
 	   }
+});
+
+$(document).on("click",".sortNameAZ",function(event){
+	console.log("pressed sortNameAY");
+	$.ajax({
+		url:"http://localhost:8080/user/sortByName",
+		method:"POST",
+		 dataType: 'json',
+		 success:function(data){
+			 console.log("ok sortname");
+			 $(".peopleTable").empty();
+	         displayListOfPeople(data);
+		 }
+	});
+});
+
+$(document).on("click",".sortSurnameAZ",function(event){
+	console.log("pressed sortSurnameAZ");
+	$.ajax({
+		url:"http://localhost:8080/user/sortBySurname",
+		method:"POST",
+		 dataType: 'json',
+		 success:function(data){
+			 console.log("ok sortname");
+			 $(".peopleTable").empty();
+	        displayListOfPeople(data);
+		 }
+	});
+});
+
+function loadTheatre(){
+	console.log("Ucitavanje");
+	$.ajax({
+		url:"http://localhost:8080/theatres/getTheatres",
+		method:"GET",
+		contentType: 'application/json',
+        success: function (data){
+        	console.log("ok");
+        	console.log(data);
+        	for(i=0;i<data.length;i++){
+        		newRow="<tr>"
+        			+"<td>"+data[i].name+"<td>"
+        			+"<td>"+data[i].address+"<td>"
+        			+"<td>"+data[i].description+"<td>"
+        			+"<td>"+data[i].avgRating+"<td>"
+        			+'<td><button type="button" class="btn btn-success repertoar" data-toggle="modal" data-target="#showTheatreForRepertoar" >Repertoar</button><td>'
+        			+" <td style=\"display:none;\" id=\"id\" type=\"hidden\" name=\"id\" class=\"id\">"+data[i].id+"</td>"
+        			+"</tr>";
+        		$(".theatreTable").append(newRow);
+        		
+        	}
+        }
+	});
+	
+}
+
+function loadCinema(){
+	console.log("Ucitavanje Cinema");
+	$.ajax({
+		url:"http://localhost:8080/cinemas/getCinemas",
+		method:"GET",
+		contentType: 'application/json',
+        success: function (data){
+        	console.log(data);
+        	for(i=0;i<data.length;i++){
+        		newRow="<tr>"
+        			+"<td>"+data[i].name+"<td>"
+        			+"<td>"+data[i].address+"<td>"
+        			+"<td>"+data[i].description+"<td>"
+        			+"<td>"+data[i].avgRating+"<td>"
+        			+'<td><button type="button" class="btn btn-success repertoarCinema" data-toggle="modal" data-target="#showCinemaForRepertoar" >Repertoar</button><td>'
+        			+" <td style=\"display:none;\" id=\"id\" type=\"hidden\" name=\"id\" class=\"id\">"+data[i].id+"</td>"
+        			+"</tr>";
+        		$(".cinemaTable").append(newRow);
+        		
+        	}
+        }
+	});
+	
+}
+
+$(document).on("click",".repertoarCinema",function(event){
+	console.log("Ucitavanje Cinema REPERTOAR");
+	console.log("stisli");
+	tr_parent = $(this).closest("tr");
+	$('#id').val(tr_parent.find(".id").html());
+	var id = $('#id').val();
+	console.log(id);
+	$.ajax({
+		url:"http://localhost:8080/cinemas/getCinemas",
+		method:"GET",
+		contentType: 'application/json',
+        success: function (data){
+        	$(".cinemaTableShow").empty();
+        	console.log(data);
+        	for(i=0;i<data.length;i++){
+        	if(data[i].id==id){ 
+        		for(j = 0; j < data[i].movies.length; j++){
+        			newRow= "<div class='movieDiv movieClass_" + data[i].movies[j].id + "' id='movieBox_" + data[i].id + "_" + data[i].movies[j].id + "'>"+ 
+				"<h3 class='cinemaName'>" + data[i].movies[j].movieName + "</h3>" +
+				"<p><label>Zanr: </label><span>" + data[i].movies[j].genre + "</span></p>" +
+				"<p><label>Reditelj: </label><span>" + data[i].movies[j].director + "</span></p>" +
+				"<p><label>Trajanje: </label><span>" + data[i].movies[j].runtime + " min</span></p>" +
+				"<p><label>Glumci: </label><span>" + data[i].movies[j].actors + "</span></p>" +
+				"<p><label>Opis: </label><span>" + data[i].movies[j].description + "</span></p>"+
+				"<button id='getProjections_" + data[i].movies[j].id + "' type='button'  data-toggle='modal' data-target='#projectionsDialog' class='btn btn-info getProjectionsBtn'>Projekcije</button></div>";
+        		$(".cinemaTableShow").append(newRow);
+        		}
+        	}
+        	}
+        }
+	 });
+});
+
+
+
+$(document).on("click",".repertoar",function(event){
+	console.log("stisli");
+	tr_parent = $(this).closest("tr");
+	$('#id').val(tr_parent.find(".id").html());
+	var id = $('#id').val();
+	console.log(id);
+	$.ajax({
+		url:"http://localhost:8080/theatres/getTheatres",
+		method:"GET",
+		contentType: 'application/json',
+        success: function (data){
+        	console.log("ok");
+        	console.log(data);
+        	for(i=0;i<data.length;i++){
+        		
+        		for(j = 0; j < data[i].plays.length; j++){
+        
+					play = "<div class='movieDiv' id='playBox" + data[i].id + "_" + data[i].plays[j].id + "'>" +
+								"<h3 class='cinemaName'>" + data[i].plays[j].name + "</h3>" +
+								"<p><label>Zanr: </label>" + data[i].plays[j].genre + "</p>" +
+								"<p><label>Reditelj: </label>" + data[i].plays[j].director + "</p>" +
+								"<p><label>Trajanje: </label>" + data[i].plays[j].runtime + "</p>" +
+								"<p><label>Glumci: </label>" + data[i].plays[j].actors + "</p>" +
+								"<p><label>Opis: </label>" + data[i].plays[j].description + "</p>" +
+								"<p><label>Vreme projekcije: </label>" + data[i].plays[j].projectionTimes + "</p>"+ 
+								
+								"<p><label>Cena: </label>" + data[i].plays[j].price + "din</p>" +
+								"<p><label>Slika: </label><img src='data:image/png;base64, "+data[i].plays[j].image+"' id='ItemPreview' width='50' height='50' ></p>" +
+								"<p><div id='"+data[i].id+"' class='btn btn-info btn-md playsListButtonNext'>Pogledaj</div></p>" +
+							"</div>";
+								/*for(z=0;z< data[i].plays[j].projectionTimes.length;z++){
+									play += "<p><label>Vreme projekcije: </label>"+"<option value=\""+data[i].plays[j].id +"\" >"+ data[i].plays[j].projectionTimes[z] +"</option>"+"</p>" +
+										//console.log( data[i].plays[j].projectionTimes[z]);
+									}*/
+							
+						//playsList = playsList + play;
+						$(".theatreTableShow").append(play);
+					}
+        		//$(".theatreTable").append(newRow);
+        		
+        	}
+        }
+	});
+});
+
+$(document).on("click",".getProjectionsBtn",function(event){
+	//$(".cinemaTable").hide();
+	$("#showCinemaForRepertoar").modal('hide');
+	movieId = $(this).attr('id').split('_')[1]
+	$.ajax({
+		url: "projections/movie/" + movieId
+	}).then(function(data){
+		$('.projectionTableShow').empty()
+		if(data.length === 0){
+			$('.projectionTableShow').empty()
+			$('.projectionTableShow').append('<p>Nema projekcija :(</p>')
+		}else{
+			$('#movieProjectionsHolder').empty()
+		}
+		
+		for(var i = 0; i < data.length; i++){
+			
+			projection = "<div class='container-fluid col-xs-12 hall'>" +
+							"<p>Sala: " + data[i].hallName + "</p>" +
+							"<p>Cena: " + data[i].price + "</p>" +
+							"<p>Datum: " + data[i].date + "</p>" +
+							"<p>Vreme: " + data[i].time + "</p>" +
+						"</div>"
+			
+			$('.projectionTableShow').append(projection)
+		}
+		
+	});
+	
+	
+	
 });
