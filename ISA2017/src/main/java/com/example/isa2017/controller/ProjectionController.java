@@ -22,13 +22,17 @@ import com.example.isa2017.converters.ProjectionToProjectionDTO;
 import com.example.isa2017.model.Cinema;
 import com.example.isa2017.model.Hall;
 import com.example.isa2017.model.Movie;
+import com.example.isa2017.model.Play;
 import com.example.isa2017.model.Projection;
+import com.example.isa2017.model.Theatre;
 import com.example.isa2017.model.Ticket;
 import com.example.isa2017.modelDTO.ProjectionDTO;
 import com.example.isa2017.service.CinemaService;
 import com.example.isa2017.service.HallService;
 import com.example.isa2017.service.MovieService;
+import com.example.isa2017.service.PlayService;
 import com.example.isa2017.service.ProjectionService;
+import com.example.isa2017.service.TheatreService;
 
 @RestController
 @RequestMapping(value = "/projections")
@@ -38,6 +42,9 @@ public class ProjectionController {
 	private MovieService movieService;
 	
 	@Autowired
+	private PlayService playService;
+	
+	@Autowired
 	private ProjectionService projectionService;
 	
 	@Autowired
@@ -45,6 +52,9 @@ public class ProjectionController {
 
 	@Autowired
 	private CinemaService cinemaService;
+	
+	@Autowired
+	private TheatreService theatreService;
 
 	@Autowired
 	private ProjectionToProjectionDTO toProjectionDTO;
@@ -78,6 +88,41 @@ public class ProjectionController {
 		/*	ne moze se dodati projekcija koja se nalazi u istoj sali
 			i u istom vremenskom periodu kad i druga projekcija*/
 		for(Projection p : movie.getProjections()){
+			if(p.getDate().before(proj.getDate()) && p.getEndDate().after(proj.getDate()) && p.getHall().getId() == projDTO.getHallId())
+				return new ResponseEntity<>(HttpStatus.CONFLICT);
+		}
+		
+		projectionService.save(proj);
+		
+		return new ResponseEntity<>(toProjectionDTO.convert(proj), HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "addProjectionPlay", method=RequestMethod.POST, consumes="application/json")
+	public ResponseEntity<ProjectionDTO> addProjectionPlay(HttpServletRequest request, @RequestBody ProjectionDTO projDTO) throws ParseException{
+		
+		/*User logged = (User) request.getSession().getAttribute("logged");
+		if(logged==null)
+			return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);*/
+		Date today = new Date();
+		today = Calendar.getInstance().getTime();
+		
+		Play play = playService.findOne(projDTO.getPlayId());
+		Hall hall = hallService.findOne(projDTO.getHallId());
+		
+		Projection proj = new Projection();
+		proj.setPrice(projDTO.getPrice());
+		proj.setHall(hall);
+		proj.setPlay(play);
+		proj.setDate(dateConverter.stringToDate(projDTO.getDate()));
+		proj.setEndDate(dateConverter.addRuntime(dateConverter.stringToDate(projDTO.getDate()), play.getRuntime()));
+		
+		/*	ne moze se dodati projekcija u proslost*/
+		if(today.after(proj.getDate()))
+			return new ResponseEntity<>(HttpStatus.CONFLICT);
+		
+		/*	ne moze se dodati projekcija koja se nalazi u istoj sali
+			i u istom vremenskom periodu kad i druga projekcija*/
+		for(Projection p : play.getProjections()){
 			if(p.getDate().before(proj.getDate()) && p.getEndDate().after(proj.getDate()) && p.getHall().getId() == projDTO.getHallId())
 				return new ResponseEntity<>(HttpStatus.CONFLICT);
 		}
@@ -126,10 +171,35 @@ public class ProjectionController {
 		
 	}
 	
+	@RequestMapping(value = "theatre/{theatreId}", method = RequestMethod.GET)
+	public ResponseEntity<List<ProjectionDTO>> getAllTheatre(@PathVariable Long theatreId){
+		
+		List<Projection> projections = new ArrayList<>();
+		
+		/*	pronadji sve projekcije u ovom bioskopu	*/
+		Theatre theatre = theatreService.findOne(theatreId);
+		for(Play movie : theatre.getPlays()){
+			for(Projection proj : movie.getProjections()){
+				projections.add(proj);
+			}
+		}
+		
+		return new ResponseEntity<>(toProjectionDTO.convert(projectionService.throwOutExpired(projections)), HttpStatus.OK);
+		
+	}
+	
 	@RequestMapping(value = "/movie/{movieId}", method = RequestMethod.GET)
 	public ResponseEntity<List<ProjectionDTO>> getAllMovie(@PathVariable Long movieId){
 		
 		List<Projection> projections = movieService.findOne(movieId).getProjections();
+		
+		return new ResponseEntity<>(toProjectionDTO.convert(projectionService.throwOutExpired(projections)), HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/play/{playId}", method = RequestMethod.GET)
+	public ResponseEntity<List<ProjectionDTO>> getAllPlay(@PathVariable Long playId){
+		
+		List<Projection> projections = playService.findOne(playId).getProjections();
 		
 		return new ResponseEntity<>(toProjectionDTO.convert(projectionService.throwOutExpired(projections)), HttpStatus.OK);
 	}

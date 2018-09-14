@@ -16,7 +16,7 @@ public class JpaPlayService implements PlayService{
 	
 	@Autowired
 	private PlayRepository playRepository;
-
+	
 	@Override
 	public List<Play> findAll() {
 		// TODO Auto-generated method stub
@@ -27,6 +27,22 @@ public class JpaPlayService implements PlayService{
 	public Play save(Play play) {
 		// TODO Auto-generated method stub
 		return playRepository.save(play);
+	}
+
+	@Override
+	public Play findOne(Long id) {
+		// TODO Auto-generated method stub
+		return playRepository.findOne(id);
+	}
+
+	@Override
+	public Play delete(Long id) {
+		Play play = playRepository.findOne(id);
+		if (play == null) {
+			throw new IllegalArgumentException("Sediste ne postoji.");
+		}
+		playRepository.delete(play);
+		return play;
 	}
 	
 	

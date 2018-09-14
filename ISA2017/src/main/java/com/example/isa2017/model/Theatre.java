@@ -1,5 +1,7 @@
 package com.example.isa2017.model;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -7,8 +9,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
+import javax.persistence.Lob;
+import javax.persistence.OneToMany;
+import javax.persistence.Version;
+
+
+/*Neprijavljeni korisnici mogu videti osnovne informacije o
+svakom pozorištu/bioskopu kao što su naziv, adresa (dodatno lokacija korišćenjem
+Google mapa), promotivni opis, prosečna ocena.*/
 
 @Entity(name="theatre")
 public class Theatre {
@@ -27,14 +35,28 @@ public class Theatre {
 	private String description;
 	
 	@Column(name="averageRating")
-	private int avgRating;
+	private double avgRating;
 	
-	@ManyToMany
-	@JoinColumn(name="theatre_id")
+	@OneToMany(mappedBy = "theatre", orphanRemoval = true)
 	private List<Play> plays;
 	
+	@OneToMany(mappedBy = "theatre", orphanRemoval = true)
+	private List<Hall> halls;
+	
+	@Lob
+    @Column(name="RATING_LIST", columnDefinition="mediumblob")
+	private HashMap<Long, Integer> ratingList;
+	
+	@Column
+	private int rating;
+	
+	@Version
+	private Long version;
+	
 	public Theatre(){
-		
+		ratingList = new HashMap<>();
+		this.halls = new ArrayList<>();
+		this.plays = new ArrayList<>();
 	}
 
 	public Theatre(String name, String address, String description, int avgRating) {
@@ -43,6 +65,9 @@ public class Theatre {
 		this.address = address;
 		this.description = description;
 		this.avgRating = avgRating;
+		ratingList = new HashMap<>();
+		this.halls = new ArrayList<>();
+		this.plays = new ArrayList<>();
 	}
 	
 	
@@ -54,6 +79,9 @@ public class Theatre {
 		this.description = description;
 		this.avgRating = avgRating;
 		this.plays = plays;
+		ratingList = new HashMap<>();
+		this.halls = new ArrayList<>();
+		this.plays = new ArrayList<>();
 	}
 
 	public Long getId() {
@@ -88,11 +116,11 @@ public class Theatre {
 		this.description = description;
 	}
 
-	public int getAvgRating() {
+	public double getAvgRating() {
 		return avgRating;
 	}
 
-	public void setAvgRating(int avgRating) {
+	public void setAvgRating(double avgRating) {
 		this.avgRating = avgRating;
 	}
 
@@ -103,8 +131,48 @@ public class Theatre {
 	public void setPlays(List<Play> plays) {
 		this.plays = plays;
 	}
+
+	public List<Hall> getHalls() {
+		return halls;
+	}
+
+	public void setHalls(List<Hall> halls) {
+		this.halls = halls;
+	}
 	
-	
-	
-	
+	public double calculateAverage(List <Integer> marks) {
+		  Integer sum = 0;
+		  if(!marks.isEmpty()) {
+		    for (Integer mark : marks) {
+		        sum += mark;
+		    }
+		    return sum.doubleValue() / marks.size();
+		  }
+		  return sum;
+	}
+
+	public int getRating() {
+		return rating;
+	}
+
+	public void setRating(int rating) {
+		this.rating = rating;
+	}
+
+	public HashMap<Long,Integer> getRatingList() {
+		return ratingList;
+	}
+
+	public void setRatingList(HashMap<Long,Integer> ratingList) {
+		this.ratingList = ratingList;
+	}
+
+	public Long getVersion() {
+		return version;
+	}
+
+	public void setVersion(Long version) {
+		this.version = version;
+	}
+
 }

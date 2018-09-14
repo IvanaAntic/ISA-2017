@@ -35,6 +35,9 @@ public class Projection {
 	@ManyToOne
 	private Movie movie;
 	
+	@ManyToOne
+	private Play play;
+	
 	@OneToMany(mappedBy = "projection", orphanRemoval = true)
 	private List<Ticket> tickets;
 	
@@ -127,6 +130,14 @@ public class Projection {
 
 	public void setExpired(Boolean expired) {
 		this.expired = expired;
+	}
+
+	public Play getPlay() {
+		return play;
+	}
+
+	public void setPlay(Play play) {
+		this.play = play;
 	}
 	
 }

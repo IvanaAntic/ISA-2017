@@ -142,6 +142,44 @@ public class TicketController {
 		
 	}
 	
+	@RequestMapping(value = "/{theatreId}", method = RequestMethod.GET)
+	public ResponseEntity<List<TicketDTO>> getDiscountTicketsTheatre(@PathVariable Long theatreId){
+		
+		List<Ticket> allTickets = ticketService.findAll();
+		List<Ticket> tickets = new ArrayList<Ticket>();
+		
+		/*	iz svih karata ikad pronadji one koje se nalaze u ovom bioskopu, nisu rezervisane i nisu istekle	*/
+		for(Ticket ticket : allTickets){
+			if(ticket.getProjection().getPlay().getTheatre().getId() == theatreId && ticket.getUser() == null){
+				if(!ticket.getProjection().getExpired()){
+					tickets.add(ticket);
+				}
+			}
+		}
+		
+		return new ResponseEntity<>(toTicketDTO.convert(tickets), HttpStatus.OK);
+		
+	}
+	
+	@RequestMapping(value = "getAllTheatre/{theatreId}", method = RequestMethod.GET)
+	public ResponseEntity<List<TicketDTO>> getAllTheatreQuicks(@PathVariable Long theatreId){
+		
+		List<Ticket> allTickets = ticketService.findAll();
+		List<Ticket> tickets = new ArrayList<Ticket>();
+		
+		/*	iz svih karata ikad pronadji one koje se nalaze u ovom bioskopu, nisu rezervisane i nisu istekle	*/
+		for(Ticket ticket : allTickets){
+			if(ticket.getProjection().getPlay().getTheatre().getId() == theatreId){
+				if(!ticket.getProjection().getExpired()){
+					tickets.add(ticket);
+				}
+			}
+		}
+		
+		return new ResponseEntity<>(toTicketDTO.convert(tickets), HttpStatus.OK);
+		
+	}
+	
 	@RequestMapping(value = "/{ticketId}", method = RequestMethod.DELETE)
 	public ResponseEntity<TicketDTO> delete(@PathVariable Long ticketId){
 		

@@ -31,6 +31,39 @@ function getQuicks(cinemaId){
 	
 }
 
+function getQuicksTheatre(cinemaId){
+	
+	$('.cinemaHolder').empty();
+	
+	addNew = "<div><a class='btn btn-lg btn-primary createQuickTheatre' href='" + cinemaId + "'>Dodaj</a></div>"
+	$(".cinemaHolder").append(addNew);
+	
+	$.ajax({
+		url: "/tickets/getAllTheatre/"+cinemaId
+	}).then(function(data){
+		
+		for(i = 0; i < data.length; i++){
+			
+			ticket = "<div class='cinemaDiv col-md-6' id=ticket_" + data[i].id + ">" +
+				"<h2>" + data[i].projectionPlayName + "</p>" +
+				"<p>Cena: " + data[i].projectionPrice + "</p>" +
+				"<p>Popust: " + data[i].discount + "%</p>" +
+				"<p>Datum projekcije: " + data[i].date + "</p>" +
+				"<p>Vreme projekcije: " + data[i].time + "</p>" +
+				"<p>Sala: " + data[i].projectionHallName + "</p>" +
+				"<p>Red: " + data[i].seatRowNumber + "</p>" +
+				"<p>Kolona: " + data[i].seatColumnNumber + "</p>" +
+				"<a class='btn btn-danger deleteTicketBtnTheatre' href='" + data[i].id + "'>Obrisi</a>"
+			"</div>";
+			
+			$(".cinemaHolder").append(ticket);
+			
+		}
+		
+	});
+	
+}
+
 function createQuickForm(cinemaId){
 	
 	$('.cinemaHolder').empty().clone($('#addQuickForm'));
@@ -53,6 +86,33 @@ function createQuickForm(cinemaId){
 			
 		}
 		$('#projectionSelect').append(option);
+		
+	});
+	
+}
+
+function createQuickFormTheatre(cinemaId){
+	
+	$('.cinemaHolder').empty().clone($('#addQuickFormTheatre'));
+	$('#addQuickFormTheatre').show();
+	$('#projectionSelectTheatre').empty();
+	$('#hallHolderTheatre').empty();
+	document.getElementById("quickFormTheatre").reset();
+	
+	$('#theatreTicketId').val(cinemaId)
+	
+	$.ajax({
+		url: "/projections/theatre/" + cinemaId
+	}).then(function(data){
+		
+		option = "<option>Projekcija</option>"
+		
+		for(i = 0; i < data.length; i++){
+			
+			option += "<option value='proj_" + data[i].id + "'>" + data[i].playName + " | " + data[i].date + "</option>"
+			
+		}
+		$('#projectionSelectTheatre').append(option);
 		
 	});
 	

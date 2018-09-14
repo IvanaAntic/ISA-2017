@@ -30,6 +30,9 @@ public class Hall {
 	
 	@ManyToOne
 	private Cinema cinema;
+	
+	@ManyToOne
+	private Theatre theatre;
 
 	public Hall() {
 		super();
@@ -80,6 +83,14 @@ public class Hall {
 
 	public void setCinema(Cinema cinema) {
 		this.cinema = cinema;
+	}
+
+	public Theatre getTheatre() {
+		return theatre;
+	}
+
+	public void setTheatre(Theatre theatre) {
+		this.theatre = theatre;
 	}
 	
 }

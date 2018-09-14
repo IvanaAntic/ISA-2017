@@ -18,4 +18,8 @@ public interface PlayService {
 	 * @return play state after persisting. 
 	 */
 	Play save(Play play);
+	
+	Play findOne(Long id);
+	
+	Play delete(Long id);
 }

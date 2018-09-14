@@ -20,6 +20,7 @@ import com.example.isa2017.model.Cinema;
 import com.example.isa2017.model.Hall;
 import com.example.isa2017.model.Projection;
 import com.example.isa2017.model.Seat;
+import com.example.isa2017.model.Theatre;
 import com.example.isa2017.model.Ticket;
 import com.example.isa2017.modelDTO.HallDTO;
 import com.example.isa2017.modelDTO.SeatDTO;
@@ -27,6 +28,7 @@ import com.example.isa2017.service.CinemaService;
 import com.example.isa2017.service.HallService;
 import com.example.isa2017.service.ProjectionService;
 import com.example.isa2017.service.SeatService;
+import com.example.isa2017.service.TheatreService;
 
 @RestController
 @RequestMapping(value = "/halls")
@@ -42,6 +44,9 @@ public class HallController {
 	private CinemaService cinemaService;
 	
 	@Autowired
+	private TheatreService theatreService;
+	
+	@Autowired
 	private ProjectionService projService;
 	
 	@Autowired
@@ -53,6 +58,28 @@ public class HallController {
 		Hall hall = new Hall();
 		
 		hall.setCinema(cinemaService.findOne(cinemaId));
+		hall.setHallName(hallDTO.getHallName());
+		hallService.save(hall);
+		
+		for(SeatDTO seat : hallDTO.getSeats()){
+			Seat s = new Seat();
+			s.setHall(hall);
+			s.setColumnNumber(seat.getColumnNumber());
+			s.setRowNumber(seat.getRowNumber());
+			seatService.save(s);	
+		}
+		
+		Hall frontHall = hallService.findOne(hall.getId());
+		
+		return new ResponseEntity<>(toHallDTO.convert(frontHall), HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "addHallTheatre/{theatreId}", method=RequestMethod.POST, consumes="application/json")
+	public ResponseEntity<HallDTO> addHallTheatre(@RequestBody HallDTO hallDTO, @PathVariable Long theatreId){
+		
+		Hall hall = new Hall();
+		
+		hall.setTheatre(theatreService.findOne(theatreId));
 		hall.setHallName(hallDTO.getHallName());
 		hallService.save(hall);
 		
@@ -191,6 +218,17 @@ public class HallController {
 		Cinema cinema = cinemaService.findOne(cinemaId);
 		
 		List<Hall> halls = cinema.getHalls();
+		
+		return new ResponseEntity<>(toHallDTO.convert(halls), HttpStatus.OK);
+		
+	}
+	
+	@RequestMapping(value = "getFromTheatre/{theatreId}", method = RequestMethod.GET)
+	public ResponseEntity<List<HallDTO>> getHallsTheatre(@PathVariable Long theatreId){
+		
+		Theatre theatre = theatreService.findOne(theatreId);
+		
+		List<Hall> halls = theatre.getHalls();
 		
 		return new ResponseEntity<>(toHallDTO.convert(halls), HttpStatus.OK);
 		

@@ -1,5 +1,6 @@
 package com.example.isa2017.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -9,17 +10,21 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Version;
+
+
 
 @Entity(name="play")
 public class Play {
-
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long Id;
 	
 	@Column(columnDefinition="VARCHAR(40)")
-	private String name;
+	private String playName;
 	
 	@ElementCollection
 	@Column
@@ -31,54 +36,45 @@ public class Play {
 	@Column(columnDefinition="VARCHAR(80)")
 	private String director;
 	
-	@Column(columnDefinition="VARCHAR(10)")
-	private String runtime;
+	@Column
+	private int runtime;
 	
 	@Lob
-    @Column(name="PLAY_IMAGE", columnDefinition="mediumblob")
+    @Column(name="MOVIE_IMAGE", columnDefinition="mediumblob")
     private byte[] image;
+	
+	@Column(name="averageRating")
+	private double avgRating;
 	
 	@Column
 	private int rating;
 	
+	@ElementCollection
+	@Column
+	private List<Integer> ratingList;
+	
 	@Column(columnDefinition="VARCHAR(500)")
 	private String description;
 	
-	@ElementCollection
-	@Column
-	private List<String> arenas;
+	@OneToMany(mappedBy = "play", orphanRemoval = true)
+	private List<Projection> projections;
 	
-	@ElementCollection
-	@Column
-	private List<String> projectionTimes;
+	@ManyToOne
+	private Theatre theatre;
 	
-	@Column
-	private int price;
+	@Version
+	private Long version;
 	
 	public Play(){
-		
-	}
-	
-	public Play(String name, List<String> actors, String genre, String director, String runtime, int rating,
-			String description, List<String> projectionTimes, int price) {
-		super();
-		this.name = name;
-		this.actors = actors;
-		this.genre = genre;
-		this.director = director;
-		this.runtime = runtime;
-		this.rating = rating;
-		this.description = description;
-		this.projectionTimes = projectionTimes;
-		this.price = price;
+		this.projections = new ArrayList<>();
 	}
 
-	public String getName() {
-		return name;
+	public String getPlayName() {
+		return playName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setPlayName(String playName) {
+		this.playName = playName;
 	}
 
 	public List<String> getActors() {
@@ -105,14 +101,6 @@ public class Play {
 		this.director = director;
 	}
 
-	public String getRuntime() {
-		return runtime;
-	}
-
-	public void setRuntime(String runtime) {
-		this.runtime = runtime;
-	}
-
 	public int getRating() {
 		return rating;
 	}
@@ -129,23 +117,6 @@ public class Play {
 		this.description = description;
 	}
 
-	public List<String> getProjectionTimes() {
-		return projectionTimes;
-	}
-
-	public void setProjectionTimes(List<String> projectionTimes) {
-		this.projectionTimes = projectionTimes;
-	}
-
-	public int getPrice() {
-		return price;
-	}
-
-	public void setPrice(int price) {
-		this.price = price;
-	}
-
-
 	public Long getId() {
 		return Id;
 	}
@@ -161,7 +132,64 @@ public class Play {
 	public void setImage(byte[] image) {
 		this.image = image;
 	}
+
+	public List<Projection> getProjections() {
+		return projections;
+	}
+
+	public void setProjections(List<Projection> projections) {
+		this.projections = projections;
+	}
+
+	public double getAvgRating() {
+		return avgRating;
+	}
+
+	public void setAvgRating(double avgRating) {
+		this.avgRating = avgRating;
+	}
+
+	public List<Integer> getRatingList() {
+		return ratingList;
+	}
+
+	public void setRatingList(List<Integer> ratingList) {
+		this.ratingList = ratingList;
+	}
 	
-	
+	public double calculateAverage(List <Integer> marks) {
+		  Integer sum = 0;
+		  if(!marks.isEmpty()) {
+		    for (Integer mark : marks) {
+		        sum += mark;
+		    }
+		    return sum.doubleValue() / marks.size();
+		  }
+		  return sum;
+	}
+
+	public Long getVersion() {
+		return version;
+	}
+
+	public void setVersion(Long version) {
+		this.version = version;
+	}
+
+	public Theatre getTheatre() {
+		return theatre;
+	}
+
+	public void setTheatre(Theatre theatre) {
+		this.theatre = theatre;
+	}
+
+	public int getRuntime() {
+		return runtime;
+	}
+
+	public void setRuntime(int runtime) {
+		this.runtime = runtime;
+	}
 	
 }

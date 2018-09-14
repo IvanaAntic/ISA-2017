@@ -1,9 +1,5 @@
 package com.example.isa2017.modelDTO;
 
-import java.util.List;
-
-
-
 public class ProjectionDTO {
 
 	private Long Id;
@@ -12,8 +8,10 @@ public class ProjectionDTO {
 	private String price;	
 	private Long hallId;
 	private Long movieId;
+	private Long playId;
 	
 	private String movieName;
+	private String playName;
 	private String hallName;
 	
 	public ProjectionDTO() {
@@ -86,6 +84,22 @@ public class ProjectionDTO {
 
 	public void setTime(String time) {
 		this.time = time;
+	}
+
+	public Long getPlayId() {
+		return playId;
+	}
+
+	public void setPlayId(Long playId) {
+		this.playId = playId;
+	}
+
+	public String getPlayName() {
+		return playName;
+	}
+
+	public void setPlayName(String playName) {
+		this.playName = playName;
 	}
 	
 }

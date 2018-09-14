@@ -221,19 +221,17 @@ public class TestData {
 		
 		Play play1=new Play();
 		play1.setActors(actors);
-		play1.setName("Na Drini cuprija");
+		play1.setPlayName("Na Drini cuprija");
 		play1.setGenre("drama");
 		play1.setDescription("radjeno po istoimenom romanu");
-		play1.setPrice(200);
 		play1.setDirector("Neko");
 		playService.save(play1);
 		
 		Play play2=new Play();
 		play2.setActors(actors);
-		play2.setName("Anikina vremena");
+		play2.setPlayName("Anikina vremena");
 		play2.setGenre("drama");
 		play1.setDescription("radjeno po istoimenom romanu");
-		play1.setPrice(600);
 		play1.setDirector("Neko drugi");
 		playService.save(play2);
 		
