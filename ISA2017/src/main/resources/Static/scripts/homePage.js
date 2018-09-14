@@ -424,7 +424,7 @@ function loadCinema(){
         			+"<td>"+data[i].address+"<td>"
         			+"<td>"+data[i].description+"<td>"
         			+"<td>"+data[i].avgRating+"<td>"
-        			+'<td><button type="button" class="btn btn-success repertoarCinema" data-toggle="modal" data-target="#showCinemaForRepertoar" >Repertoar</button><td>'
+        			+'<td><button type="button" class="btn btn-success repertoarCinema" data-toggle="modal">Repertoar</button><td>'
         			+" <td style=\"display:none;\" id=\"id\" type=\"hidden\" name=\"id\" class=\"id\">"+data[i].id+"</td>"
         			+"</tr>";
         		$(".cinemaTable").append(newRow);
@@ -442,12 +442,16 @@ $(document).on("click",".repertoarCinema",function(event){
 	$('#id').val(tr_parent.find(".id").html());
 	var id = $('#id').val();
 	console.log(id);
+	
+	 $('#tabs a[href="#rezervacije"]').tab('show');
+	
 	$.ajax({
 		url:"http://localhost:8080/cinemas/getCinemas",
 		method:"GET",
 		contentType: 'application/json',
         success: function (data){
-        	$(".cinemaTableShow").empty();
+        	$('#tableProjection').empty()
+        	$("#tableReserve").empty();
         	console.log(data);
         	for(i=0;i<data.length;i++){
         	if(data[i].id==id){ 
@@ -459,8 +463,8 @@ $(document).on("click",".repertoarCinema",function(event){
 				"<p><label>Trajanje: </label><span>" + data[i].movies[j].runtime + " min</span></p>" +
 				"<p><label>Glumci: </label><span>" + data[i].movies[j].actors + "</span></p>" +
 				"<p><label>Opis: </label><span>" + data[i].movies[j].description + "</span></p>"+
-				"<button id='getProjections_" + data[i].movies[j].id + "' type='button'  data-toggle='modal' data-target='#projectionsDialog' class='btn btn-info getProjectionsBtn'>Projekcije</button></div>";
-        		$(".cinemaTableShow").append(newRow);
+				"<button id='getProjections_" + data[i].movies[j].id + "' type='button'  class='btn btn-info getProjectionsBtn'>Projekcije</button></div>";
+        		$("#tableReserve").append(newRow);
         		}
         	}
         	}
@@ -517,17 +521,18 @@ $(document).on("click",".repertoar",function(event){
 
 $(document).on("click",".getProjectionsBtn",function(event){
 	//$(".cinemaTable").hide();
-	$("#showCinemaForRepertoar").modal('hide');
+	//$("#showCinemaForRepertoar").modal('hide');
 	movieId = $(this).attr('id').split('_')[1]
 	$.ajax({
 		url: "projections/movie/" + movieId
 	}).then(function(data){
-		$('.projectionTableShow').empty()
+		$('#tableProjection').empty()
+		$('#tableReserve').empty()
 		if(data.length === 0){
-			$('.projectionTableShow').empty()
-			$('.projectionTableShow').append('<p>Nema projekcija :(</p>')
+			$('#tableProjection').empty()
+			$('#tableProjection').append('<p>Nema projekcija :(</p>')
 		}else{
-			$('#movieProjectionsHolder').empty()
+			$('#tableReserve').empty()
 		}
 		
 		for(var i = 0; i < data.length; i++){
@@ -539,7 +544,7 @@ $(document).on("click",".getProjectionsBtn",function(event){
 							"<p>Vreme: " + data[i].time + "</p>" +
 						"</div>"
 			
-			$('.projectionTableShow').append(projection)
+			$('#tableProjection').append(projection)
 		}
 		
 	});
