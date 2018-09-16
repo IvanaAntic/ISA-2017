@@ -701,7 +701,8 @@ $(document).on("click","#rezervisiKartu",function(event){
 				$('#modalHall').modal('hide');
 				alert("Uspesno ste rezervisali kartu")
 				//getQuicks(data.projectionMovieCinemaId)
-				console.log("sya je u data"+data)
+			
+				loadUpcomingReservations();
 				
 			}
 		});
@@ -776,6 +777,7 @@ function formatDate(date) {
 
 function loadUpcomingReservations(){
 	console.log("LoadUppcoming");
+	 $(".tableUpcoming").empty();
 	
 	$.ajax({
 		url: "/tickets/getUppcomming"
@@ -786,20 +788,46 @@ function loadUpcomingReservations(){
 	
 }
 
-function displayReservations(reservations){
-	 if (reservations.length === 0){
+function displayReservations(tickets){
+	 if (tickets.length === 0){
 	        $(".tableUpcoming").append("<label>There are no upcoming reservations.</label>");
 	 }else{
-		 console.log(reservations);
-		 console.log(reservations.movieName)
-		for(i=0;i<reservations.length;i++){
-			console.log("reservation data"+reservations[i]);
-			console.log("Reservation id pprojekcije" +reservations[i].id )
-			console.log("Reservation id filma" +reservations[i].movieId )
-			console.log("Reservation naziv filma" +reservations[i].movie )
-			//console.log("Reservation naziv filma" +reservations.movie )
+		 console.log(tickets);
+		
+		for(i=0;i<tickets.length;i++){
+		
+		
+			newRow="<tr>"
+				+"<td>"+tickets[i].projectionMovieName+"</td>"
+				+"<td>"+tickets[i].projectionMovieCinemaName+"</td>"
+				+"<td>"+tickets[i].date+"</td>"
+				+"<td>"+tickets[i].time+"</td>"
+				+"<td><button type='button' class='btn btn-info otkazi' id='reservations_"+tickets[i].id+"'>" +
+				"Otkazi</button></td>"
+				"</tr>";
+				  $(".tableUpcoming").append(newRow);
 		}
-		  $(".tableUpcoming").append("<label>Treba ih prikazati</label>");
+		
 	 }
 	
 }
+
+$(document).on("click",".otkazi",function(){
+	event.preventDefault();
+	ticketId = $(this).attr('id').split('_')[1];
+	console.log("otkazi");
+	console.log("otkazi dugme id"+ ticketId);
+	//obrisi kartu
+	$.ajax({
+		url: "tickets/delete/"+ticketId,
+		method: "DELETE",
+		success: function(){
+			console.log("DA LI CE HTETI DA SE OBRISE");
+			loadUpcomingReservations();
+		}
+	});
+	
+});
+
+
+
