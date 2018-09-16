@@ -62,6 +62,54 @@ $(document).ready(function(event){
 	
 	  
 	
+	$(document).on('click', '.getQuickTicketsTheatreBtn', function(){		// popunjava modalni dijalog kartama sa popustom za odabrani pozoriste
+		
+		$('#quickTicketsHolder').empty()
+		
+		cinemaId = $(this).attr('id').split('_')[1]
+		
+		console.log("dobavljanje karata sa popustom za bioskop: " + cinemaId)
+		
+		$.ajax({
+			url: "tickets/theatre/" + cinemaId
+		}).then(function(data){
+			
+			console.log("Karte dobavljene!")
+			console.log(data)
+			
+			if(data.length === 0){
+				$('#quickTicketsHolder').append('<p>Nema popusta :(</p>')
+				console.log("broj karata je 0")
+			}
+				
+				
+			for(var i = 0; i < data.length; i++){
+				
+				var karta = "<div class='panel panel-default'>" +
+								"<div class='panel-heading text-center'>" +
+									"<h3 class='panel-title text-center'>" + data[i].projectionPlayName + "</h3>" +
+								"</div>" +
+								"<div class='panel-body'>" +
+									"<p>Popust: " + data[i].discount + "%" + "</p>" +
+									"<p>Cena: " + data[i].projectionPrice + "</p>" +
+									"<p>Datum: " + data[i].date + "</p>" +
+									"<p>Vreme: " + data[i].time + "</p>" +
+									"<p>Sala: " + data[i].projectionHallName + "</p>" +
+									"<p>Red: " + data[i].seatRowNumber + "</p>" +
+									"<p>Sediste: " + data[i].seatColumnNumber + "</p>" +
+									"<p><a href='#' class='btn btn-info reserveQuickBtn' id='reserveQuick_" + data[i].id + "'>Rezervisi</a></p>"
+								"</div>" +
+							"</div>"
+								
+				$('#quickTicketsHolder').append(karta)
+				
+			}
+			
+		})
+		
+	}) // kraj getQuickTicketsBtn
+	
+	
 	
 });
 $(document).on("click",".playsListButton", function () {

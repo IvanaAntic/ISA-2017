@@ -140,7 +140,7 @@ public class TicketController {
 		
 	}
 	
-	@RequestMapping(value = "/{cinemaId}", method = RequestMethod.GET)
+	@RequestMapping(value = "cinema/{cinemaId}", method = RequestMethod.GET)
 	public ResponseEntity<List<TicketDTO>> getDiscountTickets(@PathVariable Long cinemaId){
 		
 		List<Ticket> allTickets = ticketService.findAll();
@@ -153,7 +153,7 @@ public class TicketController {
 		}
 		
 		/*	iz svih karata ikad pronadji one koje se nalaze u ovom bioskopu, nisu rezervisane i nisu istekle	*/
-		for(Ticket ticket : allTickets){
+		for(Ticket ticket : movieTickets){
 			if(ticket.getProjection().getMovie().getCinema().getId() == cinemaId && ticket.getUser() == null){
 				if(!ticket.getProjection().getExpired()){
 					tickets.add(ticket);
@@ -178,7 +178,7 @@ public class TicketController {
 		}
 		
 		/*	iz svih karata ikad pronadji one koje se nalaze u ovom bioskopu, nisu rezervisane i nisu istekle	*/
-		for(Ticket ticket : allTickets){
+		for(Ticket ticket : movieTickets){
 			if(ticket.getProjection().getMovie().getCinema().getId() == cinemaId){
 				if(!ticket.getProjection().getExpired()){
 					tickets.add(ticket);
@@ -190,7 +190,7 @@ public class TicketController {
 		
 	}
 	
-	@RequestMapping(value = "/{theatreId}", method = RequestMethod.GET)
+	@RequestMapping(value = "theatre/{theatreId}", method = RequestMethod.GET)
 	public ResponseEntity<List<TicketDTO>> getDiscountTicketsTheatre(@PathVariable Long theatreId){
 		
 		List<Ticket> allTickets = ticketService.findAll();

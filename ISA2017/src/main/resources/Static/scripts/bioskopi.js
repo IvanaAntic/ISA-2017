@@ -2,7 +2,7 @@ $(document).ready(function(event){
 	
 	console.log("Ucitavanje bioskopa");
 	
-	$(".bioskopPregled").click(function(){
+/*	$(".bioskopPregled").click(function(){
 	  $.ajax({
 	        type: 'GET',
 	        url: "http://localhost:8080/cinemas/getCinemas",
@@ -25,7 +25,7 @@ $(document).ready(function(event){
 				}
 	        	}
 	  });
-	});
+	});*/
 	
 	
 	$(document).on('click', '.getQuickTicketsBtn', function(){		// popunjava modalni dijalog kartama sa popustom za odabrani bioskop
@@ -37,7 +37,7 @@ $(document).ready(function(event){
 		console.log("dobavljanje karata sa popustom za bioskop: " + cinemaId)
 		
 		$.ajax({
-			url: "tickets/" + cinemaId
+			url: "tickets/cinema/" + cinemaId
 		}).then(function(data){
 			
 			console.log("Karte dobavljene!")

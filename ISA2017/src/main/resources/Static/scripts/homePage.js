@@ -150,12 +150,21 @@ function loadVisitHistory(){
 		
 		for(var i = 0; i < data.length; i++){
 			
-			movie = "<li class='list-group-item'>" + data[i].projectionMovieName + " <a id='rateMovie_" + data[i].projectionMovieId + "' class='badge progress-bar-info rateMovieCinema' href='movies/rateMovie/" + data[i].projectionMovieId + "'>Oceni</a>" +
-					"<span class='badge progress-bar-warning'>Film</span></li>"
-			cinema = "<li class='list-group-item'>" + data[i].projectionMovieCinemaName + " <a id='rateCinema_" + data[i].projectionMovieId + "' class='badge progress-bar-info rateMovieCinema' href='cinemas/rateCinema/" + data[i].projectionMovieCinemaId + "'>Oceni</a>" +
-					"<span class='badge progress-bar-success'>Bioskop</span></li>"
-			
-			$("#historyHolder").append(movie).append(cinema);
+			if(data[i].projectionMovieId !== null){
+				movie = "<li class='list-group-item'>" + data[i].projectionMovieName + " <a id='rateMovie_" + data[i].projectionMovieId + "' class='badge progress-bar-info rateMovieCinema' href='movies/rateMovie/" + data[i].projectionMovieId + "'>Oceni</a>" +
+				"<span class='badge progress-bar-warning'>Film</span></li>"
+				cinema = "<li class='list-group-item'>" + data[i].projectionMovieCinemaName + " <a id='rateCinema_" + data[i].projectionMovieId + "' class='badge progress-bar-info rateMovieCinema' href='cinemas/rateCinema/" + data[i].projectionMovieCinemaId + "'>Oceni</a>" +
+						"<span class='badge progress-bar-success'>Bioskop</span></li>"
+				
+				$("#historyHolder").append(play).append(theatre);
+			}else{
+				play = "<li class='list-group-item'>" + data[i].projectionPlayName + " <a id='rateMovie_" + data[i].projectionPlayId + "' class='badge progress-bar-info rateMovieCinema' href='plays/ratePlay/" + data[i].projectionPlayId + "'>Oceni</a>" +
+				"<span class='badge progress-bar-warning'>Predstava</span></li>"
+				theatre = "<li class='list-group-item'>" + data[i].projectionPlayTheatreName + " <a id='rateCinema_" + data[i].projectionPlayId + "' class='badge progress-bar-info rateMovieCinema' href='theatres/rateTheatre/" + data[i].projectionPlayTheatreId + "'>Oceni</a>" +
+						"<span class='badge progress-bar-success'>Pozoriste</span></li>"
+				
+				$("#historyHolder").append(play).append(theatre);
+			}
 			
 		}
 		
@@ -402,6 +411,7 @@ function loadTheatre(){
         			+"<td>"+data[i].avgRating+"<td>"
         			+'<td><button type="button" class="btn btn-success repertoar" data-toggle="modal" data-target="#showTheatreForRepertoar" >Repertoar</button><td>'
         			+" <td style=\"display:none;\" id=\"id\" type=\"hidden\" name=\"id\" class=\"id\">"+data[i].id+"</td>"
+        			+" <td><button id='getQuickTicketsTheatre_" + data[i].id + "' type='button'  data-toggle='modal' data-target='#quickTicketsDialog' class='btn btn-info getQuickTicketsTheatreBtn'>Karte sa popustom</button></td>"
         			+"</tr>";
         		$(".theatreTable").append(newRow);
         		
@@ -429,7 +439,8 @@ function loadCinema(){
         			+"<td>"+data[i].description+"<td>"
         			+"<td>"+data[i].avgRating+"<td>"
         			+'<td><button type="button" class="btn btn-success repertoarCinema" data-toggle="modal">Repertoar</button><td>'
-        			+" <td style=\"display:none;\" id=\"id\" type=\"hidden\" name=\"id\" class=\"id\">"+data[i].id+"</td>"
+        			+" <td style=\"display:none;\" id=\"id\" type=\"hidden\" name=\"id\" class=\"id\">"+data[i].id+"</td>" +
+        			  "<td><button id='getQuickTickets_" + data[i].id + "' type='button'  data-toggle='modal' data-target='#quickTicketsDialog' class='btn btn-info getQuickTicketsBtn'>Karte sa popustom</button></td>"
         			+"</tr>";
         		$(".cinemaTable").append(newRow);
         		
