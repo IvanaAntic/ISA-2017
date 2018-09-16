@@ -437,6 +437,7 @@ function loadCinema(){
 
 $(document).on("click",".repertoarCinema",function(event){
 	console.log("Ucitavanje Cinema REPERTOAR");
+	
 	console.log("stisli");
 	tr_parent = $(this).closest("tr");
 	$('#id').val(tr_parent.find(".id").html());
@@ -452,6 +453,7 @@ $(document).on("click",".repertoarCinema",function(event){
         success: function (data){
         	$('#tableProjection').empty()
         	$("#tableReserve").empty();
+        	$("#tableHall").empty();
         	console.log(data);
         	for(i=0;i<data.length;i++){
         	if(data[i].id==id){ 
@@ -473,7 +475,7 @@ $(document).on("click",".repertoarCinema",function(event){
 });
 
 
-
+//THEATRE
 $(document).on("click",".repertoar",function(event){
 	console.log("stisli");
 	tr_parent = $(this).closest("tr");
@@ -519,9 +521,11 @@ $(document).on("click",".repertoar",function(event){
 	});
 });
 
+//CINEMA BUTNON
 $(document).on("click",".getProjectionsBtn",function(event){
 	//$(".cinemaTable").hide();
 	//$("#showCinemaForRepertoar").modal('hide');
+	
 	movieId = $(this).attr('id').split('_')[1]
 	$.ajax({
 		url: "projections/movie/" + movieId
@@ -537,18 +541,173 @@ $(document).on("click",".getProjectionsBtn",function(event){
 		
 		for(var i = 0; i < data.length; i++){
 			
-			projection = "<div class='container-fluid col-xs-12 hall'>" +
-							"<p>Sala: " + data[i].hallName + "</p>" +
-							"<p>Cena: " + data[i].price + "</p>" +
-							"<p>Datum: " + data[i].date + "</p>" +
-							"<p>Vreme: " + data[i].time + "</p>" +
-						"</div>"
+			projection = "<tr>" +
+							"<td id='sala' class='sala'>" +
+							"<label>Name</label>"+
+							"<p id='hallName'>"+ data[i].hallName +"</p>"+
+							"</td>"+
+							"<td class='price'>" +
+							"Cena: " + data[i].price +
+							" </td>" +
+							"<td class='projectionDate'>" +
+							"<label>Datum</label> "+
+							"<p id='dateStart'>"+ data[i].date + "</p>"+
+							" </td>" +
+							"<td class='projectionTime'>" +
+							"<label>Vreme</label>"+
+							"<p id='time'>"+data[i].time +  "</p>"+
+							" </td>" +
+							"<td><div id='getSala_"+data[i].id+"' class='btn btn-info btn-md cinemaSeatButtonNext'>NEXT</div></td>"+
+						"</tr>"
 			
 			$('#tableProjection').append(projection)
 		}
 		
 	});
+});
+
+
+$(document).on("click",".cinemaSeatButtonNext",function(event){
+	//ovo vraca projekciju i proverava da li je moguce reyervisati
+	hallId = $(this).attr('id').split('_')[1];
+	//danasnji datum
+	var today = new Date();
+	var dd = today.getDate();
+	var mm = today.getMonth()+1; //January is 0!
+	var yyyy = today.getFullYear();
+
+	if(dd<10) {
+	    dd = '0'+dd
+	} 
+
+	if(mm<10) {
+	    mm = '0'+mm
+	} 
+
+	today = dd + '/' + mm + '/' + yyyy;
+	console.log("novo"+today)
+	//kraj 
+	//trenutno vreme
+	var currentTime = new Date().toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1");
+	console.log("myDate"+ currentTime);
+
+	//ne nego mi daj jednu projekcijuuu
+	$.ajax({
+		url: "projections/hall/" + hallId
+	}).then(function(data){
+		//Sta ovde mozemo vratiti? seat u toj sali i onda u novi div ispisemo ta mesta
+		if(data.id==null){
+			alert("Ima manje od 30 minuta do pocetka projekcija. Ne mozete rezervisati")
+		}
+		//vrati tu projekciju u projekciji imas salu
+		else{ 
+		console.log("Hall podaci ubaci novi div");
+		console.log("sta smo vratili na front"+data);
+		console.log("id onog na fronut projekcije:"+data.id);
+		//console.log(data.hallName);
+		$('#tableProjection').empty();
+		newRow="<div>" +
+				"<button type='button' class='btn btn-info hallBtn' id='projection_"+data.id+"' data-toggle='modal' data-target='#modalHall'>" +
+				"Odaberi sediste</button><br>" +
+				"<button type='button' >" +
+				"Pozovi prijatelje</button>"+
+				
+				"</div>";
+			
+			
+		$('#tableHall').append(newRow);
+		}
+		
+	});
+
+});
+
+$(document).on("click",".hallBtn",function(event){
+	projId = $(this).attr('id').split('_')[1];
+	console.log("Stisnuli hall BTN PROJID JE"+projId);
+	//ajax za sedista za datu sali koja su zauzeta i slobodna
 	
-	
+	$.ajax({
+		url:"/halls/inProjection/"+projId
+	}).then(function (data){
+		console.log(data);
+		console.log("cinemaId"+data.cinemaId);
+		console.log("hallId"+data.id)
+		getHallProjConfUser(data.id)
+			//hall = "<div id='hallDiv_" + data.id + "' class='container-fluid col-xs-12 hall'>" + "<h4>" + data.hallName + "</h4>" + generateHallConf(1) + "" +
+			//		"</div>"
+		
+		//$('#showSeats').append(hall);
+		
+	});
 	
 });
+
+	/*salaId = $(this).attr('id').split('_')[1];
+	
+	console.log("SALA ID"+salaId);
+	var time=$('#time').text();
+	console.log(time);
+	var date=$('#dateStart').text();
+	console.log(date);
+	//kreirati datum iz table
+	var times =time.split(':');
+	console.log("times[0]"+times[0]);
+	console.log("times[1]"+times[1]-30);
+	
+	var parts =date.split('/');
+	console.log("parts[0]"+parts[0]);
+	console.log("parts[1]"+parts[1]);
+	console.log("parts[2]"+parts[2]);
+	var mydate = new Date(parts[2], parts[1]-1, parts[0],times[0],times[1],'00');	
+	var d=formatDate(mydate);*/
+	
+	// var myDate = new Date().toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1");
+	 //console.log("novo"+myDate)
+	// var myDateFront=  new Date(parts[2], parts[1]-1, parts[0],times[0],times[1]-30,'00').toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1");;
+	// console.log("novo myDateFron "+myDateFront);
+	// console.log("format"+d);
+	//trenutni datum + 4h
+
+	/*var today = new Date().toISOString().split('T')[0];
+	
+	console.log(today);
+
+		$.ajax({
+			url: "halls/hall/" + salaId
+		}).then(function(data){
+			//proveri pre submita vreme 
+			if(d==today){
+				console.log("isti je datum");
+				console.log("isti je datum d" +d);
+				console.log("isti je datum today"+ today);
+				if(myDate>myDateFront){
+					console.log("oooooooooooooooooooooooooooooooo");
+					alert("Ostalo je manje 30 minuta do projekcije ne mozete rezervisati");
+				}
+			}
+			$('#tableProjection').empty()
+			
+			console.log(data);
+			console.log(data.id);
+		} );
+	checkTime();
+	
+	
+	
+});*/
+function formatDate(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return [year, month, day].join('-');
+}
+
+function checkTime(){
+	
+}

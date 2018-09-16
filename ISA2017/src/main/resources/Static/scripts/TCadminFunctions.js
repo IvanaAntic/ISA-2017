@@ -152,6 +152,23 @@ function getHallProjConf(hallId){
 	})
 }
 
+
+function getHallProjConfUser(hallId){
+	
+	$('#showSeats').empty()
+	
+	$.ajax({
+		url: "halls/hall/" + hallId
+	}).then(function(data){
+		
+		table = generateHallConf(data)
+		
+		hallName = "<h4>Sala: " + data.hallName + "</h4>"
+		
+		$('#showSeats').append(hallName).append(table)
+		
+	})
+}
 function generateHallConf(data){
 	
 	seatsNumber = data.seats.length - 1
