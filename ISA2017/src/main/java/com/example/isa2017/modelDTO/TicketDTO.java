@@ -8,10 +8,10 @@ public class TicketDTO {
 	private String projectionMovieCinemaName;
 	private String projectionMovieName;
 	private String projectionMovieId;
-	private Long projectionTheatreCinemaId;
-	private String projectionTheatreCinemaName;
-	private String projectionTheatreName;
-	private String projectionTheatreId;
+	private Long projectionPlayTheatreId;
+	private String projectionPlayTheatreName;
+	private String projectionPlayName;
+	private String projectionPlayId;
 	private String date;
 	private String time;
 	private String projectionPrice;
@@ -138,36 +138,36 @@ public class TicketDTO {
 		this.projectionMovieId = projectionMovieId;
 	}
 
-	public Long getProjectionTheatreCinemaId() {
-		return projectionTheatreCinemaId;
+	public Long getProjectionPlayTheatreId() {
+		return projectionPlayTheatreId;
 	}
 
-	public void setProjectionTheatreCinemaId(Long projectionTheatreCinemaId) {
-		this.projectionTheatreCinemaId = projectionTheatreCinemaId;
+	public void setProjectionPlayTheatreId(Long projectionPlayTheatreId) {
+		this.projectionPlayTheatreId = projectionPlayTheatreId;
 	}
 
-	public String getProjectionTheatreCinemaName() {
-		return projectionTheatreCinemaName;
+	public String getProjectionPlayTheatreName() {
+		return projectionPlayTheatreName;
 	}
 
-	public void setProjectionTheatreCinemaName(String projectionTheatreCinemaName) {
-		this.projectionTheatreCinemaName = projectionTheatreCinemaName;
+	public void setProjectionPlayTheatreName(String projectionPlayTheatreName) {
+		this.projectionPlayTheatreName = projectionPlayTheatreName;
 	}
 
-	public String getProjectionTheatreName() {
-		return projectionTheatreName;
+	public String getProjectionPlayName() {
+		return projectionPlayName;
 	}
 
-	public void setProjectionTheatreName(String projectionTheatreName) {
-		this.projectionTheatreName = projectionTheatreName;
+	public void setProjectionPlayName(String projectionPlayName) {
+		this.projectionPlayName = projectionPlayName;
 	}
 
-	public String getProjectionTheatreId() {
-		return projectionTheatreId;
+	public String getProjectionPlayId() {
+		return projectionPlayId;
 	}
 
-	public void setProjectionTheatreId(String projectionTheatreId) {
-		this.projectionTheatreId = projectionTheatreId;
+	public void setProjectionPlayId(String projectionPlayId) {
+		this.projectionPlayId = projectionPlayId;
 	}
 	
 }

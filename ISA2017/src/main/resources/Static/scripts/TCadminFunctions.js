@@ -82,7 +82,7 @@ function createQuickForm(cinemaId){
 		
 		for(i = 0; i < data.length; i++){
 			
-			option += "<option value='proj_" + data[i].id + "'>" + data[i].movieName + " | " + data[i].date + "</option>"
+			option += "<option value='proj_" + data[i].id + "'>" + data[i].movieMovieName + " | " + data[i].date + "</option>"
 			
 		}
 		$('#projectionSelect').append(option);
@@ -109,7 +109,7 @@ function createQuickFormTheatre(cinemaId){
 		
 		for(i = 0; i < data.length; i++){
 			
-			option += "<option value='proj_" + data[i].id + "'>" + data[i].playName + " | " + data[i].date + "</option>"
+			option += "<option value='proj_" + data[i].id + "'>" + data[i].playPlayName + " | " + data[i].date + "</option>"
 			
 		}
 		$('#projectionSelectTheatre').append(option);
@@ -135,6 +135,23 @@ function getHallConf(projId){
 	})
 }
 
+function getHallConfTheatre(projId){
+	
+	$('#hallHolderTheatre').empty()
+	
+	$.ajax({
+		url: "halls/inProjection/" + projId
+	}).then(function(data){
+		
+		table = generateHallConf(data)
+		
+		hallName = "<h4>Sala: " + data.hallName + "</h4>"
+		
+		$('#hallHolderTheatre').append(hallName).append(table)
+		
+	})
+}
+
 function getHallProjConf(hallId){
 	
 	$('#hallHolder').empty()
@@ -148,6 +165,23 @@ function getHallProjConf(hallId){
 		hallName = "<h4>Sala: " + data.hallName + "</h4>"
 		
 		$('#projectionHallHolder').append(hallName).append(table)
+		
+	})
+}
+
+function getHallProjConfTheatre(hallId){
+	
+	$('#hallHolderTheatre').empty()
+	
+	$.ajax({
+		url: "halls/hall/" + hallId
+	}).then(function(data){
+		
+		table = generateHallConf(data)
+		
+		hallName = "<h4>Sala: " + data.hallName + "</h4>"
+		
+		$('#projectionHallHolderTheatre').append(hallName).append(table)
 		
 	})
 }

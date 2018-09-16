@@ -10,9 +10,9 @@ public class ProjectionDTO {
 	private Long movieId;
 	private Long playId;
 	
-	private String movieName;
-	private String playName;
-	private String hallName;
+	private String movieMovieName;
+	private String playPlayName;
+	private String hallHallName;
 	
 	public ProjectionDTO() {
 		super();
@@ -62,20 +62,20 @@ public class ProjectionDTO {
 		this.movieId = movieId;
 	}
 
-	public String getMovieName() {
-		return movieName;
+	public String getMovieMovieName() {
+		return movieMovieName;
 	}
 
-	public void setMovieName(String movieName) {
-		this.movieName = movieName;
+	public void setMovieMovieName(String movieMovieName) {
+		this.movieMovieName = movieMovieName;
 	}
 
-	public String getHallName() {
-		return hallName;
+	public String getHallHallName() {
+		return hallHallName;
 	}
 
-	public void setHallName(String hallName) {
-		this.hallName = hallName;
+	public void setHallHallName(String hallHallName) {
+		this.hallHallName = hallHallName;
 	}
 
 	public String getTime() {
@@ -94,12 +94,12 @@ public class ProjectionDTO {
 		this.playId = playId;
 	}
 
-	public String getPlayName() {
-		return playName;
+	public String getPlayPlayName() {
+		return playPlayName;
 	}
 
-	public void setPlayName(String playName) {
-		this.playName = playName;
+	public void setPlayPlayName(String playName) {
+		this.playPlayName = playName;
 	}
 	
 }

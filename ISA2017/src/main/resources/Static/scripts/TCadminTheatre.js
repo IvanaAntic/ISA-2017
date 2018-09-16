@@ -2,8 +2,6 @@
 
 $(document).ready(function(){
 	
-	$(".loggedName").append(sessionStorage.getItem('loggedName'))
-	
 	if(sessionStorage.loggedId === undefined){
 		window.location.href='/';
 	}
@@ -65,7 +63,7 @@ $(document).ready(function(){
 										"<a id='editButton"+data[i].id+"'  class='btn btn-info btn-md editTheatre' href='/theatres/editTheatre/" + data[i].id + "'>Izmeni</a></p>" +
 										"<div id='quickListTheatre_"+data[i].id+"' class='btn btn-info btn-md quickListTheatre'>Karte sa popustima</div>" +
 										"<div class='btn-group' role='group' style='margin-left: 6px;'>" +
-											"<button id='getHalls_" + data[i].id + "' type='button'  data-toggle='modal' data-target='#hallsDialogTheatre' class='btn btn-info getHallsBtn'>Sale</button>" +
+											"<button id='getHalls_" + data[i].id + "' type='button'  data-toggle='modal' data-target='#hallsDialogTheatre' class='btn btn-info getHallsBtnTheatre'>Sale</button>" +
 											"<button id='addHalls_" + data[i].id + "' type='button' data-toggle='modal' data-target='#addHallDialogTheatre' class='btn btn-info addHallDialogTheatre'>+</button>" +
 										"</div>" +
 									"</div>";
@@ -166,7 +164,7 @@ $(document).ready(function(){
 		
 			for(i = 0; i < data.length; i++){
 				
-				option += "<option value='hall_" + data[i].id + "'>" + data[i].hallNameTheatre + "</option>"
+				option += "<option value='hall_" + data[i].id + "'>" + data[i].hallName + "</option>"
 				
 			}
 			$('#hallSelectTheatre').append(option);
@@ -194,7 +192,7 @@ $(document).ready(function(){
 			for(var i = 0; i < data.length; i++){
 				
 				projection = "<div class='container-fluid col-xs-12 hall'>" +
-								"<p>Sala: " + data[i].hallNameTheatre + "</p>" +
+								"<p>Sala: " + data[i].hallHallName + "</p>" +
 								"<p>Cena: " + data[i].price + "</p>" +
 								"<p>Datum: " + data[i].date + "</p>" +
 								"<p>Vreme: " + data[i].time + "</p>" +
@@ -230,7 +228,7 @@ $(document).ready(function(){
 		}
 		
 		formData = JSON.stringify({
-			hallNameTheatre: name,
+			hallName: name,
 			seats: seats
 		});
 		
@@ -241,7 +239,7 @@ $(document).ready(function(){
 			dataType: "json",
 			data: formData,
 			success: function(data){
-				alert("Uspesno dodata sala: " + data.hallNameTheatre)
+				alert("Uspesno dodata sala: " + data.hallName)
 			}
 		})
 		
@@ -255,12 +253,12 @@ $(document).ready(function(){
 		$('#hallTheatreId').val(theatreId);
 	});
 	
-	$(document).on('click', '.getHallsBtn', function(){
+	$(document).on('click', '.getHallsBtnTheatre', function(){
 		
 		theatreId = $(this).attr('id').split('_')[1]
 		
 		$.ajax({
-			url: "halls/getFromTheatre" + theatreId
+			url: "halls/getFromTheatre/" + theatreId
 		}).then(function(data){
 			
 			if(data.length === 0){
@@ -275,7 +273,7 @@ $(document).ready(function(){
 				
 				h = data[i]
 				
-				hall = "<div id='hallDiv_" + data[i].id + "' class='container-fluid col-xs-12 hall'>" + "<h4>" + data[i].hallNameTheatre + "</h4>" + generateHallConf(h) + "" +
+				hall = "<div id='hallDiv_" + data[i].id + "' class='container-fluid col-xs-12 hall'>" + "<h4>" + data[i].hallName + "</h4>" + generateHallConf(h) + "" +
 							"<a href='/halls/deleteHall/" + data[i].id + "' class='btn btn-danger deleteHallBtnTheatre'>Obrisi</a>" +
 							"<button type='button' data-dismiss='modal' id='/halls/editHall/" + data[i].id + "' class='btn btn-info editHallDialogTheatreBtn'>Izmeni</a>" +
 						"</div>"
@@ -301,7 +299,7 @@ $(document).ready(function(){
 	
 	$(document).on('click', '.editHallBtnTheatre', function(){
 		
-		var hallNameTheatre = $('#editHallNameTheatre').val()
+		var hallName = $('#editHallNameTheatre').val()
 		var rows = $('#editHallRowsTheatre').val()
 		var cols = $('#editHallColumnsTheatre').val()
 		var url = $('#editHallIdTheatre').val()
@@ -321,7 +319,7 @@ $(document).ready(function(){
 		}
 		
 		formData = JSON.stringify({
-			hallNameTheatre : hallNameTheatre,
+			hallName : hallName,
 			seats : seats
 		})
 		
@@ -332,7 +330,7 @@ $(document).ready(function(){
 			dataType: "json",
 			data: formData,
 			success: function(){
-				alert("Uspesno editovana sala: " + hallNameTheatre)
+				alert("Uspesno editovana sala: " + hallName)
 			}
 			
 		})
@@ -429,7 +427,7 @@ $(document).ready(function(){
 				success: function(data){
 					
 					$('#addQuickFormTheatre').fadeOut()
-					getQuicksTheatre(data.projectionPlayTheatreId)
+					alert('Uspesno dodate karte!')
 					
 				}
 			})
@@ -442,12 +440,12 @@ $(document).ready(function(){
 	$('#projectionSelectTheatre').change(function(){
 		
 		if(document.getElementById("projectionSelectTheatre").selectedIndex === 0){
-			$('#hallHolderTheatreTheatre').empty();
+			$('#hallHolderTheatre').empty();
 		}else{
 			temp = $('#projectionSelectTheatre option:selected').attr('value')
 			projId = temp.split('_')[1]
 			
-			getHallConf(projId)
+			getHallConfTheatre(projId)
 		}
 		
 	})

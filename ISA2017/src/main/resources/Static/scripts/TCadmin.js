@@ -194,7 +194,7 @@ $(document).ready(function(){
 			for(var i = 0; i < data.length; i++){
 				
 				projection = "<div class='container-fluid col-xs-12 hall'>" +
-								"<p>Sala: " + data[i].hallName + "</p>" +
+								"<p>Sala: " + data[i].hallHallName + "</p>" +
 								"<p>Cena: " + data[i].price + "</p>" +
 								"<p>Datum: " + data[i].date + "</p>" +
 								"<p>Vreme: " + data[i].time + "</p>" +
@@ -429,8 +429,7 @@ $(document).ready(function(){
 				success: function(data){
 					
 					$('#addQuickForm').fadeOut()
-					getQuicks(data.projectionMovieCinemaId)
-					
+					alert('Uspesno dodate karte!')
 				}
 			})
 			
