@@ -169,12 +169,14 @@ public class TestData {
 		f1.setReciver(pera);
 		f1.setSender(sasa);
 		f1.setStatus("waiting");
-		
+		f1.setConfirm("notinvited");
 		f2.setStatus("waiting");
 		f2.setReciver(pera);
+		f2.setConfirm("notinvited");
 		f2.setSender(sasa2);
 		
 		f3.setStatus("accepted");
+		f3.setConfirm("invited");
 		f3.setReciver(ivana);
 		f3.setSender(pera);
 		
@@ -187,11 +189,13 @@ public class TestData {
 		Date datum2 = null;
 		Date datum3 = null;
 		Date datum4 = null;
+		Date datum5=null;
 		try {
 			datum1 = dateFormat.parse("20/09/2018 19:40");
 			datum2 = dateFormat.parse("20/09/2018 20:00");
 			datum3 = dateFormat.parse("26/11/2018 20:00");
-			datum4 = dateFormat.parse("23/12/2018 20:00");
+			datum4 = dateFormat.parse("16/09/2018 18:40");
+			datum5 = dateFormat.parse("16/09/2018 19:40");
 		} catch (ParseException e) {
 		
 			e.printStackTrace();
@@ -255,6 +259,11 @@ public class TestData {
 		hall1.setHallName("Sala A2");
 		hallService.save(hall1);
 		
+		Hall hall2 = new Hall();
+		hall2.setCinema(cinema1);
+		hall2.setHallName("Sala A3");
+		hallService.save(hall2);
+		
 		Seat seat1 = new Seat();
 		seat1.setColumnNumber(1);
 		seat1.setRowNumber(1);
@@ -281,10 +290,21 @@ public class TestData {
 		projection.setPrice("250din");
 		projectionService.save(projection);
 		
+		
+		/*Projection projection2 = new Projection();
+		projection2.setDate(datum4);
+		projection2.setEndDate(datum5);
+		projection2.setHall(hall1);
+		projection2.setMovie(movie1);
+		projection2.setPrice("250din");
+		projectionService.save(projection2);*/
+		
+		
 		Ticket ticket1 = new Ticket();
 		ticket1.setDiscount(10);
 		ticket1.setProjection(projection);
 		ticket1.setSeat(seat1);
+		ticket1.setUser(marija);
 		ticketService.save(ticket1);
 		
 		

@@ -122,6 +122,30 @@
 							</div>
 						</div>
 					</div>
+					
+					
+							<!-- Friend invitations -->
+					<div class="row">
+						<div class="col-7 col-md-6">
+							<div class="panel panel-default user_panel">
+								<div class="panel-heading">
+									<h3 class="panel-title">
+										<span class="glyphicon glyphicon-link"></span>&nbsp;&nbsp;Friend
+										Invitations
+									</h3>
+								</div>
+								<div class="panel-body">
+									<div class="table-container" id="invitations">
+										<table class="table-users table" id="tableRequestsInvitations" border="0">
+											<tbody class="inviteTable" style="overflow: hidden;">
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					
 
 				</div>
 
@@ -129,7 +153,8 @@
 				<div class="tab-pane" id="pozorista">
 
 					<p>Pregled POZORISTA</p>
-					<div class="col-6 col-md-8">
+					<div class="col-6 col-md-8" >
+					<div id="pDiv">
 						<table class="table table-hover">
 							<thead>
 								<tr>
@@ -150,7 +175,19 @@
 
 							</tbody>
 						</table>
+						</div>
+						<div id="playDiv">
+					<table class="table" id="tableReservePlay">
+
+							</table>
 					</div>
+					<div id="playProjectionsDiv">
+					<table class="table" id="tableProjectionsPlay">
+
+							</table>
+					</div>
+					</div>
+					
 
 				</div>
 
@@ -224,7 +261,7 @@
 				</div>
 
 				<div class="tab-pane emptyR" id="rezervacije">
-					<h1>Blue</h1>
+					<h1></h1>
 					<div class="reserveDiv">
 						<div class="table-container">
 							<table class="table" id="tableReserve">
@@ -460,6 +497,30 @@
 				<div class="modal-footer">
 					<button id="rezervisiKartu" type="button" class="btn btn-primary"
 									>Rezervisi</button>
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div id="modalInvite" class="modal fade" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h2 class="modal-title text-center" id='rateName'>Call friends</h2>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div >
+				<table id="showFriendsToInvite" class="table table-hover">
+				</table>
+
+				</div>
+				<div class="modal-footer">
+					
 					<button type="button" class="btn btn-secondary"
 						data-dismiss="modal">Close</button>
 				</div>

@@ -33,6 +33,10 @@ public interface FriendshipService {
 	List<User> getFriendshipAccepted(User logged);
 
 	void deleteFriend(User logged, FriendshipDTO friendshipDTO);
+
+	Friendship areFriends(User logged, Long friendId, String string);
+
+	List<User> getFriendshipInvitations(User logged);
 	
 	
 	

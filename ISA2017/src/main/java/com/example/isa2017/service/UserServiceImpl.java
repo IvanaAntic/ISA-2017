@@ -12,6 +12,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import com.example.isa2017.model.Projection;
 import com.example.isa2017.model.Role;
 import com.example.isa2017.model.User;
 import com.example.isa2017.modelDTO.ChangePassDTO;
@@ -294,6 +295,31 @@ public class UserServiceImpl implements UserService{
 			}
 		 });
 		return allUsers;
+	}
+	
+	@Override
+	public void sendMailToFriend(User userFriend,User logged,Projection p) {
+		//send email
+				System.out.println("Sending email...");
+				System.out.println("Projatelj kojem saljem je"+userFriend.getName());
+				System.out.println("JA SAM"+logged.getName());
+				if(p.getMovie().getMovieName()!=null){
+				System.out.println("PODACI O PROJEKCIJI "+p.getMovie().getMovieName());
+				}
+				
+				System.out.println("PODACI O PROJEKCIJI "+p.getPrice());
+				System.out.println("PODACI O PROJEKCIJI "+p.getDate());
+				SimpleMailMessage message=new SimpleMailMessage();
+				message.setTo(userFriend.getEmail());
+				//message.setFrom(env.getProperty("spring.mail.username"));
+				message.setFrom(env.getProperty(logged.getEmail()));
+
+				message.setSubject("Email for verification");
+				//ok
+				message.setText("Hi, " + userFriend + "\n I invite u to go with me \n projection name:"+p.getMovie().getMovieName()+"\n projection price:"+p.getPrice()+"projection date:"+p.getDate()+" if u are interested click here:"+ ",\n\n http://localhost:8080/");
+				javaMailSender.send(message);
+			
+		
 	}
 	
 }

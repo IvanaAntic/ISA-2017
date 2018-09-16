@@ -25,7 +25,9 @@ public class Friendship {
 	
 	@Column(name="status")
 	private String status;
-
+	
+	@Column(name="confirm")
+	private String confirm;
 	
 	
 	
@@ -39,6 +41,24 @@ public class Friendship {
 		this.sender = sender;
 		this.reciver = reciver;
 		this.status = status;
+	}
+	
+	
+	
+	public Friendship(User sender, User reciver, String status, String confirm) {
+		super();
+		this.sender = sender;
+		this.reciver = reciver;
+		this.status = status;
+		this.confirm = confirm;
+	}
+
+	public String getConfirm() {
+		return confirm;
+	}
+
+	public void setConfirm(String confirm) {
+		this.confirm = confirm;
 	}
 
 	public Long getId() {

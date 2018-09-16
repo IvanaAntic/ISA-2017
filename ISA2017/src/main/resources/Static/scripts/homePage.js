@@ -8,6 +8,7 @@ $(document).ready(function(event){
 	loadTheatre();
 	loadCinema();
 	loadUpcomingReservations();
+	loadInvitations();
 	$("#izmeni").click(function(){
 		console.log("desilo se");
 		userEdit();
@@ -40,6 +41,78 @@ $(document).ready(function(event){
 		});
 	    
 	});
+});
+
+function loadInvitations(){
+	console.log("load INVITATIONS");
+	$.ajax({
+		url:"http://localhost:8080/friendship/displayFriendInvitations",
+		method:"GET",
+		contentType: "application/json",
+		datatype: 'json',
+		success:function(data){
+			$(".inviteTable").empty();
+			for(i=0;i<data.length;i++){
+				newRow="<tr>"
+					+"<td>"+data[i].name+"</td>"
+					+"<td>"+data[i].surname+"</td>"
+					+"<td><button name='accept' class='btn btn-primary acceptInvitation' style='width:80px;' id=" + data[i].id + ">Accept Invitation</button></td>"
+					+"<td><button name='delete' class='btn btn-danger rejectInvitation' style='width:80px;' id=" + data[i].id+ ">Reject Invitation</button></td>>"
+					+"</tr>";
+				$(".inviteTable").append(newRow);
+			}
+		}
+	});
+}
+
+$(document).on("click",".acceptInvitation",function(){
+	console.log("PRIHVATI INVITATION BUTTON")
+	//taj user postaje vlasnik karte
+	console.log("hocemo da prihvatimo POZIV PRIJATELJA");
+	 var id = $(this).attr('id');
+    formData= JSON.stringify({
+		id: id
+          });
+    console.log(id);
+    console.log(formData);
+	$.ajax({
+		url: "http://localhost:8080/friendship/acceptInvitation",
+		method: "POST",
+		data : formData,
+		contentType : 'application/json',
+   	success: function(){
+   			console.log("Prihvaceno prijateljstvo");
+   			loadFriendAccepted();
+       		loadFriendRequests();
+       		loadPeople();
+       		loadInvitations();
+       		
+   	}
+	});
+});
+
+$(document).on("click",".rejectInvitation",function(){
+	console.log("OBDIJ INVITATION BUTTON");
+	console.log("Pritisnuto dugme REJECT friend");
+	var id = $(this).attr('id');
+	console.log("Pritisnuto dugme REJECT friend" + id);
+    formData= JSON.stringify({
+		id: id
+          });
+    $.ajax({
+    	url:"http://localhost:8080/friendship/rejectInvitation",
+    	method:"POST",
+    	data:formData,
+    	contentType: 'application/json',
+    	success: function(){
+    		console.log("REJECT FRIEND");
+    		loadFriendAccepted();
+    		loadFriendRequests();
+    		loadPeople();
+    		loadInvitations();
+    	}
+    });
+	//promeni stanje u not invited
 });
 
 function loadUser(){
@@ -421,6 +494,107 @@ function loadTheatre(){
 	
 }
 
+
+//ovdesam
+$(document).on("click",".repertoarTheatre",function(){
+	console.log("loadTheatre pressed");
+	
+	tr_parent = $(this).closest("tr");
+	$('#id').val(tr_parent.find(".id").html());
+	var id = $('#id').val();
+	console.log(id);
+	$("#pDiv").hide();
+	$("#playDiv").show();
+	// $('#tabs a[href="#rezervacije"]').tab('show');
+	 $.ajax({
+			url:"http://localhost:8080/theatres/getTheatres",
+			method:"GET",
+			contentType: 'application/json',
+	        success: function (data){
+	        	$("#playDiv").show();
+	        	console.log("ok");
+	        	console.log(data);
+	        	for(i=0;i<data.length;i++){
+	        		
+	        		for(j = 0; j < data[i].plays.length; j++){
+	        			console.log("velicina"+data[i].plays.length);
+	        			console.log("velicina name"+data[i].plays[j].name);
+	        			console.log("velicina genre"+data[i].plays[j].genre );
+	        			/*play="<tr>" +
+	        					"<td>"+data[i].plays[j].playName+"</td>"+
+	        					"<td>"+ data[i].plays[j].genre+"</td>"+
+	        					"<td>"+ data[i].plays[j].director+"</td>"+
+	        					"<td>"+ data[i].plays[j].runtime+"</td>"+
+	        					"<td>"+data[i].plays[j].actors +"</td>"+
+	        					"<td>"+data[i].plays[j].description+"</td>"+
+	        				
+	        					"</tr>";*/
+					
+
+	            		play= "<div class='playDiv playClass_" + data[i].plays[j].id + "' id='movieBox_" + data[i].id + "_" + data[i].plays[j].id + "'>"+ 
+	    				"<h3 class='theatreName'>" + +data[i].plays[j].playName+ + "</h3>" +
+	    				"<p><label>Zanr: </label><span>" + data[i].plays[j].genre + "</span></p>" +
+	    				"<p><label>Reditelj: </label><span>" + data[i].plays[j].director + "</span></p>" +
+	    				"<p><label>Trajanje: </label><span>" + data[i].plays[j].runtime+ " min</span></p>" +
+	    				"<p><label>Glumci: </label><span>" + data[i].plays[j].actors+ "</span></p>" +
+	    				"<p><label>Opis: </label><span>" + data[i].plays[j].description + "</span></p>"+
+	    				"<button id='getProjections_" + data[i].plays[j].id + "' type='button'  class='btn btn-info getProjectionsBtnPlay'>Projekcije P</button></div>";
+	            	//	$("#tableReserve").append(newRow);
+								
+							$("#tableReservePlay").append(play);
+						}
+	        		//$(".theatreTable").append(newRow);
+	        		
+	        	}
+	        }
+		});
+	 
+	 
+} );
+
+$(document).on("click",".getProjectionsBtnPlay",function(){
+	console.log("pritisli smo projection btn");
+	playId = $(this).attr('id').split('_')[1];
+	console.log("play");
+	console.log("play dugme id"+ playId);
+	$("#pDiv").hide();
+	$("#playDiv").hide();
+	$("#playProjectionsDiv").show();
+	//playProjectionsDiv
+	$.ajax({
+		url: "/projections/play/"+ playId
+	}).then(function(data){
+		console.log("DATA PLAY"+data)
+		for(var i = 0; i < data.length; i++){
+			//console.log("HallName"+data[i].hallHallName)
+			console.log("DATA PLAY"+data)
+			console.log("Play"+data[i].play)
+			projection = "<tr>" +
+							"<td id='sala' class='sala'>" +
+							"<label>Name</label>"+
+							"<p id='hallName'>"+ data[i].hallHallName +"</p>"+
+							"</td>"+
+							"<td class='price'>" +
+							"Cena: " + data[i].price +
+							" </td>" +
+							"<td class='projectionDate'>" +
+							"<label>Datum</label> "+
+							"<p id='dateStart'>"+ data[i].date + "</p>"+
+							" </td>" +
+							"<td class='projectionTime'>" +
+							"<label>Vreme</label>"+
+							"<p id='time'>"+data[i].time +  "</p>"+
+							" </td>" +
+							"<td><div id='getSala_"+data[i].id+"' class='btn btn-info btn-md theatreSeatButtonNext'>NEXT</div></td>"+
+						"</tr>"
+			
+			$('#tableProjectionsPlay').append(projection);
+		}
+	});
+});
+
+
+
 function loadCinema(){
 	console.log("Ucitavanje Cinema");
 	$('#tableReserve').empty();
@@ -449,7 +623,6 @@ function loadCinema(){
 	});
 	
 }
-
 $(document).on("click",".repertoarCinema",function(event){
 	console.log("Ucitavanje Cinema REPERTOAR");
 	
@@ -637,6 +810,42 @@ $(document).on("click",".cinemaSeatButtonNext",function(event){
 
 });
 
+$(document).on("click",".pozoviPrijatelje",function(event){
+	console.log("Pozovi prijatelje");
+	projId = $(this).attr('id').split('_')[1];
+	console.log("Stisnuli pozovi prijatelje ID PROJEKCIJE JE"+projId);
+	$.ajax({
+		url:"http://localhost:8080/friendship/displayFriendAccepted"
+	}).then(function(data){
+		for(i=0;i<data.length;i++){
+			newRow="<tr>" + 
+					"<td>" +data[i].name +" </td>"+
+					"<td>" +data[i].surname +" </td>"+
+					"<td><button class='btn btn-info inviteF inviteFriend_"+projId+"' id='friend_"+data[i].id+"'>  Invite  </button></td>" +  
+					"</tr>"
+			$('#showFriendsToInvite').append(newRow);
+		}
+		
+	});
+});
+
+$(document).on("click",".inviteF",function(event){
+	friendId= $(this).attr('id').split('_')[1];
+	projId = $(this).attr('class').split('_')[1];
+	console.log("Stisnuli pozovi prijatelje ID PROJEKCIJE JE"+projId);
+	console.log("pressed inviteFriend sa id frienda" + friendId);
+	$.ajax({
+			url: "http://localhost:8080/friendship/invite/"+friendId+"/"+projId,
+			method:"POST",
+			success: function(){
+				alert("POSLALI STE PRIJATELJU POZIV");
+			},
+			error: function(){
+				alert("NEMATE DOVOLJNO KARATA DA BISTE POZVALI PRIJATELJA");
+			}
+	});
+});
+
 $(document).on("click",".hallBtn",function(event){
 	projId = $(this).attr('id').split('_')[1];
 	console.log("Stisnuli hall BTN PROJID JE"+projId);
@@ -658,6 +867,7 @@ $(document).on("click",".hallBtn",function(event){
 	});
 	
 });
+
 
 $(document).on("click","#rezervisiKartu",function(event){
 	console.log("pris=tisnuto dugme rezervisi kartu");
@@ -701,8 +911,8 @@ $(document).on("click","#rezervisiKartu",function(event){
 				$('#modalHall').modal('hide');
 				alert("Uspesno ste rezervisali kartu")
 				//getQuicks(data.projectionMovieCinemaId)
-			
-				loadUpcomingReservations();
+				$(".tableUpcoming").empty();
+				location.reload();
 				
 			}
 		});

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.example.isa2017.model.Projection;
 import com.example.isa2017.model.User;
 import com.example.isa2017.modelDTO.ChangePassDTO;
 import com.example.isa2017.modelDTO.UserDTO;
@@ -40,5 +41,7 @@ public interface UserService {
 	List<User> sortByName(User logged);
 
 	List<User> sortBySurname(User logged);
+
+	void sendMailToFriend(User userFriend,User logged,Projection p);
 	
 }

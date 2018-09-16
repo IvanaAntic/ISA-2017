@@ -1,5 +1,7 @@
 package com.example.isa2017.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -255,9 +257,36 @@ public class TicketController {
 	}
 	
 	@RequestMapping(value = "/delete/{ticketId}", method = RequestMethod.DELETE)
-	public ResponseEntity<TicketDTO> deleteTicketUser(@PathVariable Long ticketId){
-		System.out.println("Usli delete Ticket for User");
+	public ResponseEntity<TicketDTO> deleteTicketUser(@PathVariable Long ticketId) throws ParseException {
+		
+		
+		 Calendar cal = Calendar.getInstance();
+		 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		 SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		 String vremeTrenutno= simpleDateFormat.format(cal.getTime());
+		
+		
+		List<Projection> allProjection=projectionService.findAll();
+		
 		Ticket ticket = ticketService.findOne(ticketId);
+		System.out.println("PRE FORA"+ticket.getId());
+		System.out.println("pROJ ID PRE FORA"+ticket.getProjection().getId());
+		for(Projection p:allProjection){
+			if(ticket.getProjection().getId().equals(p.getId())){
+				String vremeprojekcije=simpleDateFormat2.format(p.getDate());
+				Date dateTrenutno = simpleDateFormat.parse(vremeTrenutno);
+				Date dateProjekcije = simpleDateFormat2.parse(vremeprojekcije);
+				Date newDateProjekcije= dateProjekcije;
+				newDateProjekcije.setTime(dateProjekcije.getTime()-30*60*1000);
+				if(dateTrenutno.equals(newDateProjekcije) || newDateProjekcije.before(dateTrenutno)){
+					System.out.println("DELETE TIME"+dateTrenutno);
+					System.out.println("DELETE TIME"+newDateProjekcije);
+					return new ResponseEntity<>( HttpStatus.CONFLICT);
+				}
+				//proveri vreme da li je trenutno pola sata pre
+			}
+		}
+		
 		System.out.println("Usli" +ticket.getId());
 		/*if(ticket.getUser() != null)
 			return new ResponseEntity<>(HttpStatus.CONFLICT);
@@ -267,7 +296,6 @@ public class TicketController {
 		return new ResponseEntity<>(HttpStatus.OK);
 		
 	}
-	
 	@RequestMapping(value = "getHistory", method = RequestMethod.GET)
 	public ResponseEntity<List<TicketDTO>> getHistory(HttpServletRequest request){
 		// da li je ulogovan i da li je user

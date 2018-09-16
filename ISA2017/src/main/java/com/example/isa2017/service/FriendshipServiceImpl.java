@@ -64,6 +64,22 @@ public class FriendshipServiceImpl implements FriendshipService {
 		return returnList;
 		
 	}
+	@Override
+	public List<User> getFriendshipInvitations(User logged) {
+		// TODO Auto-generated method stub
+		User user=userRepository.findByEmail(logged.getEmail());
+		List<Friendship> allTableFrindsip=friendshipRepository.findAll();
+		List<User> returnList=new ArrayList<User>();
+		for(Friendship f:allTableFrindsip){
+			if(f.getConfirm().equals("invited")){
+				if(f.getReciver().getId().equals(user.getId())){
+				returnList.add(f.getSender());
+				}
+			}
+		}
+		
+		return returnList;
+	}
 	
 	@Override
 	public List<User> getFriendshipAccepted(User logged) {
@@ -95,6 +111,7 @@ public class FriendshipServiceImpl implements FriendshipService {
 		Friendship f= getFriendship(logged,friendshipDTO,"waiting");
 		System.out.println("ID PRIJATELJSTVA JE:" +f.getId());
 		f.setStatus("accepted");
+		f.setConfirm("notinvited");
 		friendshipRepository.save(f);
 		
 	}
@@ -213,6 +230,27 @@ public class FriendshipServiceImpl implements FriendshipService {
 	            friendshipRepository.delete(friendship);
 	        }
 	}
+
+	@Override
+	public Friendship areFriends(User logged, Long friendId, String string) {
+		// TODO Auto-generated method stub
+		System.out.println("ARE FRIENDS SERVICE USAO");
+		Friendship returnFriendship=new Friendship();
+		//User friend=friendshipRepository.findByUser(friendId);
+		//System.out.println("ovo je friend" +friend.getName());
+		List<Friendship> allFriends=friendshipRepository.findAll();
+		for(Friendship f:allFriends){
+			if(f.getReciver().getId().equals(logged.getId()) && f.getSender().getId().equals(friendId) && f.getStatus().equals(string)){
+				returnFriendship=f;
+			}else if(f.getReciver().getId().equals(friendId) && f.getSender().getId().equals(logged.getId()) && f.getStatus().equals(string)){
+				returnFriendship=f;
+			}
+		}
+		
+		return returnFriendship;
+	}
+
+	
 
 	
 
