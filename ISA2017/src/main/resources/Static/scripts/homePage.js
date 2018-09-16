@@ -794,14 +794,14 @@ $(document).on("click",".cinemaSeatButtonNext",function(event){
 		console.log("id onog na fronut projekcije:"+data.id);
 		//console.log(data.hallName);
 		$('#tableProjection').empty();
+		
 		newRow="<div>" +
-				"<button type='button' class='btn btn-info hallBtn' id='projection_"+data.id+"' data-toggle='modal' data-target='#modalHall'>" +
-				"Odaberi sediste</button><br>" +
-				"<button type='button' >" +
-				"Pozovi prijatelje</button>"+
-				
-				"</div>";
-			
+		"<button type='button' class='btn btn-info hallBtn' id='projection_"+data.id+"' data-toggle='modal' data-target='#modalHall'>" +
+		"Odaberi sediste</button><br>" +
+		"<button type='button' class='btn btn-info pozoviPrijatelje' id='projectionF_"+data.id+"' data-toggle='modal' data-target='#modalInvite'>" +
+		"Pozovi prijatelje</button>"+
+		
+		"</div>";
 			
 		$('#tableHall').append(newRow);
 		}
