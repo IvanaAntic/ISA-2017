@@ -427,7 +427,7 @@ $(document).ready(function(){
 				success: function(data){
 					
 					$('#addQuickFormTheatre').fadeOut()
-					alert('Uspesno dodate karte!')
+					$('#hallHolderTheatre').empty()
 					
 				}
 			})

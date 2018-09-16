@@ -429,7 +429,7 @@ $(document).ready(function(){
 				success: function(data){
 					
 					$('#addQuickForm').fadeOut()
-					alert('Uspesno dodate karte!')
+					$('#hallHolder').empty()
 				}
 			})
 			
