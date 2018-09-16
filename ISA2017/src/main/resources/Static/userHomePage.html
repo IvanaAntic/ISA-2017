@@ -38,6 +38,7 @@
 				<li><a href="#prijatelji" data-toggle="tab">Prijatelji</a></li>
 				<li><a href="#rezervacije" data-toggle="tab">Rezervacije</a></li>
 				<li><a href="#podesavanja" data-toggle="tab">Podesavanja</a></li>
+				<li><a href="#listaRezervacija" data-toggle="tab">Lista Rezervacija</a></li>
 
 			</ul>
 			<div id="my-tab-content" class="tab-content">
@@ -222,7 +223,7 @@
 					</div>
 				</div>
 
-				<div class="tab-pane" id="rezervacije">
+				<div class="tab-pane emptyR" id="rezervacije">
 					<h1>Blue</h1>
 					<div class="reserveDiv">
 						<div class="table-container">
@@ -239,7 +240,25 @@
 					</div>
 				</div>
 
-
+				<div class="tab-pane" id="listaRezervacija">
+					<h1>Moje rezervacije</h1>
+					  <div class="col-sm-5" id ="visits">
+           		 <div class="panel panel-default user_panel">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><span class="glyphicon glyphicon-th-list"></span>&nbsp;&nbsp;Upcoming reservations</h3><br>
+                </div>
+                <div class="panel-body">
+                    <div class="table-container" id="upcoming">
+                        <table class="table-users table" id="tableUpcoming" border="0">
+                            <tbody class="tableUpcoming">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+				
 
 				<!-- PODESAVANJA TAB -->
 				<div class="tab-pane" id="podesavanja">
@@ -273,7 +292,7 @@
 					</div>
 				</div>
 
-
+				
 
 
 			</div>
@@ -439,7 +458,8 @@
 
 				</div>
 				<div class="modal-footer">
-
+					<button id="rezervisiKartu" type="button" class="btn btn-primary"
+									>Rezervisi</button>
 					<button type="button" class="btn btn-secondary"
 						data-dismiss="modal">Close</button>
 				</div>

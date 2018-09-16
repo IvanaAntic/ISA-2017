@@ -153,24 +153,24 @@ function getHallProjConf(hallId){
 }
 
 
-function getHallProjConfUser(hallId){
+function getHallProjConfUser(projId){
 	
 	$('#showSeats').empty()
 	
 	$.ajax({
-		url: "halls/hall/" + hallId
+		url: "/halls/inProjection/" + projId
 	}).then(function(data){
 		
 		table = generateHallConf(data)
 		
-		hallName = "<h4>Sala: " + data.hallName + "</h4>"
+		hallName = "<input type='hidden' class='hiddenfieldclass' value='"+projId+"'></input><h4>Sala: " + data.hallName + "</h4>"
 		
 		$('#showSeats').append(hallName).append(table)
 		
 	})
 }
 function generateHallConf(data){
-	
+	console.log("GenerateHallConf" + data)
 	seatsNumber = data.seats.length - 1
 	rows = data.seats[seatsNumber].rowNumber
 	columns = data.seats[seatsNumber].columnNumber

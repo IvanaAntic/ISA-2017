@@ -7,6 +7,7 @@ $(document).ready(function(event){
 	loadPeople();
 	loadTheatre();
 	loadCinema();
+	loadUpcomingReservations();
 	$("#izmeni").click(function(){
 		console.log("desilo se");
 		userEdit();
@@ -412,6 +413,9 @@ function loadTheatre(){
 
 function loadCinema(){
 	console.log("Ucitavanje Cinema");
+	$('#tableReserve').empty();
+	$('#tableProjection').empty();
+
 	$.ajax({
 		url:"http://localhost:8080/cinemas/getCinemas",
 		method:"GET",
@@ -633,7 +637,8 @@ $(document).on("click",".hallBtn",function(event){
 		console.log(data);
 		console.log("cinemaId"+data.cinemaId);
 		console.log("hallId"+data.id)
-		getHallProjConfUser(data.id)
+		//projid saljem
+		getHallProjConfUser(projId)
 			//hall = "<div id='hallDiv_" + data.id + "' class='container-fluid col-xs-12 hall'>" + "<h4>" + data.hallName + "</h4>" + generateHallConf(1) + "" +
 			//		"</div>"
 		
@@ -641,6 +646,56 @@ $(document).on("click",".hallBtn",function(event){
 		
 	});
 	
+});
+
+$(document).on("click","#rezervisiKartu",function(event){
+	console.log("pris=tisnuto dugme rezervisi kartu");
+	projectionId=$('input.hiddenfieldclass').val();
+	//var hidden=$('input.hiddenfieldclassSalaId').val();
+	console.log("hidden projection id"+projectionId);
+	
+	
+
+	checkedBoxes = $('.isChecked:checkbox:checked')
+	
+//	za svako sediste napraviti po kartu
+	if(checkedBoxes.length==0){
+		alert("Nema slobodnih mesta pronadji drugi bioskop");
+		$('#modalHall').modal('hide');
+		
+		 $('#tabs a[href="#bioskopi"]').tab('show');
+		//vrati ponovo na bioskope
+		//reserveDiv empty
+		 $('#tableHall').empty();
+			
+	}
+	
+	for(i = 0; i < checkedBoxes.length; i++){
+		seatId = checkedBoxes[i].id.split('_')[1]
+		console.log("hidden projection id"+seatId );
+		formData = JSON.stringify({
+			projectionId: projectionId,
+			seatId: seatId
+		});
+		
+		$.ajax({
+			url: "http://localhost:8080/tickets/createQuickUser",
+			type: "POST",
+			contentType: "application/json",
+			dataType: "json",
+			data: formData,
+			success: function(data){
+				
+				
+				$('#modalHall').modal('hide');
+				alert("Uspesno ste rezervisali kartu")
+				//getQuicks(data.projectionMovieCinemaId)
+				console.log("sya je u data"+data)
+				
+			}
+		});
+		
+	}
 });
 
 	/*salaId = $(this).attr('id').split('_')[1];
@@ -708,6 +763,32 @@ function formatDate(date) {
     return [year, month, day].join('-');
 }
 
-function checkTime(){
+function loadUpcomingReservations(){
+	console.log("LoadUppcoming");
+	
+	$.ajax({
+		url: "/tickets/getUppcomming"
+	}).then(function(data){
+		console.log("broj karata"+data.length);
+	    displayReservations(data);
+	});
+	
+}
+
+function displayReservations(reservations){
+	 if (reservations.length === 0){
+	        $(".tableUpcoming").append("<label>There are no upcoming reservations.</label>");
+	 }else{
+		 console.log(reservations);
+		 console.log(reservations.movieName)
+		for(i=0;i<reservations.length;i++){
+			console.log("reservation data"+reservations[i]);
+			console.log("Reservation id pprojekcije" +reservations[i].id )
+			console.log("Reservation id filma" +reservations[i].movieId )
+			console.log("Reservation naziv filma" +reservations[i].movie )
+			//console.log("Reservation naziv filma" +reservations.movie )
+		}
+		  $(".tableUpcoming").append("<label>Treba ih prikazati</label>");
+	 }
 	
 }
