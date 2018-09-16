@@ -430,6 +430,7 @@ $(document).ready(function(){
 					
 					$('#addQuickForm').fadeOut()
 					$('#hallHolder').empty()
+					getCinemasAfterTickets()
 				}
 			})
 			

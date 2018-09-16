@@ -428,6 +428,7 @@ $(document).ready(function(){
 					
 					$('#addQuickFormTheatre').fadeOut()
 					$('#hallHolderTheatre').empty()
+					getTheatresAfterTickets()
 					
 				}
 			})
