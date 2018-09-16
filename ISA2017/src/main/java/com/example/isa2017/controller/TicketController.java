@@ -146,6 +146,12 @@ public class TicketController {
 		List<Ticket> allTickets = ticketService.findAll();
 		List<Ticket> tickets = new ArrayList<Ticket>();
 		
+		List<Ticket> movieTickets = new ArrayList<>();
+		for(Ticket t : allTickets){
+			if(t.getProjection().getMovie() != null)
+				movieTickets.add(t);
+		}
+		
 		/*	iz svih karata ikad pronadji one koje se nalaze u ovom bioskopu, nisu rezervisane i nisu istekle	*/
 		for(Ticket ticket : movieTickets){
 			if(ticket.getProjection().getMovie().getCinema().getId() == cinemaId && ticket.getUser() == null){
@@ -164,6 +170,12 @@ public class TicketController {
 		
 		List<Ticket> allTickets = ticketService.findAll();
 		List<Ticket> tickets = new ArrayList<Ticket>();
+		
+		List<Ticket> movieTickets = new ArrayList<>();
+		for(Ticket t : allTickets){
+			if(t.getProjection().getMovie() != null)
+				movieTickets.add(t);
+		}
 		
 		/*	iz svih karata ikad pronadji one koje se nalaze u ovom bioskopu, nisu rezervisane i nisu istekle	*/
 		for(Ticket ticket : movieTickets){
@@ -184,8 +196,14 @@ public class TicketController {
 		List<Ticket> allTickets = ticketService.findAll();
 		List<Ticket> tickets = new ArrayList<Ticket>();
 		
+		List<Ticket> playTickets = new ArrayList<>();
+		for(Ticket t : allTickets){
+			if(t.getProjection().getPlay() != null)
+				playTickets.add(t);
+		}
+		
 		/*	iz svih karata ikad pronadji one koje se nalaze u ovom bioskopu, nisu rezervisane i nisu istekle	*/
-		for(Ticket ticket : allTickets){
+		for(Ticket ticket : playTickets){
 			if(ticket.getProjection().getPlay().getTheatre().getId() == theatreId && ticket.getUser() == null){
 				if(!ticket.getProjection().getExpired()){
 					tickets.add(ticket);
@@ -203,8 +221,14 @@ public class TicketController {
 		List<Ticket> allTickets = ticketService.findAll();
 		List<Ticket> tickets = new ArrayList<Ticket>();
 		
+		List<Ticket> playTickets = new ArrayList<>();
+		for(Ticket t : allTickets){
+			if(t.getProjection().getPlay() != null)
+				playTickets.add(t);
+		}
+		
 		/*	iz svih karata ikad pronadji one koje se nalaze u ovom bioskopu, nisu rezervisane i nisu istekle	*/
-		for(Ticket ticket : allTickets){
+		for(Ticket ticket : playTickets){
 			if(ticket.getProjection().getPlay().getTheatre().getId() == theatreId){
 				if(!ticket.getProjection().getExpired()){
 					tickets.add(ticket);
