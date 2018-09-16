@@ -16,12 +16,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.isa2017.converters.ProjectionToProjectionDTO;
 import com.example.isa2017.converters.TicketToTicketDTO;
 import com.example.isa2017.model.Projection;
 import com.example.isa2017.model.Role;
 import com.example.isa2017.model.Seat;
 import com.example.isa2017.model.Ticket;
 import com.example.isa2017.model.User;
+import com.example.isa2017.modelDTO.ProjectionDTO;
 import com.example.isa2017.modelDTO.TicketDTO;
 import com.example.isa2017.service.ProjectionService;
 import com.example.isa2017.service.SeatService;
@@ -43,6 +45,8 @@ public class TicketController {
 	
 	@Autowired
 	private TicketToTicketDTO toTicketDTO;
+	@Autowired
+	private ProjectionToProjectionDTO toProjectionDTO;
 
 	@Autowired
 	private UserService userService;
@@ -79,6 +83,38 @@ public class TicketController {
 		return new ResponseEntity<>(toTicketDTO.convert(quickTicket), HttpStatus.OK);
 		
 	}
+	
+	@RequestMapping(value = "createQuickUser", method = RequestMethod.POST, consumes = "application/json")
+	public ResponseEntity<TicketDTO> createQuickUser(HttpServletRequest request, @RequestBody TicketDTO ticketDTO){
+		
+		// da li je ulogovan
+		User logged = (User) request.getSession().getAttribute("logged");
+		
+		// napravi novi ticket i snimi...ali nema usera povezanog i takodje staviti to sediste da bude rezervisano
+		Ticket quickTicket = new Ticket();
+		
+		Projection projection = projectionService.findOne(ticketDTO.getProjectionId());
+		Seat seat = seatService.findOne(ticketDTO.getSeatId());
+		
+		/*	ukoliko u ovom sedistu postoji karta cija se projekcija poklapa sa projekcijom iz ove karte
+			onda je to sediste zauzeto	*/
+		for(Ticket t : seat.getTickets()){
+			if(t.getProjection().getId() == projection.getId())
+				return new ResponseEntity<>(HttpStatus.CONFLICT);
+		}
+		
+		quickTicket.setProjection(projection);
+		quickTicket.setSeat(seat);
+		quickTicket.setDiscount(ticketDTO.getDiscount());
+		quickTicket.setUser(logged);
+		
+		ticketService.save(quickTicket);
+		
+		
+		return new ResponseEntity<>(toTicketDTO.convert(quickTicket), HttpStatus.OK);
+		
+	}
+	
 	
 	@RequestMapping(value = "reserveQuick/{ticketId}", method = RequestMethod.PUT)
 	public ResponseEntity<TicketDTO> reserveQuick(HttpServletRequest request, @PathVariable Long ticketId){
@@ -247,6 +283,41 @@ public class TicketController {
 		}
 				
 		return new ResponseEntity<>(toTicketDTO.convert(expired), HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "getUppcomming", method = RequestMethod.GET)
+	public ResponseEntity<List<ProjectionDTO>> getUppcoming(HttpServletRequest request){
+		// da li je ulogovan i da li je user
+		User logged = (User) request.getSession().getAttribute("logged");
+		if(logged==null)
+			return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);
+		if(logged.getRole()!=Role.USER)
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		
+		Date today = new Date();
+		today = Calendar.getInstance().getTime();
+		
+		//daj mi karte logovanog usera
+		List<Ticket> tickets = userService.findById(logged.getId()).getTickets();
+		List<Ticket> upcoming = new ArrayList<>();
+		List<Projection> projections= projectionService.findAll();
+		List<Projection> returnP= new ArrayList<>();
+		//daj jos listu projekcija da bismo proverili koja karta pripada kojoj projekciji i vreme pocetka
+		//vrati sve karte mog usera bice 2
+		for(Projection p:projections){
+			for(Ticket t: tickets){
+				if(!t.getProjection().getExpired()){
+				if(t.getProjection().equals(p)){
+					System.out.println("projekcija je"+p.getMovie().getMovieName()+"cena"+p.getPrice());
+					returnP.add(p);
+				}
+				}
+			}
+		}
+	
+		
+				
+		return new ResponseEntity<>( toProjectionDTO.convert(returnP), HttpStatus.OK);
 	}
 	
 }

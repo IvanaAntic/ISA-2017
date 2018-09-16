@@ -1,6 +1,7 @@
 package com.example.isa2017.controller;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -152,6 +153,53 @@ public class ProjectionController {
 		projectionService.delete(projectionId);
 		
 	 return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "hall/{hallId}", method = RequestMethod.GET)
+	public ResponseEntity<ProjectionDTO> oneProjection(@PathVariable Long hallId) throws ParseException{
+		 Calendar cal = Calendar.getInstance();
+		 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		 SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		 String vremeTrenutno= simpleDateFormat.format(cal.getTime());
+	
+		
+		List<Projection> projections = projectionService.findAll();
+		Projection returnProjection=new Projection();
+
+		Hall hall=hallService.findOne(hallId);
+		
+		//nasli smo u listi onu halu i proj na koju je kliknuo
+		//za tu salu sam sada trebaju mesta
+		for(Projection p : projections){
+			if(p.getHall().getId().equals(hallId)){ //da li smo u sali SALA 2 
+				
+				String vremeprojekcije=simpleDateFormat2.format(p.getDate());
+				Date dateTrenutno = simpleDateFormat.parse(vremeTrenutno);
+				Date dateProjekcije = simpleDateFormat2.parse(vremeprojekcije);
+				Date newDateProjekcije= dateProjekcije;
+				newDateProjekcije.setTime(dateProjekcije.getTime()-30*60*1000);
+			
+				//da li je vreme ok  //ako je nesto od ovoga true nije ok
+				if(dateTrenutno.equals(newDateProjekcije) || newDateProjekcije.before(dateTrenutno)){
+					
+					System.out.println("PROVERA DATUMA U IF -----------------------");	
+					System.out.println("Prvi uslov equal"+dateTrenutno.equals(newDateProjekcije));	
+					System.out.println("Drugi uslov  uslov before"+newDateProjekcije.before(dateTrenutno));
+					System.out.println("IF VREME TRENUTNO"+dateTrenutno);	
+					System.out.println("IF VREME newDateProjekcije"+newDateProjekcije);
+					//vrati prazno seat i na frontu alert da ne moze da
+					//returnProjection.setId((long) 0);
+					//System.out.println("HALLL TREBA PRAZNO"+returnProjection.getId());
+					return new ResponseEntity<>( HttpStatus.OK);
+				}
+				
+			
+				returnProjection=projectionService.findOne(p.getId());
+			}
+		}
+
+		System.out.println("HALLL return je"+returnProjection.getId());	
+		return new ResponseEntity<>(toProjectionDTO.convert(returnProjection), HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/{cinemaId}", method = RequestMethod.GET)

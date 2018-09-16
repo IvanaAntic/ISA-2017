@@ -2,14 +2,18 @@
 <head>
 
 <!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
 <!-- jQuery library -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
 <!-- Latest compiled JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.5/validator.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.5/validator.min.js"></script>
 <link rel="stylesheet" href="css/userHomePage.css">
 <script type="text/javascript" src="scripts/homePage.js"></script>
 <script type="text/javascript" src="scripts/pozorista.js"></script>
@@ -20,352 +24,448 @@
 </head>
 <body>
 
- <p class="nav navbar-nav navbar-right" id="navbar-right"><a href="#"><span class="glyphicon glyphicon-log-out"></span> Logout</a>
-<div class="container">
- 
-<!-------->
-<div id="content">
-    <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
-        <li class="active"><a href="#home" data-toggle="tab">Home</a></li>
-        <li><a href="#pozorista" data-toggle="tab">Pozorista</a></li>
-        <li><a href="#bioskopi" data-toggle="tab">Bioskopi</a></li>
-        <li><a href="#prijatelji" data-toggle="tab">Prijatelji</a></li>
-        <li><a href="#rezervacije" data-toggle="tab">Rezervacije</a></li>
-        <li><a href="#podesavanja" data-toggle="tab">Podesavanja</a></li>
-        
-    </ul>
-    <div id="my-tab-content" class="tab-content">
-    
-    	 <!-- HOME TAB -->
-        <div class="tab-pane active" id="home">
-            <div class="userData">
-            	<img src="images/slika.gif" alt="Userphoto" class="left" />
-            	<blockquote>
-            	 <p class="name" style="overflow: hidden;"> </p>
-            	 <p class="surname" style="overflow: hidden;" ></p>
-                 <i class="glyphicon glyphicon-envelope"></i><p class="email" style="overflow: hidden;display:inline;"></p><br>
-                 <i class="glyphicon glyphicon-phone-alt"></i><p class="phoneNumber" style="overflow: hidden;display:inline;"></p><br>
-                 <i class="glyphicon glyphicon-map-marker"></i><p class="city" style="overflow: hidden;display:inline;"></p><br>
-              </blockquote>
-            </div>     
-         	<br>
-            
-       
-            
-            <div class="search">
-	             <div class="input-group">
-	                <input type="text" class="form-control" placeholder="Search for...">
-	                <span class="input-group-btn">
-	                  <button class="btn btn-default" type="button">Go!</button>
-	                </span>
-	            </div><!-- /input-group -->
-	            <p>Isporija poseta</p>
-	            <div id="historyHolderDiv">
-	            	<ul id="historyHolder" class='list-group'>
-	            		
-	            	</ul>
-	            </div>
-            </div>
-            
-        <!-- My Friends -->
-        <div class="row">
-        <div class="col-7 col-md-6">
-            <div class="panel panel-default user_panel">
+	<p class="nav navbar-nav navbar-right" id="navbar-right">
+		<a href="#"><span class="glyphicon glyphicon-log-out"></span>
+			Logout</a>
+	<div class="container">
+
+		<!-------->
+		<div id="content">
+			<ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
+				<li class="active"><a href="#home" data-toggle="tab">Home</a></li>
+				<li><a href="#pozorista" data-toggle="tab">Pozorista</a></li>
+				<li><a href="#bioskopi" data-toggle="tab">Bioskopi</a></li>
+				<li><a href="#prijatelji" data-toggle="tab">Prijatelji</a></li>
+				<li><a href="#rezervacije" data-toggle="tab">Rezervacije</a></li>
+				<li><a href="#podesavanja" data-toggle="tab">Podesavanja</a></li>
+				<li><a href="#listaRezervacija" data-toggle="tab">Lista Rezervacija</a></li>
+
+			</ul>
+			<div id="my-tab-content" class="tab-content">
+
+				<!-- HOME TAB -->
+				<div class="tab-pane active" id="home">
+					<div class="userData">
+						<img src="images/slika.gif" alt="Userphoto" class="left" />
+						<blockquote>
+							<p class="name" style="overflow: hidden;"></p>
+							<p class="surname" style="overflow: hidden;"></p>
+							<i class="glyphicon glyphicon-envelope"></i>
+							<p class="email" style="overflow: hidden; display: inline;"></p>
+							<br> <i class="glyphicon glyphicon-phone-alt"></i>
+							<p class="phoneNumber" style="overflow: hidden; display: inline;"></p>
+							<br> <i class="glyphicon glyphicon-map-marker"></i>
+							<p class="city" style="overflow: hidden; display: inline;"></p>
+							<br>
+						</blockquote>
+					</div>
+					<br>
+
+
+
+					<div class="search">
+						<div class="input-group">
+							<input type="text" class="form-control"
+								placeholder="Search for..."> <span
+								class="input-group-btn">
+								<button class="btn btn-default" type="button">Go!</button>
+							</span>
+						</div>
+						<!-- /input-group -->
+						<p>Isporija poseta</p>
+						<div id="historyHolderDiv">
+							<ul id="historyHolder" class='list-group'>
+
+							</ul>
+						</div>
+					</div>
+
+					<!-- My Friends -->
+					<div class="row">
+						<div class="col-7 col-md-6">
+							<div class="panel panel-default user_panel">
+								<div class="panel-heading">
+									<h3 class="panel-title">
+										<span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;My
+										Friends
+									</h3>
+								</div>
+								<div class="panel-body">
+									<div class="table-container" id="friends">
+										<table class="table-users table" id="tableFriends" border="0">
+											<tbody class="friendsTable" style="overflow: hidden;">
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Friend request -->
+					<div class="row">
+						<div class="col-7 col-md-6">
+							<div class="panel panel-default user_panel">
+								<div class="panel-heading">
+									<h3 class="panel-title">
+										<span class="glyphicon glyphicon-link"></span>&nbsp;&nbsp;Friend
+										requests
+									</h3>
+								</div>
+								<div class="panel-body">
+									<div class="table-container" id="requests">
+										<table class="table-users table" id="tableRequests" border="0">
+											<tbody class="reqTable" style="overflow: hidden;">
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+
+				<!-- POZORISTA TAB -->
+				<div class="tab-pane" id="pozorista">
+
+					<p>Pregled POZORISTA</p>
+					<div class="col-6 col-md-8">
+						<table class="table table-hover">
+							<thead>
+								<tr>
+									<th scope="col">Name<a class="sortNameTheatreAZ"
+										align="right"><span
+											class="glyphicon glyphicon-sort-by-alphabet"></span></a></th>
+									<th scope="col"></th>
+									<th scope="col">Address<a class="sortAdressAZ"
+										align="right"><span
+											class="glyphicon glyphicon-sort-by-alphabet"></span></a></th>
+									<th scope="col"></th>
+									<th scope="col">Description</th>
+									<th scope="col"></th>
+									<th scope="col">Rating</th>
+								</tr>
+							</thead>
+							<tbody class="theatreTable">
+
+							</tbody>
+						</table>
+					</div>
+
+				</div>
+
+
+				<!-- bioskopi -->
+				<div class="tab-pane" id="bioskopi">
+					<div class="bioskopi">
+						<p>
+							<a href="#" class="bioskopPregled">Pregled BIOSKOPA</a>
+						</p>
+						<br>
+						<div class="cinemaHolder">
+							<div class="col-6 col-md-8">
+								<table class="table table-hover">
+									<thead>
+										<tr>
+											<th scope="col">Name<a class="sortNameCinemaAZ"
+												align="right"><span
+													class="glyphicon glyphicon-sort-by-alphabet"></span></a></th>
+											<th scope="col"></th>
+											<th scope="col">Address<a class="sortAdressCinemaAZ"
+												align="right"><span
+													class="glyphicon glyphicon-sort-by-alphabet"></span></a></th>
+											<th scope="col"></th>
+											<th scope="col">Description</th>
+											<th scope="col"></th>
+											<th scope="col">Rating</th>
+										</tr>
+									</thead>
+									<tbody class="cinemaTable">
+
+									</tbody>
+								</table>
+							</div>
+
+						</div>
+					</div>
+				</div>
+				<!-- bioskopi end-->
+
+
+
+
+
+				<!-- PRIJATELJI -->
+				<div class="tab-pane" id="prijatelji">
+					<h1>Green</h1>
+					<div class="row">
+						<div class="col-md-4 col-md-offset-4">
+							<div class="panel panel-default user_panel">
+								<div class="panel-heading">
+									<h3 class="panel-title">
+										<span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;People
+									</h3>
+									<br> Firstname <a class="sortNameAZ" align="right"><span
+										class="glyphicon glyphicon-sort-by-alphabet"></span></a> Lastname
+									<a class="sortSurnameAZ" align="center"><span
+										class="glyphicon glyphicon-sort-by-alphabet"></span></a>
+								</div>
+								<div class="panel-body">
+									<div class="table-container">
+										<table class="table-users table" id="tableRequests" border="0">
+											<tbody class="peopleTable">
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="tab-pane emptyR" id="rezervacije">
+					<h1>Blue</h1>
+					<div class="reserveDiv">
+						<div class="table-container">
+							<table class="table" id="tableReserve">
+
+							</table>
+							<table class="table " id="tableProjection">
+
+							</table>
+							<table class="table " id="tableHall">
+
+							</table>
+						</div>
+					</div>
+				</div>
+
+				<div class="tab-pane" id="listaRezervacija">
+					<h1>Moje rezervacije</h1>
+					  <div class="col-sm-5" id ="visits">
+           		 <div class="panel panel-default user_panel">
                 <div class="panel-heading">
-                    <h3 class="panel-title"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;My Friends</h3>
+                    <h3 class="panel-title"><span class="glyphicon glyphicon-th-list"></span>&nbsp;&nbsp;Upcoming reservations</h3><br>
                 </div>
                 <div class="panel-body">
-                    <div class="table-container" id="friends">
-                        <table class="table-users table" id="tableFriends" border="0">
-                            <tbody class="friendsTable" style="overflow: hidden;">
+                    <div class="table-container" id="upcoming">
+                        <table class="table-users table" id="tableUpcoming" border="0">
+                            <tbody class="tableUpcoming">
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
-        </div>    
         </div>
-        <!-- Friend request -->
-        <div class="row">
-        <div class="col-7 col-md-6">
-            <div class="panel panel-default user_panel">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><span class="glyphicon glyphicon-link"></span>&nbsp;&nbsp;Friend requests</h3>
-                </div>
-                <div class="panel-body">
-                    <div class="table-container" id="requests">
-                        <table class="table-users table" id="tableRequests" border="0">
-                            <tbody class="reqTable" style="overflow: hidden;">
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-        </div>
-            
-        </div>
-      
-       		<!-- POZORISTA TAB -->
-        <div class="tab-pane" id="pozorista">
-			
-        <p>Pregled POZORISTA</p>
-        <div class="col-6 col-md-8"> 
- 			<table class="table table-hover">
- 			 <thead>
-				    <tr>
-				      <th scope="col">Name<a class="sortNameTheatreAZ" align="right"><span class="glyphicon glyphicon-sort-by-alphabet"></span></a></th>
-				      <th  scope="col"></th>
-				      <th scope="col">Address<a class="sortAdressAZ" align="right"><span class="glyphicon glyphicon-sort-by-alphabet"></span></a></th>
-				       <th scope="col"></th>
-				      <th scope="col">Description</th>
-				       <th scope="col"></th>
-				      <th scope="col">Rating</th>
-				    </tr>
-  			 </thead>
-  				<tbody class="theatreTable">
-   
-				</tbody>
-			</table>
-		</div>
-  
-        </div>
-        
-        
-        <!-- bioskopi -->
-        <div class="tab-pane" id="bioskopi">
-        <div class="bioskopi">
-             <p><a href="#" class="bioskopPregled">Pregled BIOSKOPA</a></p><br>
-            <div class="cinemaHolder">
-            <div class="col-6 col-md-8"> 
- 			<table class="table table-hover">
- 			 <thead>
-				    <tr>
-				      <th scope="col">Name<a class="sortNameCinemaAZ" align="right"><span class="glyphicon glyphicon-sort-by-alphabet"></span></a></th>
-				      <th  scope="col"></th>
-				      <th scope="col">Address<a class="sortAdressCinemaAZ" align="right"><span class="glyphicon glyphicon-sort-by-alphabet"></span></a></th>
-				       <th scope="col"></th>
-				      <th scope="col">Description</th>
-				       <th scope="col"></th>
-				      <th scope="col">Rating</th>
-				    </tr>
-  			 </thead>
-  				<tbody class="cinemaTable">
-   
-				</tbody>
-			</table>
-		</div>
-  
-        </div>
-       </div>
-       </div>
-         <!-- bioskopi end-->
-        
-        
-        
-        
-        
-        <!-- PRIJATELJI -->
-        <div class="tab-pane" id="prijatelji">
-            <h1>Green</h1>
-            <div class="row">
-   			<div class="col-md-4 col-md-offset-4">
-       		 <div class="panel panel-default user_panel">
-          	  <div class="panel-heading">
-                <h3 class="panel-title"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;People</h3><br>
-                Firstname <a class="sortNameAZ" align="right"><span class="glyphicon glyphicon-sort-by-alphabet"></span></a>
-                Lastname <a class="sortSurnameAZ" align="center"><span class="glyphicon glyphicon-sort-by-alphabet"></span></a>
-            	</div>
-            <div class="panel-body">
-                <div class="table-container">
-                    <table class="table-users table" id="tableRequests" border="0">
-                        <tbody class="peopleTable">
-                        </tbody>
-                    </table>
-                </div>
-           	 </div>
-       	 	</div>
-    		</div>
+    </div>
+				
+
+				<!-- PODESAVANJA TAB -->
+				<div class="tab-pane" id="podesavanja">
+					<div class="podesavanja">
+						<h1>Podesavanja</h1>
+						<form id="inputForm" class="izmena" role="form">
+							<p>
+								<label for="name">Ime:</label> <input class="nameEdit"
+									type="text" name="nameEdit" id="name"></input><br>
+							</p>
+							<p>
+								<label for="surname">Prezime:</label> <input type="text"
+									class="surnameEdit" name="surnameEdit"></input><br>
+							</p>
+
+							<p>
+								<label for="town">Grad:</label> <input type="text"
+									class="townEdit" name="townEdit"></input><br>
+							</p>
+							<p>
+								<label for="phoneNumber">Broj telefona:</label> <input
+									type="text" class="phoneNumberEdit" name="phoneNumberEdit"></input><br>
+							</p>
+
+							<p class="dugme">
+								<input id="izmeni" type="button" class="btn btn-primary"
+									value="Izmeni"></input>
+							</p>
+
+						</form>
+					</div>
+				</div>
+
+				
+
+
 			</div>
-        </div>
-        
-        <div class="tab-pane" id="rezervacije">
-            <h1>Blue</h1>
-            <div class="reserveDiv">
-             <div class="table-container">
-                    <table class="table " id="tableReserve" >
-                       
-                    </table>
-                     <table class="table " id="tableProjection" >
-                       
-                    </table>
-            </div>
-        </div>
-        </div>
-        
-        
-        
-        <!-- PODESAVANJA TAB -->
-         <div class="tab-pane" id="podesavanja">
-         <div class="podesavanja">
-            <h1>Podesavanja</h1>
-            <form id="inputForm" class="izmena" role="form">
-            <p>
-            	<label for="name">Ime:</label>
-            	<input class="nameEdit" type="text" name="nameEdit" id="name"></input><br>
-            </p>
-            <p>
-            	<label for="surname">Prezime:</label>
-            	<input type="text" class="surnameEdit" name="surnameEdit"></input><br>
-            </p>
-          
-            <p>
-            	<label for="town">Grad:</label>
-            	<input type="text" class="townEdit" name="townEdit"></input><br>
-            </p>
-            <p>
-            	<label for="phoneNumber">Broj telefona:</label>
-            	<input type="text" class="phoneNumberEdit" name="phoneNumberEdit"></input><br>
-            </p>
-           
-            <p class="dugme">
-            	<input id="izmeni" type="button" class="btn btn-primary" value="Izmeni" ></input>
-            </p>
-            
-            </form>
-            </div>
-        </div>
-        
-      
 
-        
-        </div>
-        
-        
-    </div>
-    
-    
-    
-    
- </div>
-    
-    
-    			<!-- modalni dijalog za prikaz karti sa popustom unutar nekog bioskopa -->
 
-<div id="quickTicketsDialog" class="modal fade" tabindex="-1" role="dialog">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2 class="modal-title text-center">Karte sa popustom</h2>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body" id="quickTicketsHolder" style='text-align: center;'>
-        <p >Nema popusta :(</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
-    
-    
-    			<!-- modalni dijalog za ocenjivanje bioskopa i filmova -->
+		</div>
 
-<div id="rateMovieCinemaDialog" class="modal fade" tabindex="-1" role="dialog">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2 class="modal-title text-center" id='rateName'>Karte sa popustom</h2>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body" id="quickTicketsHolder" style='text-align: center;'>
-      	<form id="inputForm" data-toggle="validator" role="form" data-disable="true">
-      		<div class="form-group ">
-	       		<input type="text" class='form-control' id="mark" placeholder="Ocena izmedju 1 i 5"/>
-	       </div>
-	       <div class="form-group  col-xs-12" style='display: none;'>
-	       		<input type="text" class='form-control' id="rateId" />
-	        </div>
-	        <div class="form-group  col-xs-12" style='display: none;'>
-	       		<input type="text" class='form-control' id="movieCinemaIdRate" />
-	        </div>
-      	</form>
-      </div>
-      <div class="modal-footer">
-      	<button id='rateMovieCinema' type="button" class="btn btn-primary" data-dismiss="modal">Oceni</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
-    
-    
-    
-<div id="showTheatreForRepertoar" class="modal fade" tabindex="-1" role="dialog">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2 class="modal-title text-center" id='rateName'>REPERTOAR</h2>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <table class="theatreTableShow">
-   
-		</table>
-      <div class="modal-footer">
-      
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
-    
-  <div id="showCinemaForRepertoar" class="modal fade" tabindex="-1" role="dialog">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2 class="modal-title text-center" id='rateName'>REPERTOAR cinema</h2>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <table class="cinemaTableShow">
-   
-		</table>
-      <div class="modal-footer">
-      
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>  
-    
-      <div id="projectionsDialog" class="modal fade" tabindex="-1" role="dialog">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2 class="modal-title text-center" id='rateName'>Projection</h2>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <table class="projectionTableShow">
-   
-		</table>
-      <div class="modal-footer">
-      
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>  
-    
-    
+
+
+
+	</div>
+
+
+	<!-- modalni dijalog za prikaz karti sa popustom unutar nekog bioskopa -->
+
+	<div id="quickTicketsDialog" class="modal fade" tabindex="-1"
+		role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h2 class="modal-title text-center">Karte sa popustom</h2>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body" id="quickTicketsHolder"
+					style='text-align: center;'>
+					<p>Nema popusta :(</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<!-- modalni dijalog za ocenjivanje bioskopa i filmova -->
+
+	<div id="rateMovieCinemaDialog" class="modal fade" tabindex="-1"
+		role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h2 class="modal-title text-center" id='rateName'>Karte sa
+						popustom</h2>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body" id="quickTicketsHolder"
+					style='text-align: center;'>
+					<form id="inputForm" data-toggle="validator" role="form"
+						data-disable="true">
+						<div class="form-group ">
+							<input type="text" class='form-control' id="mark"
+								placeholder="Ocena izmedju 1 i 5" />
+						</div>
+						<div class="form-group  col-xs-12" style='display: none;'>
+							<input type="text" class='form-control' id="rateId" />
+						</div>
+						<div class="form-group  col-xs-12" style='display: none;'>
+							<input type="text" class='form-control' id="movieCinemaIdRate" />
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button id='rateMovieCinema' type="button" class="btn btn-primary"
+						data-dismiss="modal">Oceni</button>
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+	<div id="showTheatreForRepertoar" class="modal fade" tabindex="-1"
+		role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h2 class="modal-title text-center" id='rateName'>REPERTOAR</h2>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<table class="theatreTableShow">
+
+				</table>
+				<div class="modal-footer">
+
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="showCinemaForRepertoar" class="modal fade" tabindex="-1"
+		role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h2 class="modal-title text-center" id='rateName'>REPERTOAR
+						cinema</h2>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<table class="cinemaTableShow">
+
+				</table>
+				<div class="modal-footer">
+
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="projectionsDialog" class="modal fade" tabindex="-1"
+		role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h2 class="modal-title text-center" id='rateName'>Projection</h2>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<table class="projectionTableShow">
+
+				</table>
+				<div class="modal-footer">
+
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="modalHall" class="modal fade" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h2 class="modal-title text-center" id='rateName'>SEATS</h2>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div id="showSeats">
+
+				</div>
+				<div class="modal-footer">
+					<button id="rezervisiKartu" type="button" class="btn btn-primary"
+									>Rezervisi</button>
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
 </body>
 </html>
