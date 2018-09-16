@@ -146,12 +146,6 @@ public class TicketController {
 		List<Ticket> allTickets = ticketService.findAll();
 		List<Ticket> tickets = new ArrayList<Ticket>();
 		
-		List<Ticket> movieTickets = new ArrayList<>();
-		for(Ticket t : allTickets){
-			if(t.getProjection().getMovie() != null)
-				movieTickets.add(t);
-		}
-		
 		/*	iz svih karata ikad pronadji one koje se nalaze u ovom bioskopu, nisu rezervisane i nisu istekle	*/
 		for(Ticket ticket : allTickets){
 			if(ticket.getProjection().getMovie().getCinema().getId() == cinemaId && ticket.getUser() == null){
@@ -170,12 +164,6 @@ public class TicketController {
 		
 		List<Ticket> allTickets = ticketService.findAll();
 		List<Ticket> tickets = new ArrayList<Ticket>();
-		
-		List<Ticket> movieTickets = new ArrayList<>();
-		for(Ticket t : allTickets){
-			if(t.getProjection().getMovie() != null)
-				movieTickets.add(t);
-		}
 		
 		/*	iz svih karata ikad pronadji one koje se nalaze u ovom bioskopu, nisu rezervisane i nisu istekle	*/
 		for(Ticket ticket : allTickets){
@@ -196,14 +184,8 @@ public class TicketController {
 		List<Ticket> allTickets = ticketService.findAll();
 		List<Ticket> tickets = new ArrayList<Ticket>();
 		
-		List<Ticket> playTickets = new ArrayList<>();
-		for(Ticket t : allTickets){
-			if(t.getProjection().getPlay() != null)
-				playTickets.add(t);
-		}
-		
 		/*	iz svih karata ikad pronadji one koje se nalaze u ovom bioskopu, nisu rezervisane i nisu istekle	*/
-		for(Ticket ticket : playTickets){
+		for(Ticket ticket : allTickets){
 			if(ticket.getProjection().getPlay().getTheatre().getId() == theatreId && ticket.getUser() == null){
 				if(!ticket.getProjection().getExpired()){
 					tickets.add(ticket);
@@ -221,14 +203,8 @@ public class TicketController {
 		List<Ticket> allTickets = ticketService.findAll();
 		List<Ticket> tickets = new ArrayList<Ticket>();
 		
-		List<Ticket> playTickets = new ArrayList<>();
-		for(Ticket t : allTickets){
-			if(t.getProjection().getPlay() != null)
-				playTickets.add(t);
-		}
-		
 		/*	iz svih karata ikad pronadji one koje se nalaze u ovom bioskopu, nisu rezervisane i nisu istekle	*/
-		for(Ticket ticket : playTickets){
+		for(Ticket ticket : allTickets){
 			if(ticket.getProjection().getPlay().getTheatre().getId() == theatreId){
 				if(!ticket.getProjection().getExpired()){
 					tickets.add(ticket);
@@ -242,12 +218,26 @@ public class TicketController {
 	
 	@RequestMapping(value = "/{ticketId}", method = RequestMethod.DELETE)
 	public ResponseEntity<TicketDTO> delete(@PathVariable Long ticketId){
-		
+		System.out.println("Usli");
 		Ticket ticket = ticketService.findOne(ticketId);
-		
-		if(ticket.getUser() != null)
+		System.out.println("Usli" +ticket.getId());
+		/*if(ticket.getUser() != null)
 			return new ResponseEntity<>(HttpStatus.CONFLICT);
+		*/
+		ticketService.delete(ticketId);
 		
+		return new ResponseEntity<>(HttpStatus.OK);
+		
+	}
+	
+	@RequestMapping(value = "/delete/{ticketId}", method = RequestMethod.DELETE)
+	public ResponseEntity<TicketDTO> deleteTicketUser(@PathVariable Long ticketId){
+		System.out.println("Usli delete Ticket for User");
+		Ticket ticket = ticketService.findOne(ticketId);
+		System.out.println("Usli" +ticket.getId());
+		/*if(ticket.getUser() != null)
+			return new ResponseEntity<>(HttpStatus.CONFLICT);
+		*/
 		ticketService.delete(ticketId);
 		
 		return new ResponseEntity<>(HttpStatus.OK);
@@ -286,7 +276,7 @@ public class TicketController {
 	}
 	
 	@RequestMapping(value = "getUppcomming", method = RequestMethod.GET)
-	public ResponseEntity<List<ProjectionDTO>> getUppcoming(HttpServletRequest request){
+	public ResponseEntity<List<TicketDTO>> getUppcoming(HttpServletRequest request){
 		// da li je ulogovan i da li je user
 		User logged = (User) request.getSession().getAttribute("logged");
 		if(logged==null)
@@ -300,11 +290,11 @@ public class TicketController {
 		//daj mi karte logovanog usera
 		List<Ticket> tickets = userService.findById(logged.getId()).getTickets();
 		List<Ticket> upcoming = new ArrayList<>();
-		List<Projection> projections= projectionService.findAll();
-		List<Projection> returnP= new ArrayList<>();
+		//List<Projection> projections= projectionService.findAll();
+		//List<Projection> returnP= new ArrayList<>();
 		//daj jos listu projekcija da bismo proverili koja karta pripada kojoj projekciji i vreme pocetka
 		//vrati sve karte mog usera bice 2
-		for(Projection p:projections){
+		/*for(Projection p:projections){
 			for(Ticket t: tickets){
 				if(!t.getProjection().getExpired()){
 				if(t.getProjection().equals(p)){
@@ -313,11 +303,17 @@ public class TicketController {
 				}
 				}
 			}
+		}*/
+		for(Ticket t:tickets){
+			if(!t.getProjection().getExpired()){
+				upcoming.add(t);
+			}
+			
 		}
 	
 		
 				
-		return new ResponseEntity<>( toProjectionDTO.convert(returnP), HttpStatus.OK);
+		return new ResponseEntity<>( toTicketDTO.convert(upcoming), HttpStatus.OK);
 	}
 	
 }
